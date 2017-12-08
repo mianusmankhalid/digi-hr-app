@@ -127,3 +127,6 @@ fastlane/test_output
 ios/*.jsbundle*
 yarn.lock
 package-lock.json
+
+## Key files
+build_config/*

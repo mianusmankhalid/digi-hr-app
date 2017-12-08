@@ -2,6 +2,11 @@ package com.digihrapp;
 
 import com.facebook.react.ReactActivity;
 
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
+import io.fabric.sdk.android.Fabric;
+import android.os.Bundle;
+
 public class MainActivity extends ReactActivity {
 
     /**
@@ -11,5 +16,12 @@ public class MainActivity extends ReactActivity {
     @Override
     protected String getMainComponentName() {
         return "DigiHrApp";
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+      super.onCreate(savedInstanceState);
+      Fabric.with(this, new Crashlytics(), new Answers());
     }
 }
