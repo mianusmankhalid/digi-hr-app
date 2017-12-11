@@ -2,7 +2,7 @@ apply plugin: "com.android.application"
 apply plugin: "io.fabric"
 
 repositories {
-  maven { url 'https://maven.fabric.io/public' }
+    maven { url 'https://maven.fabric.io/public' }
 }
 
 project.ext.vectoricons = [
@@ -106,8 +106,13 @@ def enableProguardInReleaseBuilds = false
 
 /* Custom methods */
 
-def build_config_dir = "../build_config/android"
-def build_config_file = build_config_dir + "/build.json"
+project.ext {
+    appName = getNpmName()
+}
+
+project.ext.build_config_dir = "../build_config/android"
+project.ext.build_config_file = project.ext.build_config_dir + "/build.json"
+
 
 /* Calculated from git commits to give sequential integers */
 def getGitVersion() {
@@ -145,41 +150,39 @@ def getNpmName() {
 }
 // Gets the fabric key stored in properties
 def getFabricApiKey() {
-  def inputFile = new File(build_config_file)
+  def inputFile = new File(project.ext.build_config_file)
   def buildConfigJson = new JsonSlurper().parseText(inputFile.text)
   return buildConfigJson["crashlytics"]["api_key"]
 }
 
 def getKeyStoreFilePath() {
-  def inputFile = new File(build_config_file)
+  def inputFile = new File(project.ext.build_config_file)
   def buildConfigJson = new JsonSlurper().parseText(inputFile.text)
-  return build_config_dir + buildConfigJson["keystore"]["store_file"]
+  return "../" + project.ext.build_config_dir + "/" + buildConfigJson["keystore"]["store_file"]
 }
 
 def getKeyStoreFilePassword() {
-  def inputFile = new File(build_config_file)
+  def inputFile = new File(project.ext.build_config_file)
   def buildConfigJson = new JsonSlurper().parseText(inputFile.text)
-  return build_config_dir + buildConfigJson["keystore"]["store_password"]
+  return buildConfigJson["keystore"]["store_password"]
 }
 
 def getKeyStoreAlias() {
-  def inputFile = new File(build_config_file)
+  def inputFile = new File(project.ext.build_config_file)
   def buildConfigJson = new JsonSlurper().parseText(inputFile.text)
-  return build_config_dir + buildConfigJson["keystore"]["alias"]
+  return buildConfigJson["keystore"]["alias"]
 }
 
 def getKeyStorePassword() {
-  def inputFile = new File(build_config_file)
+  def inputFile = new File(project.ext.build_config_file)
   def buildConfigJson = new JsonSlurper().parseText(inputFile.text)
-  return build_config_dir + buildConfigJson["keystore"]["password"]
+  return buildConfigJson["keystore"]["password"]
 }
 /* Custom methods */
 
-project.ext { appName = getNpmName() }
-
 android {
     compileSdkVersion 23
-    buildToolsVersion '25.0.0'
+    //buildToolsVersion '25.0.0'
     project.archivesBaseName = appName;
 
     lintOptions {
@@ -194,7 +197,7 @@ android {
         versionName getNpmVersion()
         manifestPlaceholders = [
           npmVersionCode:getNpmVersion(),
-          fabricApiKey:getFabricKey()
+          fabricApiKey:getFabricApiKey()
         ]
         ndk {
             abiFilters "armeabi-v7a", "x86"
@@ -226,7 +229,7 @@ android {
                     def betaName = output.outputFile.name
                     def betaString = "-" + getNpmVersion()
                     betaName = betaName.replace("-release", betaString)
-                    output.outputFile = new File(output.outputFile.parent, betaName)
+                    output.outputFileName = new File(output.outputFile.parent, betaName)
                 }
             }
         }
