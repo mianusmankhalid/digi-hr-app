@@ -1,0 +1,15 @@
+{
+  "crashlytics": {
+    "api_key": "API_KEY",
+    "build_secret": "BUILD_SECRET"
+  },
+  "keystore": {
+    "store_file": "keystore.keystore",
+    "store_password": "STORE_PASSWORD",
+    "alias": "ALIAS",
+    "password": "PASSWORD"
+  },
+  "slack": {
+    "handle_url": "SLACK_INCOMING_WEBHOOK"
+  }
+}

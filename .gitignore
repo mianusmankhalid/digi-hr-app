@@ -129,4 +129,5 @@ yarn.lock
 package-lock.json
 
 ## Key files
-build_config/*
+build_config/android/build.json
+build_config/android/digi.keystore
