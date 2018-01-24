@@ -13,21 +13,18 @@
 # Update this, if you use features of a newer version
 fastlane_version "2.3.1"
 
-require 'json'
-
-$settings_file = File.read('../build_config/android/build.json')
-$settings_hash = JSON.parse($settings_file)
-
 default_platform :android
 
 platform :android do
-  before_all do
+  before_all do |lane|
+    lanes_to_slack = [:push, :deploy]
+    if lanes_to_slack.include?(lane)
+      ENV["SLACK_URL"] = ENV["SLACK_HANDLE_URL"]
+    end
     update_fastlane
-    ENV["SLACK_URL"] = slack_url
-  end
-
-  def slack_url
-    return $settings_hash['slack']['handle_url']
+    if ENV["LOCAL"] == false
+      ensure_git_status_clean
+    end
   end
 
   def version_code
@@ -67,35 +64,45 @@ platform :android do
 
   end
 
-  def clean_build_analyze
+  def create_artifact
+    puts "Assembling release artifact (apk) with: " + version_number
+    gradle(
+      project_dir: "./android",
+      task: "assembleRelease -x lint",
+      properties: {
+        "versionCode" => version_code,
+        "packageFilePath" => "package.json",
+        "store_file" => "../../fastlane/Certificates/" + ENV["KEYSTORE_FILE_NAME"],
+        "store_file_password" => ENV["KEYSTORE_PASSWORD"],
+        "store_alias" => ENV["KEYSTORE_ALIAS"],
+        "store_password" => ENV["KEYSTORE_ALIAS_PASSWORD"]
+      }
+    )
+  end
+
+  def clean_build_analyze(lane)
+      if lane == "dev"
         puts "Clean node_modules, sonarqube and as well as build directories."
         sh("rm -rf ../node_modules ../android/build ../android/app/build ../android/.sonarqube ../js/.sonarqube")
 
         puts "Install node modules."
-        sh("yarn install")
+        sh("npm install")
+      end
 
-        puts "Build app."
-        gradle(
-          project_dir: "./android",
-          task: "build -x lint",
-          properties: { 'versionCode' => version_code, "packageFilePath" => "package.json" }
-        )
+      puts "Build app."
+      gradle(
+        project_dir: "./android",
+        task: "build -x lint",
+        properties: {
+          "versionCode" => version_code,
+          "packageFilePath" => "package.json"
+        }
+      )
 
-        puts "Run unit (jest) tests"
-        sh("yarn test")
-
-        puts "Assembling release artifact (apk) with: " + version_number
-        gradle(
-          project_dir: "./android",
-          task: "assembleRelease -x lint",
-          properties: {
-            "versionCode" => version_code,
-            "packageFilePath" => "package.json"
-          }
-        )
-
-        puts "Run sonnar qube analysis on react-native app and as well as android app"
-        run_sonarqube
+      puts "Run unit (jest) tests"
+      sh("npm test")
+      # puts "Run sonnar qube analysis on react-native app and as well as android app"
+      # run_sonarqube
   end
 
 
@@ -117,7 +124,7 @@ platform :android do
  desc "It also Installs node_modules, build, run unit tests and assemble the release."
     lane :dev do
 
-    clean_build_analyze
+    clean_build_analyze("dev")
   end
 
  desc "It runs dev tasks (clean, build etc.)"
@@ -126,6 +133,7 @@ platform :android do
   lane :push do | options |
 
     clean_build_analyze
+    create_artifact
 
     if options[:distribution]
 
@@ -135,22 +143,23 @@ platform :android do
 
         puts "Submit a new Beta Build to Crashlytics Beta."
 
-        distribution_list = ["stock-count-participator"]
+        distribution_list = ["digi-cr-users"]
         if dist.eql? "beta"
            distribution_list.push("customers")
         end
 
         crashlytics(
-          api_token: "",
-          build_secret: "",
+          api_token: ENV["CRASHLYTICS_API_KEY"],
+          build_secret: ENV["CRASHLYTICS_BUILD_SECRET"],
           groups: distribution_list,
-        #  notes_path: "./release-notes.txt"
-        apk_path: "./android/app/build/outputs/apk/" + app_name + "-" + version_number + ".apk",
-        # crashlytics_path: "..." Path to `crashlytics-devtools.jar` file
-        #  emails: "exact.titankl@gmail.com, bastiaan.bakker@exact.com, luca.temperini@exact.com, toine.hurkmans@exact.com",
-        notifications: "true",
-        debug: "false"
-      )
+          #  notes_path: "./release-notes.txt"
+          # apk_path: "./android/app/build/outputs/apk/" + app_name + "-" + version_number + ".apk",
+          apk_path: "./android/app/build/outputs/apk/app-release.apk",
+          # crashlytics_path: "..." Path to `crashlytics-devtools.jar` file
+          #  emails: "exact.titankl@gmail.com, bastiaan.bakker@exact.com, luca.temperini@exact.com, toine.hurkmans@exact.com",
+          notifications: "true",
+          debug: "false"
+        )
     end
   end
 
@@ -163,25 +172,31 @@ platform :android do
   desc "Please checkout our Slack channel 'titan_kl_notification' for notification about build and deployments"
   after_all do |lane|
     # This block is called, only if the executed lane was successful
-    slack(
-      message: "*We are going places!* :snowboarder:",
-      success: true,        # optional, defaults to true
-      payload: {            # optional, lets you specify any number of your own Slack attachments
-        'Version' => "`" + version_number + "`",
-        # 'What\'s new' => release_notes,
-        'Build Date' => "`" + Time.new.to_s + "`",
-        'Built by' => "`Jenkins`",
-        'Please download' => "http://yet-to-be-decided-url.com"
-      },
-      default_payloads: [:lane, :test_result, :git_author, :git_branch, :last_git_commit],
-    )
+    lanes_to_slack = [:push, :deploy]
+    if lanes_to_slack.include?(lane)
+      slack(
+        message: "*We are going places!* :snowboarder:",
+        success: true,        # optional, defaults to true
+        payload: {            # optional, lets you specify any number of your own Slack attachments
+          'Version' => "`" + version_number + "`",
+          # 'What\'s new' => release_notes,
+          'Build Date' => "`" + Time.new.to_s + "`",
+          'Built by' => "`Travis-CI`"
+          #'Please download' => "http://yet-to-be-decided-url.com"
+        },
+        default_payloads: [:lane, :test_result, :git_author, :git_branch, :last_git_commit],
+      )
+    end
   end
 
   error do |lane, exception|
-    slack(
-      message: exception.message,
-      success: false
-    )
+    lanes_to_slack = [:push, :deploy]
+    if lanes_to_slack.include?(lane)
+      slack(
+        message: exception.message,
+        success: false
+      )
+    end
   end
 end
 
