@@ -16,7 +16,7 @@ before_script:
 - openssl aes-256-cbc -k $KEYSTORE_ENCRYPTION_PASSWORD -in fastlane/Certificates/distribution.keystore.enc
   -d -a -out fastlane/Certificates/distribution.keystore
 script:
-- "./fastlane/travis.sh"
+- ". ./fastlane/travis.sh"
 deploy:
   skip_cleanup: true
   provider: releases
