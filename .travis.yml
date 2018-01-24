@@ -17,8 +17,6 @@ before_script:
   -d -a -out fastlane/Certificates/distribution.keystore
 script:
 - "./fastlane/travis.sh"
-- npm run ci
-- cd android && ./gradlew assembleRelease
 deploy:
   skip_cleanup: true
   provider: releases
