@@ -5,10 +5,13 @@ before_install:
 - node --version
 - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.3.2
 - export PATH=$HOME/.yarn/bin:$PATH
+- gem install fastlane
 cache:
   yarn: true
 install:
 - yarn install
+jdk:
+  - oraclejdk8
 android:
   components:
   - build-tools-26.0.0
@@ -17,6 +20,8 @@ android:
   - extra-google-google_play_services
   - extra-google-m2repository
   - addon-google_apis-google-16
+  - tools
+  - platform-tools
 before_script:
 - openssl aes-256-cbc -k $KEYSTORE_ENCRYPTION_PASSWORD -in fastlane/Certificates/distribution.keystore.enc
   -d -a -out fastlane/Certificates/distribution.keystore
