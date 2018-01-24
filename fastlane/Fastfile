@@ -132,7 +132,7 @@ platform :android do
  desc "It also Installs node_modules, build, run unit tests and assemble the release."
     lane :dev do
 
-    clean_build_analyze
+    clean_build_analyze("dev")
   end
 
  desc "It runs dev tasks (clean, build etc.)"
@@ -140,7 +140,7 @@ platform :android do
  desc "Deploys a beta version to the Crashlytics for the test flight."
   lane :push do | options |
 
-    clean_build_analyze
+    clean_build_analyze("push")
     create_artifact
 
     if options[:distribution]
