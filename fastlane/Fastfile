@@ -86,7 +86,7 @@ platform :android do
         sh("rm -rf ../node_modules ../android/build ../android/app/build ../android/.sonarqube ../js/.sonarqube")
 
         puts "Install node modules."
-        sh("npm install")
+        sh("yarn install")
       end
 
       puts "Build app."
