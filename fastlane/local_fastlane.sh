@@ -5,4 +5,4 @@ export CRASHLYTICS_BUILD_SECRET=""
 export TRAVIS_BRANCH=master
 export TRAVIS_PULL_REQUEST=false
 
-fastlane android dev
+fastlane android local_dev

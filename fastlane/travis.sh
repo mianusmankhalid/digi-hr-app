@@ -6,7 +6,7 @@
 # fi
 
 if [[ "$TRAVIS_BRANCH" != "master" ]]; then
-  git fetch --unshallow
+#  git fetch --unshallow
   fastlane android dev
   exit $?
 fi

@@ -17,7 +17,7 @@ default_platform :android
 
 platform :android do
   before_all do |lane|
-    lanes_to_slack = [:push, :deploy]
+    lanes_to_slack = [:push, :deploy, :dev]
     if lanes_to_slack.include?(lane)
       ENV["SLACK_URL"] = ENV["SLACK_HANDLE_URL"]
     end
@@ -81,7 +81,7 @@ platform :android do
   end
 
   def clean_build_analyze(lane)
-      if lane == "dev"
+      if lane == "local_dev"
         puts "Clean node_modules, sonarqube and as well as build directories."
         sh("rm -rf ../node_modules ../android/build ../android/app/build ../android/.sonarqube ../js/.sonarqube")
 
@@ -119,12 +119,20 @@ platform :android do
       )
   end
 
+  desc "It performs cleans, build, package and code analysis"
+  desc "It cleans node_modules, sonarqube and as well as build directories."
+  desc "It also Installs node_modules, build, run unit tests and assemble the release."
+    lane :local_dev do
+
+    clean_build_analyze("local_dev")
+  end
+
  desc "It performs cleans, build, package and code analysis"
  desc "It cleans node_modules, sonarqube and as well as build directories."
  desc "It also Installs node_modules, build, run unit tests and assemble the release."
     lane :dev do
 
-    clean_build_analyze("dev")
+    clean_build_analyze
   end
 
  desc "It runs dev tasks (clean, build etc.)"
@@ -172,7 +180,7 @@ platform :android do
   desc "Please checkout our Slack channel 'titan_kl_notification' for notification about build and deployments"
   after_all do |lane|
     # This block is called, only if the executed lane was successful
-    lanes_to_slack = [:push, :deploy]
+    lanes_to_slack = [:push, :deploy, :dev]
     if lanes_to_slack.include?(lane)
       slack(
         message: "*We are going places!* :snowboarder:",
@@ -190,7 +198,7 @@ platform :android do
   end
 
   error do |lane, exception|
-    lanes_to_slack = [:push, :deploy]
+    lanes_to_slack = [:push, :deploy, :dev]
     if lanes_to_slack.include?(lane)
       slack(
         message: exception.message,
