@@ -11,7 +11,8 @@
 #   exit $?
 # fi
 
-if [[ "$TRAVIS_BRANCH" == "master" && "$TRAVIS_PULL_REQUEST" == "false"]]; then
+if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]
+then
   git fetch --unshallow
   fastlane android push distribution:"RC"
   exit $?
