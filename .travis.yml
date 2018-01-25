@@ -11,24 +11,28 @@ cache:
 install:
 - yarn install
 jdk:
-  - oraclejdk8
+- oraclejdk8
 android:
   components:
-    - build-tools-26.0.2
-    - android-26
-    - android-23
-    - extra-android-m2repository
-    - extra-google-google_play_services
-    - extra-google-m2repository
-    - addon-google_apis-google-23
-    - tools
-    - platform-tools
-    - extra
+  - build-tools-26.0.2
+  - android-26
+  - android-23
+  - extra-android-m2repository
+  - extra-google-google_play_services
+  - extra-google-m2repository
+  - addon-google_apis-google-23
+  - tools
+  - platform-tools
+  - extra
   licenses:
-    - 'android-sdk-license-.+'
+  - android-sdk-license-.+
 before_script:
 - openssl aes-256-cbc -k $KEYSTORE_ENCRYPTION_PASSWORD -in fastlane/Certificates/distribution.keystore.enc
   -d -a -out fastlane/Certificates/distribution.keystore
+- git config --global user.email "tag.release@digi.com"
+- git config --global user.name "aajiwani"
+- git config credential.helper "store --file=.git/credentials"
+- echo "https://${GH_TOKEN}:@github.com" > .git/credentials
 script:
 - ". ./fastlane/travis.sh"
 deploy:
@@ -50,3 +54,4 @@ env:
   - secure: E1bvb0A0gQDhgSs3SDjdi8lgZ0NuZYQKGCLSTzvhoW6qbFSOqV2M0tXmDGbu25Y7TF83dS7Az2Wien7n5vNdB+apaBbsmZGTb1X/qBm6bwM9VZyNsG1SOwciLHNyc4gmjpiLh+EwHvdMhsqVJmSsz2N27znUHZh7RL2MfA9VD7G8IHjAlMN5BHU3h/TZrjmp4pfzsnvsnpMxOz3XMQrOokyS9M5KxXHvOqnGhtG8pqrB5DU7g9CzlQTi0e0vvxqydPn4yW0Ccg7nPCq7nfIV2cHj8bJcIRBtEB3MGnrjL+njesTaLuTcFv6OFKGUxQfLtMw6Tf/SVGmFb8ZPwzbaRagK4WZ6iZhxYET/TJ43/R02TPyfcfXN0mYVOKDDSqCQYy/2ZOuzIIsjWa1R9VIZEktuWlA3uMLX6hYPWcAsxr7B+aN+YT619VTVprzeeUywICZ2esB1/NOUJ1J55qjHL6stFt4jvbaDivTEDbjf2ukb1kvtnSAaHxf2o/U5rVK+OfVeOIDki2ta85fUahrXBVH9JOETGAePfilq2QGK6msDBFbPPMEKnkMZGUNNj1esFMxwRD4QvkqQqLYVJdqzG18R7e9lGhh0cAV/cPI3er1qulZdUXMQLipNOasgFRHtYdJuoF+nhZq/MJ/t6gI5wZoDxR/8ti4dbT7hHS4Tlfc=
   - secure: c+bG4K+OJYOgDa8gUmUaUCtMfd6Y/bdQWgAvzDrIc2q0Y6isb7tWtIvweyojCb4piFAbVe/nhlusN6gOzH8HJXjYi0hehCzSKl30hZbAwmsBSluz/Z2JzJBv+NsMkuBAW805gniDAJeo8FOC2pldf2F/y1qefKta//NC6nqJA5hWjbJNOkfIjSnQRJGm4jwMwtJk0VjRDUYlf7kxDOsATJ7R/QzR76+Xyjoar4IJK2ADjtYskMmSkLlhCza0550OKEilce5WkRFH7XOG4Hxj/LCVNrTpHGdKh+TKDOOXV21hfbzWXO8FYtGDOwa5MWfSpynGaQ+eMrrKNwAARRCwTOWaRkuUdQq0tsVPQXjl7PQVYPckQEsy9RAETEtgH44gZOFLEEGUIh41Cs9KSrNAO9F3NNwltzGEm6POnt0zFIwbVcGuYP97CWN0cZnM/i65RLVmVo3h2OXcxA7wk/LTwKSq8ydPjH3lVNWEuxXYswTTlXWeWDiPihP4G7NbaLAhuvVxXfZhWPs417oH8EETkzotqBGEX22sOqdNaEv6EN/+T+lSKoybQbB5vnc06crpq1Fk8SnI5/sWIc/hM/3fahQnToGTn1hajfA6+/1zZtxz/6+Nmw5P7iTfA5OypF747QFOJXZ87AGEz7F5Q+DiwG2SFxWgavn2cAzHcwPv9yI=
   - secure: Qfnvhqnq3jauvZy1EALe2ctm6GAfRdMHd0bnl5m8mXqysU8lbve+RmSAZMlRGQ6VT2FMdtxeCmeFxMK8FJmybnGtZAnwnFjSczLIbiDQqo2Ol7A5zFjsrnVwaPRwUMWhXPuVWYpnGvg+AaHnb1x1S5izHB8xA9XjuRQOKu7XDKfNZrfjKzS+DOhQKczamwgR9RbfBPg2+M4oU2W1OvirrFmAq7ssbBVYWqVKvJOpCCQu53RDPH+V8xTVww+nAaLWmg9+3PWVafrCP+K4VuopzKjG2+1nHmeDckRzxX7LvoAdQfSOqQF4YvpqIdHwXthboIqZa1SIseTGmUqFY8O2nyO4SZUS0t2hTGtroOfs/vc3STKNQFpJ4NAOPTC9jkd7/0aBUQy11CVnLb4vruNkFDeuJTExHqxumR4lsjGu3Rn00Dzo07HrQPZcz3dIXWDSvfaFWXUnE1KJEOE7PcPHxhbZGIRrVNLm10vWirhPNK9NqVBduF5QfCEFL7+PLy7tUzYjVdJp829ji3n+F4lzcu5KkwcH9L+LRr7bD/aCJG/KCe0xdSVk83dfDnpPlK06ToQr1LElo4TzUZqd8PousrketuFw/yML4UeTMbg8MaQUoGK0BE3VlZMBk6RTzcMeC/I2ibLWsh4IbNPpzdjXPEx2I7S7SBVYQ+j/AlZyhyM=
+  - secure: CuJaJjl71D6uTJ/W6SyksdaIv9D20PGdfkRPm85SoXOGaWd/Kp30OIROypNSxZYvMqfO4wPtnUF8hgxEJHbKS8qvB0RULMMmfYRi+KslZHp2hqzYP+4VFRKjFUkJuO9mq3hS0e5H2FUCLnT7/Wp2FnQ+yhexGXXajzvisxsJSXSsrxpn54od5hG5RqdDDcRPxmzaF5vCCN0eIJBHEpYVSOhz0HsBam8BdjaKzFB0RMYY/7kXmH72VcLT8IEjqn7IGWlUOVDn7rLDT0dM6P93AnFfpvjE+LhEjqAwKXR6mHJWehe55+RbTnKzSLorTOoi9gUS1+s8mtz837KNXFIhsxlmbR/36OQFHi7iby6HP0IJHEEbc4VnEDBqA4OzAK/Bu5h3QlkvQLSKFR6AX/c3wUoKH6XDyk0x8Is2cJwjxpmhpUlJ9db9iUFuBejorS/sLogwxuefTeY6itBC9cd8dt+I8hqnvDYu2FF4/BDSHWKAaZSUi/oZk/ZEP0u2pyOX+YB4ig9qqkwpUEkIb5S4WFdRmqvRS178W56khkBh0p8kl50H/Idf4kD4Pw+j1pBzQEnj1FGcexeR7qIln6cIUoXjl9BEE4JGJLfkwi00mIuMPwIpC/fScw8hJ8JU3nWDhO1BIrHfHFyyiU80nd/6wn/WGREq4rDP+awuU+pkIQk=
