@@ -1,5 +1,8 @@
 apply plugin: "com.android.application"
-apply plugin: "io.fabric"
+
+if (getFabricApiKey() != "") {
+    apply plugin: "io.fabric"
+}
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
@@ -110,10 +113,6 @@ project.ext {
     appName = getNpmName()
 }
 
-project.ext.build_config_dir = "../build_config/android"
-project.ext.build_config_file = project.ext.build_config_dir + "/build.json"
-
-
 /* Calculated from git commits to give sequential integers */
 def getGitVersion() {
     try
@@ -150,39 +149,44 @@ def getNpmName() {
 }
 // Gets the fabric key stored in properties
 def getFabricApiKey() {
-  def inputFile = new File(project.ext.build_config_file)
-  def buildConfigJson = new JsonSlurper().parseText(inputFile.text)
-  return buildConfigJson["crashlytics"]["api_key"]
+  if(project.hasProperty('CRASHLYTICS_API_KEY') && CRASHLYTICS_API_KEY != "" ) {
+      return CRASHLYTICS_API_KEY
+  }
+  return ""
 }
 
 def getKeyStoreFilePath() {
-  def inputFile = new File(project.ext.build_config_file)
-  def buildConfigJson = new JsonSlurper().parseText(inputFile.text)
-  return "../" + project.ext.build_config_dir + "/" + buildConfigJson["keystore"]["store_file"]
+  if(project.hasProperty('store_file') && store_file != "" ) {
+      return store_file
+  }
+  return "../../fastlane/Certificates/debug.keystore"
 }
 
 def getKeyStoreFilePassword() {
-  def inputFile = new File(project.ext.build_config_file)
-  def buildConfigJson = new JsonSlurper().parseText(inputFile.text)
-  return buildConfigJson["keystore"]["store_password"]
+  if(project.hasProperty('store_file_password') && store_file_password != "" ) {
+      return store_file_password
+  }
+  return "debug123"
 }
 
 def getKeyStoreAlias() {
-  def inputFile = new File(project.ext.build_config_file)
-  def buildConfigJson = new JsonSlurper().parseText(inputFile.text)
-  return buildConfigJson["keystore"]["alias"]
+  if(project.hasProperty('store_alias') && store_alias != "" ) {
+      return store_alias
+  }
+  return "debug"
 }
 
 def getKeyStorePassword() {
-  def inputFile = new File(project.ext.build_config_file)
-  def buildConfigJson = new JsonSlurper().parseText(inputFile.text)
-  return buildConfigJson["keystore"]["password"]
+  if(project.hasProperty('store_password') && store_password != "" ) {
+    return store_password
+  }
+    return "debug123"
 }
 /* Custom methods */
 
 android {
     compileSdkVersion 23
-    //buildToolsVersion '25.0.0'
+    buildToolsVersion '26.0.0'
     project.archivesBaseName = appName;
 
     lintOptions {
@@ -226,10 +230,10 @@ android {
             signingConfig signingConfigs.release
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
-                    def betaName = output.outputFile.name
-                    def betaString = "-" + getNpmVersion()
-                    betaName = betaName.replace("-release", betaString)
-                    output.outputFileName = new File(output.outputFile.parent, betaName)
+                    // def betaName = output.outputFile.name
+                    // def betaString = "-" + getNpmVersion()
+                    // betaName = betaName.replace("-release", betaString)
+                    // output.outputFileName = new File(output.outputFile.parent, betaName)
                 }
             }
         }
@@ -257,7 +261,7 @@ dependencies {
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules
-    compile('com.crashlytics.sdk.android:crashlytics:2.7.0@aar') {
+    compile('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') {
         transitive = true;
     }
     compile('com.crashlytics.sdk.android:answers:1.4.0@aar') {
