@@ -16,6 +16,15 @@ or alternatively using `brew cask install fastlane`
 
 # Available Actions
 ## Android
+### android local_dev
+```
+fastlane android local_dev
+```
+It performs cleans, build, package and code analysis
+
+It cleans node_modules, sonarqube and as well as build directories.
+
+It also Installs node_modules, build, run unit tests and assemble the release.
 ### android dev
 ```
 fastlane android dev
