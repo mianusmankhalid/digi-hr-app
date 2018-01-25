@@ -230,7 +230,7 @@ android {
             signingConfig signingConfigs.release
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
-                variant.outputFile = new File(output.outputFile.parent, "app-release.apk");
+                output.outputFileName = new File(output.outputFile.parent, "app-release.apk");
                     // def betaName = output.outputFile.name
                     // def betaString = "-" + getNpmVersion()
                     // betaName = betaName.replace("-release", betaString)
