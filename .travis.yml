@@ -40,7 +40,7 @@ deploy:
   provider: releases
   api_key:
     secure: AWUPMduGfPTpT4m3sZCwiEb2R/OBL/F0x+FYOyLcaktGi9WJerINxuSB1QLhZzvKU9u6mzryhRR5AmYitrJDw+dv3kUUq7zPJA+CBnBjpYMMwk+WHyS18h7Gk+gXBUiOG2oGksWY9Smq4TgT1SOtt0wlshw4768h3TGvNzLuJk31ujeKFO6hJqiGp2uMWJDwUjWxf8l/CuO1QSPMWCoJhS3NW4Buu6gZ/sSXOyBzv/nso2aBpqfWMTwZw2TBBtylG8Zu3gOvARsprwNSjd+phQYt55gliX6vb6QupIXhelhUOCEyQZYmut/mYd5Li0TMFPR8dLnomhEMN7Qi1KGI5ieztHXmyW4kGAMrUk+oA1cYm9CWtf/iCGNfV/Pumpejc7oGlHfI4O9KAVQOjWy2ntnV8C7Zko7mN6DnGEn3DtdSQiliXjurrhRfa46Eb7+qlOCuMS8ZUldVSuO/WVo26RbxMIwRLaf6lxDm3gmmJAAYGtq6zpxYDhTDEoezWknWXx5PCjSmR7XrY4hB5X7lKOsBaAJRVDumzjhFrGVwnP7v6jKcPGOrCR2C2q4wXMP0dlB1vrRLuAxV7rMiXLhFuzUAj7A5oR1tp5iBoAMEZ/8fm8SzzYvvnUbfWFb+wpVa1bUIO32FvsO4HdzbXuhIziVIZ7c9rSlY1ni/6lCgTJo=
-  file: "$TRAVIS_BUILD_DIR/android/app/build/outputs/apk/app-release.apk"
+  file: "$TRAVIS_BUILD_DIR/android/app/build/outputs/apk/release/DigiHrApp-release.apk"
   on:
     repo: aajiwani/digi-hr-app
     tags: true

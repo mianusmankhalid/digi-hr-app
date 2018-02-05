@@ -11,10 +11,16 @@
 #   exit $?
 # fi
 
-if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]
+if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]
 then
   git fetch --unshallow
-  fastlane android push distribution:"RC"
+  fastlane android dev
+  exit $?
+elif [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" != "false" ]
+then
+  git fetch --unshallow
+  # fastlane android push distribution:"RC"
+  fastlane android dev
   exit $?
 else
   # Run for any other commit

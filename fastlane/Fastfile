@@ -21,7 +21,7 @@ platform :android do
     if lanes_to_slack.include?(lane)
       ENV["SLACK_URL"] = ENV["SLACK_HANDLE_URL"]
     end
-    update_fastlane
+    # update_fastlane // No need for that as it is already been taken care of
     if ENV["LOCAL"] == false
       ensure_git_status_clean
     end
@@ -72,7 +72,7 @@ platform :android do
       properties: {
         "versionCode" => version_code,
         "packageFilePath" => "package.json",
-        "store_file" => "../../fastlane/Certificates/" + ENV["KEYSTORE_FILE_NAME"],
+        "store_file" => ENV["TRAVIS_BUILD_DIR"] + "/fastlane/Certificates/" + ENV["KEYSTORE_FILE_NAME"],
         "store_file_password" => ENV["KEYSTORE_PASSWORD"],
         "store_alias" => ENV["KEYSTORE_ALIAS"],
         "store_password" => ENV["KEYSTORE_ALIAS_PASSWORD"]
@@ -98,13 +98,14 @@ platform :android do
           "packageFilePath" => "package.json"
         }
       )
-
-      puts "Run unit (jest) tests"
-      sh("npm test")
-      # puts "Run sonnar qube analysis on react-native app and as well as android app"
-      # run_sonarqube
   end
 
+  def run_tests
+    puts "Run unit (jest) tests"
+    sh("npm test")
+    # puts "Run sonnar qube analysis on react-native app and as well as android app"
+    # run_sonarqube
+  end
 
   def run_sonarqube
       sonar(
@@ -125,6 +126,7 @@ platform :android do
     lane :local_dev do
 
     clean_build_analyze("local_dev")
+    run_tests
   end
 
  desc "It performs cleans, build, package and code analysis"
@@ -133,6 +135,7 @@ platform :android do
     lane :dev do
 
     clean_build_analyze("dev")
+    run_tests
   end
 
  desc "It runs dev tasks (clean, build etc.)"
@@ -140,7 +143,8 @@ platform :android do
  desc "Deploys a beta version to the Crashlytics for the test flight."
   lane :push do | options |
 
-    clean_build_analyze("push")
+    # clean_build_analyze("push")
+    run_tests
     create_artifact
 
     if options[:distribution]
@@ -162,7 +166,7 @@ platform :android do
           groups: distribution_list,
           #  notes_path: "./release-notes.txt"
           # apk_path: "./android/app/build/outputs/apk/" + app_name + "-" + version_number + ".apk",
-          apk_path: "./android/app/build/outputs/apk/app-release.apk",
+          apk_path: ENV["TRAVIS_BUILD_DIR"] + "/android/app/build/outputs/apk/app-release.apk",
           # crashlytics_path: "..." Path to `crashlytics-devtools.jar` file
           #  emails: "exact.titankl@gmail.com, bastiaan.bakker@exact.com, luca.temperini@exact.com, toine.hurkmans@exact.com",
           notifications: "true",
