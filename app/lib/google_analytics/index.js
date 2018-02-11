@@ -2,7 +2,7 @@ import {
   GoogleAnalyticsTracker,
   GoogleAnalyticsSettings,
 } from 'react-native-google-analytics-bridge';
-
+import { isDebuggingEnabled } from '@digihr_lib/dev_helper';
 import _ from 'lodash';
 
 const tracker = new GoogleAnalyticsTracker(__GA_TRACKER__);
@@ -14,7 +14,7 @@ const analytics = {
   },
   init: function() {
     GoogleAnalyticsSettings.setDispatchInterval(30);
-    GoogleAnalyticsSettings.setDryRun(true);
+    if (isDebuggingEnabled()) GoogleAnalyticsSettings.setDryRun(true);
   },
   trackEvent: function(category, action, label = null, value = null) {
     var optionalParams = {};

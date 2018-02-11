@@ -6,14 +6,14 @@ import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-hel
 import Reducer from '@digihr_lib/reducer';
 import ScreenTracking from './middleware/screen_tracking';
 import SerializeError from 'serialize-error';
-const isDebuggingEnabled = typeof atob !== 'undefined';
+import { isDebuggingEnabled } from '@digihr_lib/dev_helper';
 import _ from 'lodash';
 
 const error = store => next => action => {
   try {
     next(action);
   } catch (e) {
-    if (isDebuggingEnabled) {
+    if (isDebuggingEnabled()) {
       // Handle error!
       if (_.includes(__APP_ERROR_NAMES__, e.name)) {
         console.log(
