@@ -33,6 +33,8 @@ before_script:
 - git config --global user.name "aajiwani"
 - git config credential.helper "store --file=.git/credentials"
 - echo "https://${GH_TOKEN}:@github.com" > .git/credentials
+- echo 'Asia/Kuala_Lumpur' | sudo tee /etc/timezone
+- sudo dpkg-reconfigure --frontend noninteractive tzdata
 script:
 - ". ./fastlane/travis.sh"
 deploy:
