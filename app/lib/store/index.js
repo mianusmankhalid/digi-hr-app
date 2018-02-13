@@ -8,6 +8,7 @@ import ScreenTracking from './middleware/screen_tracking';
 import SerializeError from 'serialize-error';
 import { isDebuggingEnabled } from '@digihr_lib/dev_helper';
 import _ from 'lodash';
+import analytics from '@digihr_lib/google_analytics';
 
 const error = store => next => action => {
   try {

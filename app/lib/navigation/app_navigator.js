@@ -15,11 +15,6 @@ const AppNavigator = StackNavigator(Routes, {
     ios: () => 'float',
     android: () => 'screen',
   })(),
-  onTransitionEnd: ({ navigation }) => {
-    navigation.dispatch({
-      type: 'NAVIGATION_ENDED',
-    });
-  },
   navigationOptions: ({ navigation }) => ({
     headerBackTitle: null,
     headerStyle: {

@@ -8,6 +8,7 @@
     "local_ci": ". ./fastlane/local_fastlane.sh"
   },
   "dependencies": {
+    "hoist-non-react-statics": "^2.3.1",
     "react": "16.2.0",
     "react-native": "0.53.0",
     "react-native-fabric": "^0.5.1",
