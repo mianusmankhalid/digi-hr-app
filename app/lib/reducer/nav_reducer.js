@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import AppNavigator from '@digihr_lib/navigation/app_navigator';
+import { NavigationActions } from 'react-navigation';
 
 const initialState = AppNavigator.router.getStateForAction(
   AppNavigator.router.getActionForPathAndParams(__APP_START_ROUTE_NAME__, {
@@ -28,10 +29,21 @@ export default function reducer(state = initialState, action) {
         return route;
       }),
     };
+
+    nextState = AppNavigator.router.getStateForAction(
+      NavigationActions.setParams({
+        params: {
+          backNavParams: {},
+        },
+        key: action.payload.screenKey,
+      }),
+      nextState
+    );
   } else if (action.type === 'SET_SCREEN_GO_BACK_PARAMS') {
     if (_.has(state, 'navigating') && state.navigating) return state;
 
-    nextState = AppNavigator.router.getStateForAction(action, state);
+    //nextState = AppNavigator.router.getStateForAction(action, state);
+    nextState = { ...state };
 
     if (nextState.index > 0) {
       let routeIndex = -1;
@@ -50,6 +62,19 @@ export default function reducer(state = initialState, action) {
         ? { ...action.payload.params }
         : {};
       nextState.routes[routeIndex].params['back_navigation_happened'] = true;
+
+      nextState = AppNavigator.router.getStateForAction(
+        NavigationActions.setParams({
+          params: {
+            backNavParams: {
+              params: nextState.routes[routeIndex].params['go_back_params'],
+              back_navigation_happened: true,
+            },
+          },
+          key: nextState.routes[routeIndex].key,
+        }),
+        nextState
+      );
     }
   } else if (action.type === 'Navigation/BACK') {
     if (_.has(state, 'navigating') && state.navigating) return state;

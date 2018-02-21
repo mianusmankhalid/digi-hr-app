@@ -4,8 +4,8 @@ import RouteConfig from '@digihr_app_config/routes';
 
 export default class LandingPage extends Component {
   backNavigationDidHappen(params) {
-    console.log('Yes navigation back happened on LandingPage!');
-    console.dir(params);
+    // console.log('Yes navigation back happened on LandingPage!');
+    // console.dir(params);
   }
 
   render() {

@@ -1,146 +1,88 @@
 import { NavigationActions } from 'react-navigation';
-import * as DigiNavActions from '@digihr_lib/actions/digi_nav_actions';
 import _ from 'lodash';
-import { isDebuggingEnabled } from '@digihr_lib/dev_helper';
 
-function NavigationHelper(instance, dispatch) {
-  var provideNavResetAction = (screen, params = {}) => {
+export default class NavigationHelper {
+  static getParams(store, navName) {
+    const navRoute = store.navigation.routes.filter(
+      route => route.routeName.localeCompare(navName) === 0
+    );
+
+    if (navRoute.length > 0) {
+      if (navRoute[0].hasOwnProperty('params')) {
+        return navRoute[0].params;
+      }
+    }
+    return {};
+  }
+
+  static getParam(store, navName, paramName) {
+    var requestedParams = NavigationHelper.getParams(store, navName);
+    if (requestedParams.hasOwnProperty(paramName)) {
+      return requestedParams[paramName];
+    } else {
+      return {};
+    }
+  }
+
+  static getParamFromState(state, paramName) {
+    return !_.isEmpty(state) &&
+      state.hasOwnProperty('params') &&
+      state.params.hasOwnProperty(paramName)
+      ? state.params[paramName]
+      : {};
+  }
+
+  static reset(navigation, screen, params = {}, passOldParams = false) {
+    if (passOldParams) {
+      params = { ...navigation.state.params, ...params };
+    }
+
+    var resetAction = NavigationHelper.getNavResetAction(screen, params);
+    navigation.dispatch(resetAction);
+  }
+
+  static navigate(navigation, screen, params = {}, passOldParams = false) {
+    if (passOldParams) {
+      params = { ...navigation.state.params, ...params };
+    }
+
+    var resetAction = NavigationHelper.getNavigateAction(screen, params);
+    navigation.dispatch(resetAction);
+  }
+
+  static getNavResetAction(screen, params = {}) {
     return NavigationActions.reset({
       index: 0,
       actions: [
         NavigationActions.navigate({ routeName: screen, params: params }),
       ],
     });
-  };
+  }
 
-  var provideNavNavigateAction = (screen, params = {}) => {
+  static getNavigateAction(screen, params = {}) {
     return NavigationActions.navigate({
       routeName: screen,
       params: params,
     });
-  };
+  }
 
-  var getPreviousScreenFromNavigationStack = (routes, currIndex) => {
-    if (routes.length > 1) {
-      return routes[currIndex - 1].key;
+  static getCurrentParams(state) {
+    if (state.routes) {
+      return NavigationHelper.getCurrentParams(state.routes[state.index]);
     }
-    return null;
-  };
+    return state.params || {};
+  }
 
-  var getKeyForRouteNameFromEnd = (routes, routeName) => {
-    let result = _.findLastIndex(routes, route => {
-      return _.isEqual(route.routeName, routeName);
-    });
-
-    if (result !== -1) {
-      return routes[result].key;
+  static getCurrentScreenParams(state) {
+    if (state.routes) {
+      return NavigationHelper.getCurrentParams(state.routes[state.index]);
     }
-    return null;
-  };
 
-  this.navigate = (screen, params = {}, passOldParams = true) => {
-    if (typeof instance !== 'undefined' && instance !== null) {
-      if (passOldParams) {
-        params = { ...instance.props.navigation.state.params, ...params };
-      }
+    var retObj = state.params || {};
 
-      params = _.omit(params, 'curr_screen_params');
-
-      var resetAction = provideNavNavigateAction(screen, params);
-      instance.props.navigation.dispatch(resetAction);
+    if (_.has(retObj, __CURR_SCREEN_PARAMS__)) {
+      return _.get(retObj, __CURR_SCREEN_PARAMS__);
     }
-  };
-
-  this.reset = (screen, params = {}, passOldParams = true) => {
-    if (typeof instance !== 'undefined' && instance !== null) {
-      if (passOldParams) {
-        params = { ...instance.props.navigation.state.params, ...params };
-      }
-
-      params = _.omit(params, 'curr_screen_params');
-
-      var resetAction = provideNavResetAction(screen, params);
-      instance.props.navigation.dispatch(resetAction);
-    }
-  };
-
-  this.goBack = (params = {}, key = null) => {
-    if (typeof instance !== 'undefined' && instance !== null) {
-      let forScreen = null;
-
-      if (key !== null) {
-        forScreen = getKeyForRouteNameFromEnd(
-          instance.props.navState.routes,
-          key
-        );
-      }
-
-      if (forScreen === null) {
-        forScreen = getPreviousScreenFromNavigationStack(
-          instance.props.navState.routes,
-          instance.props.navState.index
-        );
-      }
-
-      const backAction = NavigationActions.back({
-        key: key,
-      });
-
-      instance.props.navigation.dispatch(
-        EOLNavActions.setGoBackScreenParams(forScreen, {
-          ...params,
-        })
-      );
-      instance.props.navigation.dispatch(backAction);
-    }
-  };
-
-  // this.goBackTo = (pageName = null, params = null) => {
-  //   if (typeof instance !== "undefined" && instance !== null) {
-  //     if (params && pageName) {
-  //       dispatch(actions.setGoBackScreenParams(pageName, params));
-  //     }
-  //     instance.props.navigation.goBack(pageName);
-  //     if (pageName) {
-  //       // dispatch(actions.setNavigatingBack(pageName));
-  //     }
-  //   }
-  // };
-
-  this.getBackParams = () => {
-    if ('go_back_params' in instance.props.navigation.state.params) {
-      return instance.props.navigation.state.params['go_back_params'];
-    }
-    return null;
-  };
-
-  this.backNavigationHappened = () => {
-    if ('back_navigation_happened' in instance.props.navigation.state.params) {
-      if (isDebuggingEnabled) {
-        console.groupCollapsed(
-          'backNavigationHappened for ' + instance.displayName
-        );
-
-        if (_.has(instance.props.navigation.state.params, 'go_back_params')) {
-          console.dir(instance.props.navigation.state.params.go_back_params);
-        }
-        console.groupEnd();
-      }
-      return true;
-    }
-    return false;
-  };
-
-  this.setScreenParams = params => {
-    var screenParams = {
-      curr_screen_params: params,
-    };
-    instance.props.navigation.setParams(screenParams);
-  };
+    return retObj;
+  }
 }
-
-export default NavigationHelper;
-
-// export default {
-//   Helper: true,
-// };

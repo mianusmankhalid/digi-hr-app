@@ -1,3 +1,3 @@
 export function isDebuggingEnabled() {
-  return typeof atob !== 'undefined';
+  return __DEV_ENV__ && typeof atob !== 'undefined';
 }

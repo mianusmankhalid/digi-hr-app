@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
 import hoistNonReactStatic from 'hoist-non-react-statics';
-import NavHelper from './helper';
+import NavHelper from './screen_helper';
 import { isDebuggingEnabled } from '@digihr_lib/dev_helper';
+import { connect } from 'react-redux';
+import { consumeGoBackScreenParams } from './actions';
+
+const mapStateToProps = (state, ownProps) => ({
+  navParams: ownProps.navigation.state.params,
+  navState: state.navigation,
+  navigating: state.navigation.navigating || false,
+});
 
 const withNavHelper = (name, Comp, trackingName) => {
   class NavAwareScreen extends Component {
@@ -9,12 +17,11 @@ const withNavHelper = (name, Comp, trackingName) => {
       header: null,
     };
 
-    componentDidMount = () => {
-      console.log('Fired componentDidMount for screen: ' + name);
+    componentWillReceiveProps = nextProps => {
       if (this.navHelper.backNavigationHappened()) {
         var navParams = this.navHelper.getBackParams();
         nextProps.dispatch(
-          actions.consumeGoBackScreenParams(nextProps.navigation.state.key)
+          consumeGoBackScreenParams(nextProps.navigation.state.key)
         );
         if ('backNavigationDidHappen' in this.screenInstance) {
           this.screenInstance.backNavigationDidHappen(navParams);
@@ -66,7 +73,7 @@ const withNavHelper = (name, Comp, trackingName) => {
   }
 
   hoistNonReactStatic(NavAwareScreen, Comp);
-  return NavAwareScreen;
+  return connect(mapStateToProps)(NavAwareScreen);
 };
 
 export default withNavHelper;
