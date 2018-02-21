@@ -27,14 +27,13 @@ android:
   licenses:
   - android-sdk-license-.+
 before_script:
-- openssl aes-256-cbc -k $KEYSTORE_ENCRYPTION_PASSWORD -in fastlane/Certificates/distribution.keystore.enc
-  -d -a -out fastlane/Certificates/distribution.keystore
-- git config --global user.email "tag.release@digi.com"
-- git config --global user.name "aajiwani"
-- git config credential.helper "store --file=.git/credentials"
-- echo "https://${GH_TOKEN}:@github.com" > .git/credentials
-- echo 'Asia/Kuala_Lumpur' | sudo tee /etc/timezone
-- sudo dpkg-reconfigure --frontend noninteractive tzdata
+  - export TZ=Asia/Kuala_Lumpur
+  - openssl aes-256-cbc -k $KEYSTORE_ENCRYPTION_PASSWORD -in fastlane/Certificates/distribution.keystore.enc
+    -d -a -out fastlane/Certificates/distribution.keystore
+  - git config --global user.email "tag.release@digi.com"
+  - git config --global user.name "aajiwani"
+  - git config credential.helper "store --file=.git/credentials"
+  - echo "https://${GH_TOKEN}:@github.com" > .git/credentials
 script:
 - ". ./fastlane/travis.sh"
 deploy:

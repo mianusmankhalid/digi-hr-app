@@ -1,0 +1,16 @@
+{
+  "presets": ["react-native"],
+  "plugins": [
+    [
+      "inline-replace-variables",
+      {
+        "__GA_TRACKER__": "UA-12345678-1",
+        "__APP_ERROR_NAMES__": ["DigiError"],
+        "__APP_START_ROUTE_NAME__": "AppStart",
+        "__MODIFIED_APP_START_ROUTE_NAME__": "AppStart",
+        "__CURR_SCREEN_PARAMS__": "curr_screen_params",
+        "__DEV_ENV__": true
+      }
+    ]
+  ]
+}
