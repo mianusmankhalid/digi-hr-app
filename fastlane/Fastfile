@@ -21,7 +21,6 @@ platform :android do
     if lanes_to_slack.include?(lane)
       ENV["SLACK_URL"] = ENV["SLACK_HANDLE_URL"]
     end
-    # update_fastlane // No need for that as it is already been taken care of
     if ENV["LOCAL"] == false
       ensure_git_status_clean
     end
@@ -151,7 +150,7 @@ platform :android do
 
         puts "Tags the build using versionCode defined in gradle file, push the tag to remote and generate change log."
         dist = options[:distribution]
-        tag_build_and_push(dist)
+        # tag_build_and_push(dist)
 
         puts "Submit a new Beta Build to Crashlytics Beta."
 
@@ -166,7 +165,7 @@ platform :android do
           groups: distribution_list,
           #  notes_path: "./release-notes.txt"
           # apk_path: "./android/app/build/outputs/apk/" + app_name + "-" + version_number + ".apk",
-          apk_path: ENV["TRAVIS_BUILD_DIR"] + "/android/app/build/outputs/apk/app-release.apk",
+          apk_path: ENV["TRAVIS_BUILD_DIR"] + "/android/app/build/outputs/apk/release/DigiHrApp-release.apk",
           # crashlytics_path: "..." Path to `crashlytics-devtools.jar` file
           #  emails: "exact.titankl@gmail.com, bastiaan.bakker@exact.com, luca.temperini@exact.com, toine.hurkmans@exact.com",
           notifications: "true",
@@ -186,18 +185,28 @@ platform :android do
     # This block is called, only if the executed lane was successful
     lanes_to_slack = [:push, :deploy, :dev]
     if lanes_to_slack.include?(lane)
-      slack(
-        message: "*We are going places!* :snowboarder:",
-        success: true,        # optional, defaults to true
-        payload: {            # optional, lets you specify any number of your own Slack attachments
-          'Version' => "`" + version_number + "`",
-          # 'What\'s new' => release_notes,
-          'Build Date' => "`" + Time.new.to_s + "`",
-          'Built by' => "`Travis-CI`"
-          #'Please download' => "http://yet-to-be-decided-url.com"
-        },
-        default_payloads: [:lane, :test_result, :git_author, :git_branch, :last_git_commit],
-      )
+      if [:push].include?(lane)
+        slack(
+          message: "*New version has been pushed to crashlytics* :snowboarder:",
+          success: true,        # optional, defaults to true
+          payload: {            # optional, lets you specify any number of your own Slack attachments
+            'Version' => "`" + version_number + "`",
+            'Build Date' => "`" + Time.new.to_s + "`",
+            'Built by' => "`Travis-CI`"
+          },
+          default_payloads: [:lane, :test_result, :git_author, :git_branch, :last_git_commit],
+        )
+      else
+        slack(
+          message: "*Build succeeded!* :honey_pot:",
+          success: true,        # optional, defaults to true
+          payload: {            # optional, lets you specify any number of your own Slack attachments
+            'Build Date' => "`" + Time.new.to_s + "`",
+            'Built by' => "`Travis-CI`"
+          },
+          default_payloads: [:lane, :test_result, :git_author, :git_branch, :last_git_commit],
+        )
+      end
     end
   end
 

@@ -27,3 +27,9 @@ else
   fastlane android dev
   exit $?
 fi
+
+# Prepare a release and post it to crashlytics if its a tagged build
+if [[ "$TRAVIS_TAG" =~ ^release\([0-9\.]*\)$ ]] && [[ "$TRAVIS_BRANCH" = "master" ]];
+then
+  fastlane android push distribution:"RC"
+fi
