@@ -12,7 +12,7 @@
 # fi
 
 # Prepare a release and post it to crashlytics if its a tagged build
-if [[ "$TRAVIS_TAG" =~ ^release-[0-9\.]*)$ ]];
+if [[ "$TRAVIS_TAG" =~ ^release-[0-9\.]*$ ]];
 then
   fastlane android push distribution:"RC"
   exit $?
