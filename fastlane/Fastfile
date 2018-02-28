@@ -74,7 +74,7 @@ platform :android do
         "store_file" => ENV["TRAVIS_BUILD_DIR"] + "/fastlane/Certificates/" + ENV["KEYSTORE_FILE_NAME"],
         "store_file_password" => ENV["KEYSTORE_PASSWORD"],
         "store_alias" => ENV["KEYSTORE_ALIAS"],
-        "store_password" => ENV["KEYSTORE_ALIAS_PASSWORD"]
+        "store_password" => ENV["KEYSTORE_ALIAS_PASSWORD"],
         "CRASHLYTICS_API_KEY" => ENV["CRASHLYTICS_API_KEY"]
       }
     )
