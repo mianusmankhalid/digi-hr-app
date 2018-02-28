@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Button, StyleSheet } from 'react-native';
 import RouteConfig from '@digihr_app_config/routes';
+import Splash from './splash';
 
 export default class LandingPage extends Component {
   backNavigationDidHappen(params) {
@@ -10,8 +11,8 @@ export default class LandingPage extends Component {
 
   render() {
     return (
-      <View>
-        <Text>{'Amir Ali Jiwani'}</Text>
+      <View style={styles.container}>
+        <Splash />
         <Button
           title="Move To Page 2"
           onPress={() => {
@@ -22,3 +23,9 @@ export default class LandingPage extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+      flex: 1
+  }
+});
