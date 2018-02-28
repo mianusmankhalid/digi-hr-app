@@ -184,6 +184,12 @@ def getKeyStorePassword() {
 }
 /* Custom methods */
 
+println '========================================================================================'
+println 'KeyStore being used!'
+println 'KeyStore File Path ' + getKeyStoreFilePath()
+println 'KeyStore Alias ' + getKeyStoreAlias()
+println '========================================================================================'
+
 android {
     compileSdkVersion 23
     buildToolsVersion '26.0.0'
