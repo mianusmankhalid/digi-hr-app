@@ -75,6 +75,7 @@ platform :android do
         "store_file_password" => ENV["KEYSTORE_PASSWORD"],
         "store_alias" => ENV["KEYSTORE_ALIAS"],
         "store_password" => ENV["KEYSTORE_ALIAS_PASSWORD"]
+        "CRASHLYTICS_API_KEY" => ENV["CRASHLYTICS_API_KEY"]
       }
     )
   end
