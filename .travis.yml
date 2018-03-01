@@ -9,6 +9,8 @@ before_install:
 cache: yarn
 install:
 - yarn install
+- yarn global add react-native-cli
+- react-native link
 jdk:
 - oraclejdk8
 android:
