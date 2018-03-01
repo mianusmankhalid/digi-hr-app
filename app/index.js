@@ -1,57 +1,60 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
+import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
+import { BackHandler } from 'react-native';
+import { addNavigationHelpers } from 'react-navigation';
+import { Provider, connect } from 'react-redux';
 import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import Store from '@digihr_lib/store';
+import AppNavigator from '@digihr_lib/navigation/app_navigator';
+import * as DigiNavActions from '@digihr_lib/actions/digi_nav_actions';
+import { NavigationActions } from 'react-navigation';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+const addListener = createReduxBoundAddListener('root');
 
-export default class App extends Component<{}> {
+class App extends Component {
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+  }
+
+  onBackPress = () => {
+    const { nav, dispatch } = this.props;
+    if (nav.index === 0) {
+      return false;
+    }
+
+    dispatch(DigiNavActions.setGoBackScreenParams());
+    dispatch(NavigationActions.back());
+    return true;
+  };
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
-      </View>
+      <AppNavigator
+        navigation={addNavigationHelpers({
+          dispatch: this.props.dispatch,
+          state: this.props.nav,
+          addListener,
+        })}
+      />
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+const mapStateToProps = state => ({
+  nav: state.navigation,
 });
+
+const AppWithNavigationState = connect(mapStateToProps)(App);
+
+export default class Root extends Component {
+  render() {
+    return (
+      <Provider store={Store}>
+        <AppWithNavigationState />
+      </Provider>
+    );
+  }
+}
