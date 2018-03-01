@@ -1,13 +1,11 @@
 language: android
-sudo: true
+sudo: false
 before_install:
-- sudo apt-get -qq update
 - nvm install 6
 - node --version
 - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.3.2
 - export PATH=$HOME/.yarn/bin:$PATH
 - gem install fastlane
-- sudo apt-get install -y tree
 cache: yarn
 install:
 - yarn install

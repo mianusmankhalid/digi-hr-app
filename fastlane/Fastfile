@@ -147,8 +147,6 @@ platform :android do
     run_tests
     create_artifact
 
-    sh("tree " + ENV["TRAVIS_BUILD_DIR"] + "/android/app/build/")
-
     if options[:distribution]
 
         puts "Tags the build using versionCode defined in gradle file, push the tag to remote and generate change log."
