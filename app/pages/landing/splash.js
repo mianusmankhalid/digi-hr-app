@@ -26,10 +26,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   footer: {
-    fontFamily: 'Muli Regular',
+    fontFamily: 'Muli-Regular',
     color: theme.colors.grey,
-    fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: 40,
     paddingBottom: 20,
   },
   titleWrapper: {
