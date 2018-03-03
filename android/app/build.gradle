@@ -147,6 +147,17 @@ def getNpmName() {
     def packageJson = new JsonSlurper().parseText(inputFile.text)
     return packageJson["name"]
 }
+// Gets the release package name from package.json
+def getReleasePackageName() {
+    def packageFile = "../package.json"
+    if(project.hasProperty('packageFilePath') && packageFilePath != "" ) {
+        packageFile = packageFilePath
+    }
+
+    def inputFile = new File(packageFile)
+    def packageJson = new JsonSlurper().parseText(inputFile.text)
+    return packageJson["release_package_name"]
+}
 // Gets the fabric key stored in properties
 def getFabricApiKey() {
   if(project.hasProperty('CRASHLYTICS_API_KEY') && CRASHLYTICS_API_KEY != "" ) {
@@ -194,7 +205,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.digihrapp"
+        applicationId getReleasePackageName()
         minSdkVersion 16
         targetSdkVersion 22
         versionCode getGitVersion()
