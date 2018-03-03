@@ -13,6 +13,11 @@
 # Update this, if you use features of a newer version
 fastlane_version "2.3.1"
 
+module ARTIFACT_TYPE
+  IOS = 1
+  ANDROID = 2
+end
+
 default_platform :android
 
 platform :android do
@@ -47,6 +52,32 @@ platform :android do
     s = File.read(path)
     appName = s[re, 2].gsub! '"', ''
     return appName
+  end
+
+  def post_build_to_slack(build_file, type, build_title, file_full_path)
+    slack_token = ENV["POST_ARTEFACTS_TOKEN"]
+
+    # Android Block!
+    if type == ARTIFACT_TYPE::ANDROID
+      sh("echo Uploading `" + build_title + "` to Android builds")
+      curl_cmd = "curl https://slack.com/api/files.upload -F token=\""
+                  + slack_token + "\" -F channels=\"" + ENV["SLACK_ANDROID_BUILDS_CHANNEL"]
+                  + "\" -F title=\"" + build_title + "\" -F filename=\"" +
+                  build_file + "\" -F file=@" + file_full_path +
+                  " -F filetype=apk -F num_stars=5 -F is_starred=true"
+      sh(curl_cmd)
+    end
+
+    # iOS Block!
+    if type == ARTIFACT_TYPE::IOS
+      sh("echo Uploading `" + build_title + "` to iOS builds")
+      curl_cmd = "curl https://slack.com/api/files.upload -F token=\""
+                  + slack_token + "\" -F channels=\"" + ENV["SLACK_IOS_BUILDS_CHANNEL"]
+                  + "\" -F title=\"" + build_title + "\" -F filename=\"" +
+                  build_file + "\" -F file=@" + file_full_path +
+                  " -F filetype=ipa -F num_stars=5 -F is_starred=true"
+      sh(curl_cmd)
+    end
   end
 
   def tag_build_and_push(distribution)
