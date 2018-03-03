@@ -196,8 +196,8 @@ platform :android do
         end
 
         crashlytics(
-          api_token: ENV["CRASHLYTICS_API_KEY"],
-          build_secret: ENV["CRASHLYTICS_BUILD_SECRET"],
+          api_token: ENV["FABRIC_ORG_API_KEY"],
+          build_secret: ENV["FABRIC_ORG_BUILD_SECRET"],
           groups: distribution_list,
           #  notes_path: "./release-notes.txt"
           # apk_path: "./android/app/build/outputs/apk/" + app_name + "-" + version_number + ".apk",
