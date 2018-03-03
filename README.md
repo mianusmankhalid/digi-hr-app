@@ -22,6 +22,6 @@ On the master branch, we can issue tags to let travis know on when to release th
 
 ## Promise
 
-Everyone working on this app is a consenting adult, and if any one wants to help us out in the progress, we assume would be consenting adult and we pressume them to behave accordinly. Being reasonable is the key, technology could come and go, value remains.
+Everyone working on this app is a consenting adult, and if any one wants to help us out in the progress, we assume would be consenting adult and we pressume them to behave accordingly. Being reasonable is the key, technology could be taught, but value remains.
 
 ---
