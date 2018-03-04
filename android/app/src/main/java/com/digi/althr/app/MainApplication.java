@@ -1,4 +1,4 @@
-package com.digihrapp;
+package com.digi.althr.app;
 
 import android.app.Application;
 

@@ -1,4 +1,4 @@
-package com.digihrapp;
+package com.digi.althr.app;
 
 import com.facebook.react.ReactActivity;
 
