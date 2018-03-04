@@ -273,10 +273,10 @@ dependencies {
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules
-    compile('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') {
+    compile('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') {
         transitive = true;
     }
-    compile('com.crashlytics.sdk.android:answers:1.4.0@aar') {
+    compile('com.crashlytics.sdk.android:answers:1.4.1@aar') {
         transitive = true;
     }
 }
