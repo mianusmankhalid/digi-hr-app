@@ -64,22 +64,34 @@ platform :android do
     # Android Block!
     if type == ARTEFACT_TYPE::ANDROID
       sh("echo Uploading `" + build_title + "` to Android builds")
-      curl_cmd = "curl https://slack.com/api/files.upload -F token=\""
-                  + slack_token + "\" -F channels=\"" + ENV["SLACK_ANDROID_BUILDS_CHANNEL"]
-                  + "\" -F title=\"" + build_title + "\" -F filename=\"" +
-                  build_file + "\" -F file=@" + file_full_path +
-                  " -F filetype=apk -F num_stars=5 -F is_starred=true"
+      curl_cmd = <<-CURLCMD
+                  curl https://slack.com/api/files.upload
+                  -F token="#{slack_token}"
+                  -F channels="#{ENV["SLACK_ANDROID_BUILDS_CHANNEL"]}
+                  -F title="#{build_title}"
+                  -F filename="#{build_file}"
+                  -F file=@"#{file_full_path}"
+                  -F filetype=apk
+                  -F num_stars=5
+                  -F is_starred=true
+                  CURLCMD
       sh(curl_cmd)
     end
 
     # iOS Block!
     if type == ARTEFACT_TYPE::IOS
       sh("echo Uploading `" + build_title + "` to iOS builds")
-      curl_cmd = "curl https://slack.com/api/files.upload -F token=\""
-                  + slack_token + "\" -F channels=\"" + ENV["SLACK_IOS_BUILDS_CHANNEL"]
-                  + "\" -F title=\"" + build_title + "\" -F filename=\"" +
-                  build_file + "\" -F file=@" + file_full_path +
-                  " -F filetype=ipa -F num_stars=5 -F is_starred=true"
+      curl_cmd = <<-CURLCMD
+                  curl https://slack.com/api/files.upload
+                  -F token="#{slack_token}"
+                  -F channels="#{ENV["SLACK_IOS_BUILDS_CHANNEL"]}
+                  -F title="#{build_title}"
+                  -F filename="#{build_file}"
+                  -F file=@"#{file_full_path}"
+                  -F filetype=ipa
+                  -F num_stars=5
+                  -F is_starred=true
+                  CURLCMD
       sh(curl_cmd)
     end
   end
