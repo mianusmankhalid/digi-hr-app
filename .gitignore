@@ -131,3 +131,4 @@ package-lock.json
 ## Key files
 build_config/android/build.json
 build_config/android/digi.keystore
+build_config/supply_var_travis.sh

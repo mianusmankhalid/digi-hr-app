@@ -2,10 +2,12 @@
   "name": "DigiHrApp",
   "version": "0.0.2",
   "private": true,
+  "release_package_name": "com.digi.althr.app",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "exit 0",
-    "local_ci": ". ./fastlane/local_fastlane.sh"
+    "local_ci": ". ./fastlane/local_fastlane.sh",
+    "rename_package": "node ./app_helper/package/tasks/rename_package.js"
   },
   "dependencies": {
     "hoist-non-react-statics": "^2.3.1",
