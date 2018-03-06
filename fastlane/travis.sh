@@ -27,6 +27,10 @@ then
   # fastlane android push distribution:"RC"
   fastlane android dev
   exit $?
+elif [[ "$TRAVIS_COMMIT_MESSAGE" =~ \-\-upload\-to\-appetize ]];
+then
+  fastlane android appetize
+  exit $?
 else
   # Run for any other commit
   fastlane android dev

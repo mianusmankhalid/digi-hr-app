@@ -22,7 +22,7 @@ default_platform :android
 
 platform :android do
   before_all do |lane|
-    lanes_to_slack = [:push, :deploy, :dev]
+    lanes_to_slack = [:push, :deploy, :dev, :appetize]
     if lanes_to_slack.include?(lane)
       ENV["SLACK_URL"] = ENV["SLACK_HANDLE_URL"]
     end
@@ -30,7 +30,7 @@ platform :android do
       ensure_git_status_clean
     end
 
-    if [:push, :deploy].include?(lane)
+    if [:push, :deploy, :appetize].include?(lane)
       ENV["ANDROID_APK_PATH"] = ENV["TRAVIS_BUILD_DIR"] + "/android/app/build/outputs/apk/release/DigiHrApp-release.apk"
     end
   end
@@ -185,6 +185,22 @@ platform :android do
     run_tests
   end
 
+ desc "It performs cleans, build, package and code analysis"
+ desc "It cleans node_modules, sonarqube and as well as build directories."
+ desc "It also Installs node_modules, build, run unit tests and assemble the release."
+ desc "This lane is dedicated to push the current commit to appetize"
+    lane :appetize do
+
+    run_tests
+    create_artifact
+
+    appetize(
+      path: ENV["ANDROID_APK_PATH"],
+      api_token: ENV["APPETIZE_API_TOKEN"],
+      public_key: ENV["APPETIZE_PUBLIC_KEY"]
+    )
+  end
+
  desc "It runs dev tasks (clean, build etc.)"
  desc "It tags the build before submitting to beta release.)"
  desc "Deploys a beta version to the Crashlytics for the test flight."
@@ -231,7 +247,7 @@ platform :android do
   desc "Please checkout our Slack channel for notification about build and deployments"
   after_all do |lane|
     # This block is called, only if the executed lane was successful
-    lanes_to_slack = [:push, :deploy, :dev]
+    lanes_to_slack = [:push, :deploy, :dev, :appetize]
     if lanes_to_slack.include?(lane)
       if [:push].include?(lane)
         slack(
@@ -249,6 +265,19 @@ platform :android do
           ARTEFACT_TYPE::ANDROID,
           "DigiAltHR-v" + version_number,
           ENV["ANDROID_APK_PATH"])
+      elsif [:appetize].include?(lane)
+        slack(
+          message: ":bread: *Check out Appetize* :bread:",
+          success: true,
+          payload: {
+            'Version' => "`" + version_number + "`",
+            'Build Date' => "`" + Time.new.to_s + "`",
+            'Built by' => "`Travis-CI`",
+            'Appetize Url' => "`https://appetize.io/app/z9gxtf7p3uyzhwpmfxkeqqmwg8`"
+            'Humble Message' => "We have 90 minutes per month, if you are not a developer, please don't use it :pray:"
+          },
+          default_payloads: [:lane, :test_result, :git_author, :git_branch, :last_git_commit],
+        )
       else
         slack(
           message: "*Build succeeded!* :honey_pot:",
