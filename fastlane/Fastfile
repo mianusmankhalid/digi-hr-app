@@ -197,7 +197,8 @@ platform :android do
     appetize(
       path: ENV["ANDROID_APK_PATH"],
       api_token: ENV["APPETIZE_API_TOKEN"],
-      public_key: ENV["APPETIZE_PUBLIC_KEY"]
+      public_key: ENV["APPETIZE_PUBLIC_KEY"],
+      platform: "android"
     )
   end
 
