@@ -273,7 +273,7 @@ platform :android do
             'Version' => "`" + version_number + "`",
             'Build Date' => "`" + Time.new.to_s + "`",
             'Built by' => "`Travis-CI`",
-            'Appetize Url' => "`https://appetize.io/app/z9gxtf7p3uyzhwpmfxkeqqmwg8`"
+            'Appetize Url' => "`https://appetize.io/app/z9gxtf7p3uyzhwpmfxkeqqmwg8`",
             'Humble Message' => "We have 90 minutes per month, if you are not a developer, please don't use it :pray:"
           },
           default_payloads: [:lane, :test_result, :git_author, :git_branch, :last_git_commit],
