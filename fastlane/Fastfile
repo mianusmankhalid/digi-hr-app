@@ -22,7 +22,7 @@ default_platform :android
 
 platform :android do
   before_all do |lane|
-    lanes_to_slack = [:push, :deploy, :dev, :appetize]
+    lanes_to_slack = [:push, :deploy, :dev, :appetizer]
     if lanes_to_slack.include?(lane)
       ENV["SLACK_URL"] = ENV["SLACK_HANDLE_URL"]
     end
@@ -30,7 +30,7 @@ platform :android do
       ensure_git_status_clean
     end
 
-    if [:push, :deploy, :appetize].include?(lane)
+    if [:push, :deploy, :appetizer].include?(lane)
       ENV["ANDROID_APK_PATH"] = ENV["TRAVIS_BUILD_DIR"] + "/android/app/build/outputs/apk/release/DigiHrApp-release.apk"
     end
   end
@@ -189,7 +189,7 @@ platform :android do
  desc "It cleans node_modules, sonarqube and as well as build directories."
  desc "It also Installs node_modules, build, run unit tests and assemble the release."
  desc "This lane is dedicated to push the current commit to appetize"
-    lane :appetize do
+    lane :appetizer do
 
     run_tests
     create_artifact
@@ -247,7 +247,7 @@ platform :android do
   desc "Please checkout our Slack channel for notification about build and deployments"
   after_all do |lane|
     # This block is called, only if the executed lane was successful
-    lanes_to_slack = [:push, :deploy, :dev, :appetize]
+    lanes_to_slack = [:push, :deploy, :dev, :appetizer]
     if lanes_to_slack.include?(lane)
       if [:push].include?(lane)
         slack(
@@ -265,7 +265,7 @@ platform :android do
           ARTEFACT_TYPE::ANDROID,
           "DigiAltHR-v" + version_number,
           ENV["ANDROID_APK_PATH"])
-      elsif [:appetize].include?(lane)
+      elsif [:appetizer].include?(lane)
         slack(
           message: ":bread: *Check out Appetize* :bread:",
           success: true,

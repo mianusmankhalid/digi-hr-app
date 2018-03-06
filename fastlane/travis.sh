@@ -16,6 +16,10 @@ if [[ "$TRAVIS_TAG" =~ ^release-[0-9\.]*$ ]];
 then
   fastlane android push distribution:"RC"
   exit $?
+elif [[ "$TRAVIS_COMMIT_MESSAGE" =~ \-\-upload\-to\-appetize ]];
+then
+  fastlane android appetizer
+  exit $?
 elif [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ]
 then
   git fetch --unshallow
@@ -26,10 +30,6 @@ then
   git fetch --unshallow
   # fastlane android push distribution:"RC"
   fastlane android dev
-  exit $?
-elif [[ "$TRAVIS_COMMIT_MESSAGE" =~ \-\-upload\-to\-appetize ]];
-then
-  fastlane android appetize
   exit $?
 else
   # Run for any other commit
