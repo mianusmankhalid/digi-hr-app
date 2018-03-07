@@ -1,6 +1,6 @@
 {
   "name": "DigiHrApp",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "private": true,
   "release_package_name": "com.digi.althr.app",
   "scripts": {
