@@ -258,7 +258,7 @@ platform :android do
             'Version' => "`" + version_number + "`",
             'Build Date' => "`" + Time.new.to_s + "`",
             'Built by' => "`Travis-CI`",
-            'Branch Name' => "`" + ENV["TRAVIS_BRANCH"] + "`"
+            'Travis Branch Name' => "`" + ENV["TRAVIS_BRANCH"] + "`"
           },
           default_payloads: [:lane, :test_result, :git_author, :git_branch, :last_git_commit],
         )
@@ -275,7 +275,7 @@ platform :android do
             'Version' => "`" + version_number + "`",
             'Build Date' => "`" + Time.new.to_s + "`",
             'Built by' => "`Travis-CI`",
-            'Branch Name' => "`" + ENV["TRAVIS_BRANCH"] + "`",
+            'Travis Branch Name' => "`" + ENV["TRAVIS_BRANCH"] + "`",
             'Appetize Url' => "`https://appetize.io/app/z9gxtf7p3uyzhwpmfxkeqqmwg8`",
             'Humble Message' => "We have 90 minutes per month, if you are not a developer, please don't use it :pray:"
           },
@@ -288,7 +288,7 @@ platform :android do
           payload: {            # optional, lets you specify any number of your own Slack attachments
             'Build Date' => "`" + Time.new.to_s + "`",
             'Built by' => "`Travis-CI`",
-            'Branch Name' => "`" + ENV["TRAVIS_BRANCH"] + "`"
+            'Travis Branch Name' => "`" + ENV["TRAVIS_BRANCH"] + "`"
           },
           default_payloads: [:lane, :test_result, :git_author, :git_branch, :last_git_commit],
         )
