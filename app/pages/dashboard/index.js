@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, Button } from 'react-native';
 import NavigationHelper from '@digihr_lib/navigation/helper';
 
-export default class PageTwo extends Component {
+export default class DashboardScreen extends Component {
   constructor(props) {
     super(props);
     this.props.nav_helper.setScreenParams({
@@ -13,7 +13,7 @@ export default class PageTwo extends Component {
   render() {
     return (
       <View>
-        <Text>{'Here We Are On Page 2'}</Text>
+        <Text>{'Here We Are On Dashboard'}</Text>
         <Button
           title="Go Back"
           onPress={() => {
@@ -25,7 +25,7 @@ export default class PageTwo extends Component {
   }
 }
 
-PageTwo.navigationOptions = function({ navigation, screenProps }) {
+DashboardScreen.navigationOptions = function({ navigation, screenProps }) {
   const { state, setParams } = navigation;
 
   // get the "deepest" current params.
