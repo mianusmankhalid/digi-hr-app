@@ -1,24 +1,23 @@
 import React, { Component } from 'react';
-import { View, Button, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+// import Splash from './splash';
+import { letUserIn } from './viewController';
+const timer = require('react-native-timer');
 import RouteConfig from '@digihr_app_config/routes';
-import Splash from './splash';
 
 export default class LandingPage extends Component {
-  backNavigationDidHappen(params) {
-    // console.log('Yes navigation back happened on LandingPage!');
-    // console.dir(params);
+  timerOver() {
+    letUserIn(this.props.nav_helper);
+  }
+
+  componentDidMount() {
+    timer.setTimeout('letUserIn', this.timerOver.bind(this), 2000);
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Splash />
-        <Button
-          title="Move To Page 2"
-          onPress={() => {
-            this.props.nav_helper.navigate(RouteConfig.Screen.PageTwo);
-          }}
-        />
+        {this.props.nav_helper.navigate(RouteConfig.Screen.Splash)}
       </View>
     );
   }
@@ -26,6 +25,6 @@ export default class LandingPage extends Component {
 
 const styles = StyleSheet.create({
   container: {
-      flex: 1
-  }
+    flex: 1,
+  },
 });
