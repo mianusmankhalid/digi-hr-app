@@ -5,12 +5,15 @@ const theme = {
     darkGray: '#9F9F9F',
     red: '#E30613',
     milkWhite: '#badaff',
+    gold: '#9D8053',
+    silver: '#A6A6A6',
   },
   background: {
     colors: {
       white: '#FBFBFB',
       blue: '#0277BD',
-      grey: '#A6A6A6',
+      gold: '#9D8053',
+      silver: '#A6A6A6',
     },
   },
   font: {

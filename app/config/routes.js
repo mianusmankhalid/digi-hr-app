@@ -1,8 +1,10 @@
 import RouteManager from '@digihr_lib/navigation/navigation_route_manager';
 import Route from '@digihr_lib/navigation/navigation_route';
+import Splash from '@digihr_pages/splash';
 import Dashboard from '@digihr_pages/dashboard';
 import Login from '@digihr_pages/login';
-import Splash from '@digihr_pages/splash';
+import Welcome from '@digihr_pages/welcome';
+import ResetPassword from '@digihr_pages/resetPassword';
 
 RouteManager.Instance.add(
   new Route(__APP_START_ROUTE_NAME__, Splash, 'AppStartScreen')
@@ -10,6 +12,10 @@ RouteManager.Instance.add(
 
 RouteManager.Instance.add(new Route('Dashboard', Dashboard, 'DashboardScreen'));
 RouteManager.Instance.add(new Route('Login', Login, 'LoginScreen'));
+RouteManager.Instance.add(new Route('Welcome', Welcome, 'WelcomeScreen'));
+RouteManager.Instance.add(
+  new Route('ResetPassword', ResetPassword, 'ResetPasswordScreen')
+);
 
 const RouteConfig = {
   Routes: RouteManager.Instance.Routes,

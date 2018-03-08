@@ -1,19 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text, Image } from 'react-native';
 import images from '@digihr_assets/images';
-import { letUserIn } from './viewController';
 import styles from './styles';
-import timer from 'react-native-timer';
 
-export default class SplashScreen extends Component {
-  timerOver() {
-    letUserIn(this.props.nav_helper);
-  }
-
-  componentDidMount() {
-    timer.setTimeout('letUserIn', this.timerOver.bind(this), 2000);
-  }
-
+export default class WelcomeScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
@@ -21,7 +11,7 @@ export default class SplashScreen extends Component {
           <Image style={styles.image} source={images.altLogo} />
         </View>
         <View>
-          <Text style={styles.title}>alt.hr</Text>
+          <Text style={styles.title}>Welcome</Text>
         </View>
       </View>
     );
