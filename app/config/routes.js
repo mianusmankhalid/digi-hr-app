@@ -5,6 +5,8 @@ import Dashboard from '@digihr_pages/dashboard';
 import Login from '@digihr_pages/login';
 import Welcome from '@digihr_pages/welcome';
 import ResetPassword from '@digihr_pages/resetPassword';
+import Signup from '@digihr_pages/signup';
+import SignupVerification from '@digihr_pages/signupVerification';
 
 RouteManager.Instance.add(
   new Route(__APP_START_ROUTE_NAME__, Splash, 'AppStartScreen')
@@ -15,6 +17,14 @@ RouteManager.Instance.add(new Route('Login', Login, 'LoginScreen'));
 RouteManager.Instance.add(new Route('Welcome', Welcome, 'WelcomeScreen'));
 RouteManager.Instance.add(
   new Route('ResetPassword', ResetPassword, 'ResetPasswordScreen')
+);
+RouteManager.Instance.add(new Route('Signup', Signup, 'SignupScreen'));
+RouteManager.Instance.add(
+  new Route(
+    'SignupVerification',
+    SignupVerification,
+    'SignupVerificationScreen'
+  )
 );
 
 const RouteConfig = {

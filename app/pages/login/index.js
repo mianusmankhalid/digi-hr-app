@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TextInput, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TextInput,
+  TouchableOpacity,
+  ToastAndroid,
+} from 'react-native';
 import images from '@digihr_assets/images';
 import RouteConfig from '@digihr_app_config/routes';
 import styles from './styles';
@@ -17,6 +24,27 @@ export default class LoginScreen extends Component {
   handlePassword = text => {
     this.setState({ password: text });
   };
+
+  login = (email, password) => {
+    if (email === '') {
+      this.emailInput.focus();
+      return;
+    }
+    if (!this.validateEmail(email)) {
+      ToastAndroid.show('email is not valid', ToastAndroid.SHORT);
+      return;
+    }
+    if (password === '') {
+      this.passwordInput.focus();
+      return;
+    }
+    letUserIn(email, password, this.props.nav_helper);
+  };
+
+  validateEmail(email) {
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
 
   render() {
     return (
@@ -37,6 +65,7 @@ export default class LoginScreen extends Component {
               autoCapitalize="none"
               autoCorrect={false}
               underlineColorAndroid="transparent"
+              ref={input => (this.emailInput = input)}
             />
             <TextInput
               style={styles.input}
@@ -47,22 +76,14 @@ export default class LoginScreen extends Component {
               ref={input => (this.passwordInput = input)}
               onChangeText={this.handlePassword}
               onSubmitEditing={() =>
-                letUserIn(
-                  this.state.email,
-                  this.state.password,
-                  this.props.nav_helper
-                )
+                this.login(this.state.email, this.state.password)
               }
             />
             <TouchableOpacity style={styles.buttonContainer}>
               <Text
                 style={styles.buttonText}
                 onPress={() =>
-                  letUserIn(
-                    this.state.email,
-                    this.state.password,
-                    this.props.nav_helper
-                  )
+                  this.login(this.state.email, this.state.password)
                 }>
                 {'SIGN IN'}
               </Text>
@@ -86,7 +107,7 @@ export default class LoginScreen extends Component {
             <Text
               style={styles.hyperLink}
               onPress={() => {
-                this.props.nav_helper.navigate(RouteConfig.Screen.Welcome);
+                this.props.nav_helper.navigate(RouteConfig.Screen.Signup);
               }}>
               {'Sign up'}
             </Text>
