@@ -55,6 +55,10 @@ const styles = StyleSheet.create({
   hyperLink: {
     fontWeight: '700',
   },
+  signInMessage: {
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
 });
 
 export default styles;

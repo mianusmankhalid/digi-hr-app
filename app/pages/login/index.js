@@ -1,119 +1,80 @@
 import React, { Component } from 'react';
-import {
-  View,
-  Text,
-  Image,
-  TextInput,
-  TouchableOpacity,
-  ToastAndroid,
-} from 'react-native';
-import images from '@digihr_assets/images';
-import RouteConfig from '@digihr_app_config/routes';
+import { View, Text, ActivityIndicator } from 'react-native';
 import styles from './styles';
-import { letUserIn } from './viewController';
+import {
+  moveToNextScreen,
+  loginUser,
+  moveToResetPassword,
+  moveToSignup,
+} from './viewController';
+import { isEmailValid } from '@digihr_lib/util/email';
+import { showToast } from '@digihr_lib/util/ui';
+import I18n from 'react-native-i18n';
+import LoginPage from './login_page';
+import theme from '@digihr_app_config/theme';
 
 export default class LoginScreen extends Component {
   state = {
+    isLoading: false,
     email: '',
     password: '',
   };
 
-  handleEmail = text => {
-    this.setState({ email: text });
+  navigateToSignupPage = () => {
+    moveToSignup(this.props.nav_helper);
   };
-  handlePassword = text => {
-    this.setState({ password: text });
+
+  navigateToResetPasswordPage = () => {
+    moveToResetPassword(this.props.nav_helper);
   };
 
   login = (email, password) => {
-    if (email === '') {
-      this.emailInput.focus();
-      return;
-    }
-    if (!this.validateEmail(email)) {
-      ToastAndroid.show('email is not valid', ToastAndroid.SHORT);
-      return;
-    }
-    if (password === '') {
-      this.passwordInput.focus();
-      return;
-    }
-    letUserIn(email, password, this.props.nav_helper);
+    // Finally if everything is perfect, try loggin in the user
+    this.setState(
+      {
+        isLoading: true,
+        email: email,
+        password: password,
+      },
+      () => {
+        loginUser(email, password)
+          .then(() => {
+            moveToNextScreen(this.props.nav_helper);
+          })
+          .catch(() => {
+            showToast('Incorrect email or password');
+            this.setState({
+              isLoading: false,
+            });
+          });
+      }
+    );
   };
 
   validateEmail(email) {
-    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
+    return isEmailValid(email);
   }
 
   render() {
-    return (
+    return this.state.isLoading ? (
       <View style={styles.container}>
-        <View style={styles.imageContainer}>
-          <Image style={styles.image} source={images.altLogo} />
-          <Text style={styles.title}>{'alt.hr'}</Text>
-        </View>
-        <View style={styles.formContainer}>
-          <View style={styles.loginFormContainer}>
-            <TextInput
-              style={styles.input}
-              placeholder="Email address"
-              returnKeyType="next"
-              onChangeText={this.handleEmail}
-              onSubmitEditing={() => this.passwordInput.focus()}
-              keyboardType="email-address"
-              autoCapitalize="none"
-              autoCorrect={false}
-              underlineColorAndroid="transparent"
-              ref={input => (this.emailInput = input)}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Password"
-              secureTextEntry
-              returnKeyType="go"
-              underlineColorAndroid="transparent"
-              ref={input => (this.passwordInput = input)}
-              onChangeText={this.handlePassword}
-              onSubmitEditing={() =>
-                this.login(this.state.email, this.state.password)
-              }
-            />
-            <TouchableOpacity style={styles.buttonContainer}>
-              <Text
-                style={styles.buttonText}
-                onPress={() =>
-                  this.login(this.state.email, this.state.password)
-                }>
-                {'SIGN IN'}
-              </Text>
-            </TouchableOpacity>
-            <Text style={styles.text}>
-              <Text
-                style={styles.hyperLink}
-                onPress={() => {
-                  this.props.nav_helper.navigate(
-                    RouteConfig.Screen.ResetPassword
-                  );
-                }}>
-                {'Forgot your password?'}
-              </Text>
-            </Text>
-          </View>
-        </View>
-        <View style={{ marginBottom: 20 }}>
-          <Text style={styles.text}>
-            {"Don't have an account? "}
-            <Text
-              style={styles.hyperLink}
-              onPress={() => {
-                this.props.nav_helper.navigate(RouteConfig.Screen.Signup);
-              }}>
-              {'Sign up'}
-            </Text>
-          </Text>
+        <View style={styles.signInMessage}>
+          <ActivityIndicator size="large" color={theme.colors.darkGray} />
+          <Text>{I18n.t('logging_you_in')}</Text>
         </View>
       </View>
+    ) : (
+      <LoginPage
+        login={this.login.bind(this)}
+        navigateToSignupPage={this.navigateToSignupPage.bind(this)}
+        navigateToResetPasswordPage={this.navigateToResetPasswordPage.bind(
+          this
+        )}
+        validateEmail={this.validateEmail.bind(this)}
+        email={this.state.email}
+        password={this.state.password}
+      />
     );
+    //return <View style={styles.container} />;
   }
 }
