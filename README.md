@@ -1,7 +1,6 @@
 # Digi Alt-HR App
 
 [![Build Status](https://travis-ci.org/aajiwani/digi-hr-app.svg?branch=master)](https://travis-ci.org/aajiwani/digi-hr-app)
-
 [![Dependency status](https://david-dm.org/aajiwani/digi-hr-app.svg)](https://david-dm.org/aajiwani/digi-hr-app)
 
 This app facilitates Digi's HR with several flows, that were previously taken care of in a bit boring way.
