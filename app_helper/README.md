@@ -1,6 +1,6 @@
 ## App Helper
 
-It's a project to facilitate with the app itself. It doesn't have any core logic or component for app, but just helpers to make the lives of developer easy. Like renaming the package, injecting api url etc
+It's a project to facilitate the app. It doesn't have any core logic or component for app, but just helpers to make the lives of developer easy. Like renaming the package, injecting api url etc
 
 ### List of helpers
 
