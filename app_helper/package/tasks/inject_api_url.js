@@ -39,10 +39,13 @@ if (indexOfReplaceVars >= 0) {
   );
 
   // Push in the new url
-  babelrcContents.plugins[indexOfReplaceVars][1] = {
-    ...babelrcContents.plugins[indexOfReplaceVars][1],
-    __API_BASE_URL__: options.api_url,
-  };
+  babelrcContents.plugins[indexOfReplaceVars][1] = Object.assign(
+    {},
+    babelrcContents.plugins[indexOfReplaceVars][1],
+    {
+      __API_BASE_URL__: options.api_url,
+    }
+  );
 
   fs.writeFileSync(babelrcPath, JSON.stringify(babelrcContents, null, 4));
 }
