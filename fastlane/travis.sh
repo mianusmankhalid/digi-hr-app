@@ -21,7 +21,7 @@ then
   SEL_ENV=${BASH_REMATCH[1]}
 fi
 
-sh fastlane/load_environment.sh ${SEL_ENV}
+bash fastlane/load_environment.sh ${SEL_ENV}
 
 # Prepare a release and post it to crashlytics if its a tagged build
 if [[ "$TRAVIS_TAG" =~ ^release-[0-9\.]*$ ]];
