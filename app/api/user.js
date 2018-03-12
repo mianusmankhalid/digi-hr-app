@@ -30,8 +30,11 @@ export function authenticateUser(email, password) {
  * @param {string} email
  */
 export function resetPassword(email) {
-  return new Promise(resolve => {
-    resolve(true);
+  return new Promise((resolve, reject) => {
+    if (_.isEqual(true, userConstants.resetPassword)) {
+      resolve(true);
+    }
+    reject(error => error);
   });
 }
 

@@ -6,7 +6,7 @@ import { resetPassword } from '@digihr_api/user';
  * @param {string} email
  */
 export function resetUserPassword(email) {
-  return resetPassword(email).then();
+  return resetPassword(email);
 }
 
 /**
