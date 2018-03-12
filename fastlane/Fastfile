@@ -11,18 +11,27 @@
 
 # This is the minimum version number required.
 # Update this, if you use features of a newer version
-fastlane_version "2.3.1"
+fastlane_version "2.68.0"
+
+module ARTEFACT_TYPE
+  IOS = 1
+  ANDROID = 2
+end
 
 default_platform :android
 
 platform :android do
   before_all do |lane|
-    lanes_to_slack = [:push, :deploy, :dev]
+    lanes_to_slack = [:push, :deploy, :dev, :appetizer]
     if lanes_to_slack.include?(lane)
       ENV["SLACK_URL"] = ENV["SLACK_HANDLE_URL"]
     end
     if ENV["LOCAL"] == false
       ensure_git_status_clean
+    end
+
+    if [:push, :deploy, :appetizer].include?(lane)
+      ENV["ANDROID_APK_PATH"] = ENV["TRAVIS_BUILD_DIR"] + "/android/app/build/outputs/apk/release/DigiHrApp-release.apk"
     end
   end
 
@@ -47,6 +56,44 @@ platform :android do
     s = File.read(path)
     appName = s[re, 2].gsub! '"', ''
     return appName
+  end
+
+  def post_build_to_slack(build_file, type, build_title, file_full_path)
+    slack_token = ENV["POST_ARTEFACTS_TOKEN"]
+
+    # Android Block!
+    if type == ARTEFACT_TYPE::ANDROID
+      sh("echo Uploading `" + build_title + "` to Android builds")
+      curl_cmd = <<-CURLCMD
+                  curl https://slack.com/api/files.upload \
+                  -F token="#{slack_token}" \
+                  -F channels="#{ENV["SLACK_ANDROID_BUILDS_CHANNEL"]}" \
+                  -F title="#{build_title}" \
+                  -F filename="#{build_file}" \
+                  -F file=@"#{file_full_path}" \
+                  -F filetype=apk \
+                  -F num_stars=5 \
+                  -F is_starred=true
+                  CURLCMD
+      sh(curl_cmd)
+    end
+
+    # iOS Block!
+    if type == ARTEFACT_TYPE::IOS
+      sh("echo Uploading `" + build_title + "` to iOS builds")
+      curl_cmd = <<-CURLCMD
+                  curl https://slack.com/api/files.upload \
+                  -F token="#{slack_token}" \
+                  -F channels="#{ENV["SLACK_IOS_BUILDS_CHANNEL"]}" \
+                  -F title="#{build_title}" \
+                  -F filename="#{build_file}" \
+                  -F file=@"#{file_full_path}" \
+                  -F filetype=ipa \
+                  -F num_stars=5 \
+                  -F is_starred=true
+                  CURLCMD
+      sh(curl_cmd)
+    end
   end
 
   def tag_build_and_push(distribution)
@@ -138,6 +185,23 @@ platform :android do
     run_tests
   end
 
+ desc "It performs cleans, build, package and code analysis"
+ desc "It cleans node_modules, sonarqube and as well as build directories."
+ desc "It also Installs node_modules, build, run unit tests and assemble the release."
+ desc "This lane is dedicated to push the current commit to appetize"
+    lane :appetizer do
+
+    run_tests
+    create_artifact
+
+    appetize(
+      path: ENV["ANDROID_APK_PATH"],
+      api_token: ENV["APPETIZE_API_TOKEN"],
+      public_key: ENV["APPETIZE_PUBLIC_KEY"],
+      platform: "android"
+    )
+  end
+
  desc "It runs dev tasks (clean, build etc.)"
  desc "It tags the build before submitting to beta release.)"
  desc "Deploys a beta version to the Crashlytics for the test flight."
@@ -161,12 +225,12 @@ platform :android do
         end
 
         crashlytics(
-          api_token: ENV["CRASHLYTICS_API_KEY"],
-          build_secret: ENV["CRASHLYTICS_BUILD_SECRET"],
+          api_token: ENV["FABRIC_ORG_API_KEY"],
+          build_secret: ENV["FABRIC_ORG_BUILD_SECRET"],
           groups: distribution_list,
           #  notes_path: "./release-notes.txt"
           # apk_path: "./android/app/build/outputs/apk/" + app_name + "-" + version_number + ".apk",
-          apk_path: ENV["TRAVIS_BUILD_DIR"] + "/android/app/build/outputs/apk/release/DigiHrApp-release.apk",
+          apk_path: ENV["ANDROID_APK_PATH"],
           # crashlytics_path: "..." Path to `crashlytics-devtools.jar` file
           #  emails: "exact.titankl@gmail.com, bastiaan.bakker@exact.com, luca.temperini@exact.com, toine.hurkmans@exact.com",
           notifications: "true",
@@ -181,19 +245,39 @@ platform :android do
     supply
   end
 
-  desc "Please checkout our Slack channel 'titan_kl_notification' for notification about build and deployments"
+  desc "Please checkout our Slack channel for notification about build and deployments"
   after_all do |lane|
     # This block is called, only if the executed lane was successful
-    lanes_to_slack = [:push, :deploy, :dev]
+    lanes_to_slack = [:push, :deploy, :dev, :appetizer]
     if lanes_to_slack.include?(lane)
       if [:push].include?(lane)
         slack(
-          message: "*New version has been pushed to crashlytics* :snowboarder:",
+          message: "*New version has been pushed to crashlytics as well as under android build section* :snowboarder:",
           success: true,        # optional, defaults to true
           payload: {            # optional, lets you specify any number of your own Slack attachments
             'Version' => "`" + version_number + "`",
             'Build Date' => "`" + Time.new.to_s + "`",
-            'Built by' => "`Travis-CI`"
+            'Built by' => "`Travis-CI`",
+            'Travis Branch Name' => "`" + ENV["TRAVIS_BRANCH"] + "`"
+          },
+          default_payloads: [:lane, :test_result, :git_author, :git_branch, :last_git_commit],
+        )
+        post_build_to_slack(
+          "DigiAltHR-v" + version_number + ".apk",
+          ARTEFACT_TYPE::ANDROID,
+          "DigiAltHR-v" + version_number,
+          ENV["ANDROID_APK_PATH"])
+      elsif [:appetizer].include?(lane)
+        slack(
+          message: ":bread: *Check out Appetize* :bread:",
+          success: true,
+          payload: {
+            'Version' => "`" + version_number + "`",
+            'Build Date' => "`" + Time.new.to_s + "`",
+            'Built by' => "`Travis-CI`",
+            'Travis Branch Name' => "`" + ENV["TRAVIS_BRANCH"] + "`",
+            'Appetize Url' => "`https://appetize.io/app/z9gxtf7p3uyzhwpmfxkeqqmwg8`",
+            'Humble Message' => "We have 90 minutes per month, if you are not a developer, please don't use it :pray:"
           },
           default_payloads: [:lane, :test_result, :git_author, :git_branch, :last_git_commit],
         )
@@ -203,7 +287,8 @@ platform :android do
           success: true,        # optional, defaults to true
           payload: {            # optional, lets you specify any number of your own Slack attachments
             'Build Date' => "`" + Time.new.to_s + "`",
-            'Built by' => "`Travis-CI`"
+            'Built by' => "`Travis-CI`",
+            'Travis Branch Name' => "`" + ENV["TRAVIS_BRANCH"] + "`"
           },
           default_payloads: [:lane, :test_result, :git_author, :git_branch, :last_git_commit],
         )

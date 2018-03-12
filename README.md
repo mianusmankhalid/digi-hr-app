@@ -1,6 +1,7 @@
 # Digi Alt-HR App
 
 [![Build Status](https://travis-ci.org/aajiwani/digi-hr-app.svg?branch=master)](https://travis-ci.org/aajiwani/digi-hr-app)
+[![Dependency status](https://david-dm.org/aajiwani/digi-hr-app.svg)](https://david-dm.org/aajiwani/digi-hr-app)
 
 This app facilitates Digi's HR with several flows, that were previously taken care of in a bit boring way.
 
@@ -25,3 +26,21 @@ On the master branch, we can issue tags to let travis know on when to release th
 Everyone working on this app is a consenting adult, and if any one wants to help us out in the progress, we assume would be consenting adult and we pressume them to behave accordingly. Being reasonable is the key, technology could be taught, but value remains.
 
 ---
+
+## Usage Etiquettes
+
+* Please use tags with release-X.X.X to make a release to crashlytics as well as slack channel
+* Always use master branch for making a release
+* For making a push to appetize, please use `--upload-to-appetize` as a part of your commit message
+* Push to appetize could be made from any branch you are working on
+* Please behave responsibly while consuming Appetize, we are indie devs and can't afford paid account for appetize (90min/month)
+* Tags could be created with commands
+  ```
+      git tag release-0.0.2
+      git push --tags
+  ```
+* Tags could be destroyed with commands
+  ```
+      git tag -d release-0.0.2
+      git push origin :refs/tags/release-0.0.2
+  ```

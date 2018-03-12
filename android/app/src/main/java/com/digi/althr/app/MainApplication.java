@@ -1,4 +1,4 @@
-package com.digihrapp;
+package com.digi.althr.app;
 
 import android.app.Application;
 
@@ -10,8 +10,12 @@ import com.facebook.soloader.SoLoader;
 
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage;
 import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
-import com.smixx.fabric.FabricPackage;
+//import com.smixx.fabric.FabricPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
+
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
+import io.fabric.sdk.android.Fabric;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,13 +30,8 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-          new RNI18nPackage(),
-          new GoogleAnalyticsBridgePackage(),
-          new FabricPackage(),
-          new VectorIconsPackage()
-      );
+      return Arrays.<ReactPackage>asList(new MainReactPackage(), new RNI18nPackage(),
+          new GoogleAnalyticsBridgePackage(), new VectorIconsPackage());
     }
 
     @Override
@@ -49,6 +48,8 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+    Fabric.with(this, new Answers());
+    Fabric.with(this, new Crashlytics());
     SoLoader.init(this, /* native exopackage */ false);
   }
 }
