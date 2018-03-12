@@ -34,6 +34,17 @@ It performs cleans, build, package and code analysis
 It cleans node_modules, sonarqube and as well as build directories.
 
 It also Installs node_modules, build, run unit tests and assemble the release.
+### android appetizer
+```
+fastlane android appetizer
+```
+It performs cleans, build, package and code analysis
+
+It cleans node_modules, sonarqube and as well as build directories.
+
+It also Installs node_modules, build, run unit tests and assemble the release.
+
+This lane is dedicated to push the current commit to appetize
 ### android push
 ```
 fastlane android push
