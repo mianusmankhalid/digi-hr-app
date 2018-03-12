@@ -22,7 +22,6 @@ export default class ResetPasswordScreen extends Component {
   }
 
   resetPassword = email => {
-    // Finally if everything is perfect, try loggin in the user
     this.setState(
       {
         isLoading: true,
