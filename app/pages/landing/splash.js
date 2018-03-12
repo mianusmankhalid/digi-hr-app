@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   footer: {
-    fontFamily: 'Muli-Regular',
+    fontFamily: theme.font.family.muli,
     color: theme.colors.grey,
     fontSize: 40,
     paddingBottom: 20,

@@ -27,6 +27,16 @@ export function authenticateUser(email, password) {
 
 /**
  *
+ * @param {string} email
+ */
+export function resetPassword(email) {
+  return new Promise(resolve => {
+    resolve(true);
+  });
+}
+
+/**
+ *
  * @param {AuthInfo} authInfo
  */
 export function extendAuthSession(authInfo) {

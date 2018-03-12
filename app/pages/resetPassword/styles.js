@@ -9,17 +9,42 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontFamily: 'Muli-Regular',
-    fontSize: 40,
-    paddingBottom: 70,
+    fontFamily: theme.font.family.muli,
+    fontSize: 30,
+    textAlign: 'center',
+    opacity: 0.9,
+    marginTop: -30,
   },
   imageContainer: {
     justifyContent: 'center',
-    flex: 1,
+    flexGrow: 1,
+    alignItems: 'center',
   },
   image: {
-    width: 200,
-    height: 200,
+    width: 150,
+    height: 150,
+  },
+  resetPasswordContainer: {
+    paddingBottom: 160,
+  },
+  input: {
+    fontFamily: theme.font.family.muli,
+    height: 40,
+    width: 300,
+    backgroundColor: 'white',
+    marginBottom: 10,
+    borderColor: theme.colors.gold,
+    borderWidth: 2,
+    paddingLeft: 20,
+  },
+  buttonContainer: {
+    backgroundColor: theme.background.colors.gold,
+    paddingVertical: 15,
+  },
+  buttonText: {
+    fontFamily: theme.font.family.muli,
+    textAlign: 'center',
+    color: theme.colors.white,
   },
 });
 
