@@ -7,7 +7,8 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "exit 0",
     "local_ci": ". ./fastlane/local_fastlane.sh",
-    "rename_package": "node ./app_helper/package/tasks/rename_package.js"
+    "rename_package": "node ./app_helper/package/tasks/rename_package.js",
+    "inject_api_url": "node ./app_helper/package/tasks/inject_api_url.js"
   },
   "dependencies": {
     "hoist-non-react-statics": "^2.3.1",
@@ -38,6 +39,7 @@
     "babel-plugin-inline-replace-variables": "^1.3.1",
     "babel-preset-flow": "^6.23.0",
     "babel-preset-react-native": "4.0.0",
+    "command-line-args": "^5.0.2",
     "eslint": "^4.17.0",
     "eslint-config-react-native-prettier": "^1.0.1",
     "flow-bin": "^0.66.0",
@@ -48,8 +50,6 @@
     "preset": "react-native"
   },
   "rnpm": {
-    "assets": [
-      "./assets/fonts/"
-    ]
+    "assets": ["./assets/fonts/"]
   }
 }
