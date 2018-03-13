@@ -10,6 +10,7 @@ cache: yarn
 install:
 - yarn install
 - yarn global add react-native-cli
+- yarn global add cavy-cli
 - react-native link
 jdk:
 - oraclejdk8
