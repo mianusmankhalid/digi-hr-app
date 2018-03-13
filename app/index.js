@@ -1,12 +1,11 @@
 import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
 import { BackHandler } from 'react-native';
-import { addNavigationHelpers } from 'react-navigation';
+import { addNavigationHelpers, NavigationActions } from 'react-navigation';
 import { Provider, connect } from 'react-redux';
 import React, { Component } from 'react';
 import Store from '@digihr_lib/store';
 import AppNavigator from '@digihr_lib/navigation/app_navigator';
 import * as DigiNavActions from '@digihr_lib/actions/digi_nav_actions';
-import { NavigationActions } from 'react-navigation';
 
 const addListener = createReduxBoundAddListener('root');
 
