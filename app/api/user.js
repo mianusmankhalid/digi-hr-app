@@ -1,5 +1,6 @@
 import userConstants from './constants/user';
 import AuthInfo from '@digihr_models/user/auth_info';
+import * as Responses from '@digihr_models/user/responses';
 import _ from 'lodash';
 
 /**
@@ -31,10 +32,9 @@ export function authenticateUser(email, password) {
  */
 export function resetPassword(email) {
   return new Promise((resolve, reject) => {
-    if (_.isEqual(true, userConstants.resetPassword)) {
-      resolve(true);
-    }
-    reject(error => error);
+    if (_.isEqual(200, userConstants.code)) {
+      resolve(Responses.success());
+    } else reject(Responses.notApplied());
   });
 }
 

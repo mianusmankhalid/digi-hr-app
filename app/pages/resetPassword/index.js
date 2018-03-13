@@ -29,12 +29,12 @@ export default class ResetPasswordScreen extends Component {
       },
       () => {
         resetUserPassword(email)
-          .then(() => {
-            showToast(I18n.t('email_sent'));
+          .then(res => {
+            showToast(I18n.t(this.showMessage(res)));
             moveToNextScreen(this.props.nav_helper);
           })
-          .catch(err => {
-            showToast(I18n.t(showError(error)));
+          .catch(error => {
+            showToast(I18n.t(this.showMessage(error)));
             this.setState({
               isLoading: false,
             });
@@ -47,12 +47,16 @@ export default class ResetPasswordScreen extends Component {
     return isEmailValid(email);
   }
 
-  showError(error) {
-    switch (error) {
-      case 'check your internet connection':
+  showMessage(message) {
+    switch (message) {
+      case 'passwrod reset email has been sent to you':
+        return 'email_sent';
+      case 'Your internet has some problem, cannot connect to server at this time':
         return 'no_internet';
-      case 'email is not valid':
-        return 'invalid_email';
+      case 'email is not registered under our system to change password':
+        return 'email_not_registered';
+      case 'Some problem with our server':
+        return 'problem_with_server';
       default:
         return 'something_went_wrong';
     }

@@ -6,6 +6,8 @@ export default {
   dont_have_an_account: "Don't have an account? ",
   email_address: 'Email address',
   email_not_valid: 'email is not valid',
+  email_not_registered:
+    'email is not registered under our system to change password',
   email_sent: 'Email has sent',
   finish: 'Finish',
   forgot_your_password: 'Forgot your password?',
@@ -23,6 +25,7 @@ export default {
   no_internet: 'check your internet connection',
   password: 'Password',
   password_reset: 'PASSWORD RESET',
+  problem_with_server: 'Some problem with our server',
   reset_password: 'RESET PASSWORD',
   retry: 'Retry',
   sign_in: 'SIGN IN',
