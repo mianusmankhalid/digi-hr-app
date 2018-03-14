@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import styles from './styles';
-import { moveToNextScreen, resetUserPassword } from './viewController';
+import { moveToLoginScreen, resetUserPassword } from './viewController';
 import { isEmailValid } from '@digihr_lib/util/email';
 import { showToast } from '@digihr_lib/util/ui';
 import I18n from 'react-native-i18n';
@@ -30,11 +30,11 @@ export default class ResetPasswordScreen extends Component {
       () => {
         resetUserPassword(email)
           .then(res => {
-            showToast(I18n.t(this.showMessage(res)));
-            moveToNextScreen(this.props.nav_helper);
+            showToast(res.message);
+            moveToLoginScreen(this.props.nav_helper);
           })
           .catch(error => {
-            showToast(I18n.t(this.showMessage(error)));
+            showToast(error.message);
             this.setState({
               isLoading: false,
             });
@@ -45,21 +45,6 @@ export default class ResetPasswordScreen extends Component {
 
   validateEmail(email) {
     return isEmailValid(email);
-  }
-
-  showMessage(message) {
-    switch (message) {
-      case 'passwrod reset email has been sent to you':
-        return 'email_sent';
-      case 'Your internet has some problem, cannot connect to server at this time':
-        return 'no_internet';
-      case 'email is not registered under our system to change password':
-        return 'email_not_registered';
-      case 'Some problem with our server':
-        return 'problem_with_server';
-      default:
-        return 'something_went_wrong';
-    }
   }
 
   render() {
@@ -79,8 +64,8 @@ export default class ResetPasswordScreen extends Component {
   }
 }
 
-ResetPasswordScreen.navigationOptions = ({ navigation, screenProps }) => {
-  const { state, setParams } = navigation;
+ResetPasswordScreen.navigationOptions = ({ navigation }) => {
+  const { state } = navigation;
 
   // get the "deepest" current params.
   const currentParams = NavigationHelper.getCurrentScreenParams(state);

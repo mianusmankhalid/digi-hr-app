@@ -55,12 +55,10 @@ export default class ResetPasswordPage extends Component {
               ref={input => (this.emailInput = input)}
               value={this.state.email}
             />
-            <TouchableOpacity style={styles.buttonContainer}>
-              <Text
-                style={styles.buttonText}
-                onPress={this.performResetPassword}>
-                {I18n.t('reset_password')}
-              </Text>
+            <TouchableOpacity
+              style={styles.buttonContainer}
+              onPress={this.performResetPassword}>
+              <Text style={styles.buttonText}>{I18n.t('reset_password')}</Text>
             </TouchableOpacity>
           </View>
         </View>

@@ -10,9 +10,9 @@ export function resetUserPassword(email) {
 }
 
 /**
- *
+ * Takes user back to login screen, if the reset password is success
  * @param {@digihr_lib/navigation/screen_helper} navHelper
  */
-export function moveToNextScreen(navHelper) {
+export function moveToLoginScreen(navHelper) {
   navHelper.reset(RouteConfig.Screen.Login);
 }
