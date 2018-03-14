@@ -1,10 +1,11 @@
-import userConstants from './constants/user';
+import userConstants from '../constants/user';
 import AuthInfo from '@digihr_models/user/auth_info';
-import * as Responses from '@digihr_models/user/responses';
 import _ from 'lodash';
+import { performResetPassword } from './reset_password';
+import * as ResetPasswordProcessor from './processor/reset_password';
 
 /**
- *
+ * Performs an authenticate user API call
  * @param {string} email
  * @param {string} password
  */
@@ -27,19 +28,21 @@ export function authenticateUser(email, password) {
 }
 
 /**
- *
+ * Performs a reset password API call
  * @param {string} email
+ * @param {userConstants.helper_consts.RESET_PASSWORD} strategy
  */
-export function resetPassword(email) {
-  return new Promise((resolve, reject) => {
-    if (_.isEqual(200, userConstants.code)) {
-      resolve(Responses.success());
-    } else reject(Responses.notApplied());
+export function resetPassword(
+  email,
+  strategy = userConstants.helper_consts.RESET_PASSWORD.OK
+) {
+  return performResetPassword(email, strategy).catch(e => {
+    throw ResetPasswordProcessor.processError(e, email);
   });
 }
 
 /**
- *
+ * Performs an extend authenticated session API call
  * @param {AuthInfo} authInfo
  */
 export function extendAuthSession(authInfo) {
