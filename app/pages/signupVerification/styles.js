@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontFamily: 'Muli-Regular',
+    fontFamily: theme.font.family.muli,
     fontSize: 40,
     paddingBottom: 70,
   },

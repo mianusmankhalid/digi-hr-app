@@ -42,7 +42,7 @@ export default class LoginScreen extends Component {
             moveToNextScreen(this.props.nav_helper);
           })
           .catch(() => {
-            showToast('Incorrect email or password');
+            showToast(I18n.t('incorrect_email_password'));
             this.setState({
               isLoading: false,
             });
@@ -75,6 +75,5 @@ export default class LoginScreen extends Component {
         password={this.state.password}
       />
     );
-    //return <View style={styles.container} />;
   }
 }

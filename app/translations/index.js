@@ -1,6 +1,6 @@
-import en from "./en";
-import nl from "./nl";
-import my from "./my";
+import en from './en';
+import nl from './nl';
+import my from './my';
 
 let translation = {
   en: en,

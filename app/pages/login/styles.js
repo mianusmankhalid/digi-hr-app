@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontFamily: 'Muli-Regular',
+    fontFamily: theme.font.family.muli,
     fontSize: 30,
     textAlign: 'center',
     opacity: 0.9,
@@ -24,12 +24,11 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
   },
-  formContainer: {},
   loginFormContainer: {
     paddingBottom: 80,
   },
   input: {
-    fontFamily: 'Muli-Regular',
+    fontFamily: theme.font.family.muli,
     height: 40,
     width: 300,
     backgroundColor: 'white',
@@ -43,12 +42,12 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   buttonText: {
-    fontFamily: 'Muli-Regular',
+    fontFamily: theme.font.family.muli,
     textAlign: 'center',
-    color: '#FFFFFF',
+    color: theme.colors.white,
   },
   text: {
-    fontFamily: 'Muli-Regular',
+    fontFamily: theme.font.family.muli,
     textAlign: 'center',
     marginTop: 10,
   },
