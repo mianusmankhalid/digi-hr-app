@@ -2,7 +2,8 @@ import userConstants from '../constants/user';
 import AuthInfo from '@digihr_models/user/auth_info';
 import _ from 'lodash';
 import { performResetPassword } from './reset_password';
-import * as ResetPasswordProcessor from './processor/reset_password';
+import { performSignup } from './signup';
+import * as ErrorProcessing from './processor/error_processing';
 
 /**
  * Performs an authenticate user API call
@@ -37,7 +38,18 @@ export function resetPassword(
   strategy = userConstants.helper_consts.RESET_PASSWORD.OK
 ) {
   return performResetPassword(email, strategy).catch(e => {
-    throw ResetPasswordProcessor.processError(e, email);
+    throw ErrorProcessing.processError(e, email);
+  });
+}
+
+/**
+ * Performs a confirm signup invitation code API call
+ * @param {string} code
+ * @param {userConstants.helper_consts.SIGNUP} strategy
+ */
+export function signup(code, strategy = userConstants.helper_consts.SIGNUP.OK) {
+  return performSignup(code, strategy).catch(e => {
+    throw ErrorProcessing.processError(e, code);
   });
 }
 

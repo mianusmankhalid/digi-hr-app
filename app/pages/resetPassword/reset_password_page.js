@@ -45,7 +45,7 @@ export default class ResetPasswordPage extends Component {
             <TextInput
               style={styles.input}
               placeholder={I18n.t('email_address')}
-              returnKeyType="next"
+              returnKeyType="go"
               onChangeText={this.handleEmail}
               onSubmitEditing={() => this.performResetPassword()}
               keyboardType="email-address"
