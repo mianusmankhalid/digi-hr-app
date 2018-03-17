@@ -4,6 +4,7 @@ import styles from './styles';
 import {
   moveToSignupVerification,
   signupInvitationCode,
+  moveToPolicy,
 } from './viewController';
 import { showToast } from '@digihr_lib/util/ui';
 import I18n from 'react-native-i18n';
@@ -17,17 +18,19 @@ export default class SignupScreen extends Component {
     this.state = {
       isLoading: false,
       code: '',
+      isPolicyChecked: false,
     };
     this.props.nav_helper.setScreenParams({
       headerBackTitle: I18n.t('sign_up').toUpperCase(),
     });
   }
 
-  signup = code => {
+  signup = (code, isPolicyChecked) => {
     this.setState(
       {
         isLoading: true,
         code: code,
+        isPolicyChecked: isPolicyChecked,
       },
       () => {
         signupInvitationCode(code)
@@ -44,6 +47,10 @@ export default class SignupScreen extends Component {
     );
   };
 
+  policies = () => {
+    moveToPolicy(this.props.nav_helper);
+  };
+
   render() {
     return this.state.isLoading ? (
       <View style={styles.container}>
@@ -52,7 +59,12 @@ export default class SignupScreen extends Component {
         </View>
       </View>
     ) : (
-      <SignupPage signup={this.signup.bind(this)} code={this.state.code} />
+      <SignupPage
+        signup={this.signup.bind(this)}
+        policies={this.policies.bind(this)}
+        code={this.state.code}
+        isPolicyChecked={this.state.isPolicyChecked}
+      />
     );
   }
 }

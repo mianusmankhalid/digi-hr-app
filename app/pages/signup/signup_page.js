@@ -1,10 +1,8 @@
 import styles from './styles';
-import images from '@digihr_assets/images';
 import React, { Component } from 'react';
 import {
   View,
   Text,
-  Image,
   TextInput,
   TouchableOpacity,
   CheckBox,
@@ -18,7 +16,7 @@ export default class SignupPage extends Component {
     super(props);
     this.state = {
       code: props.code,
-      checked: false,
+      isPolicyChecked: props.isPolicyChecked,
     };
   }
 
@@ -32,7 +30,11 @@ export default class SignupPage extends Component {
       return;
     }
 
-    this.props.signup(this.state.code);
+    if (_.isEqual(false, this.state.isPolicyChecked)) {
+      return;
+    }
+
+    this.props.signup(this.state.code, this.state.isPolicyChecked);
   };
 
   render() {
@@ -57,24 +59,18 @@ export default class SignupPage extends Component {
           <View style={styles.agreementView}>
             <View style={styles.agreement}>
               <CheckBox
-                value={this.state.checked}
+                value={this.state.isPolicyChecked}
                 onValueChange={() =>
-                  this.setState({ checked: !this.state.checked })
+                  this.setState({
+                    isPolicyChecked: !this.state.isPolicyChecked,
+                  })
                 }
               />
               <View style={{ marginBottom: 20 }}>
                 <Text style={styles.agreementText}>
                   {'I hereby agree that I have read and accepted the '}
-                  <Text
-                    style={styles.hyperLink}
-                    onPress={this.props.navigateToSignupPage}>
-                    {'Terms of Use'}
-                  </Text>
-                  {' and '}
-                  <Text
-                    style={styles.hyperLink}
-                    onPress={this.props.navigateToSignupPage}>
-                    {'Privacy Policy'}
+                  <Text style={styles.hyperLink} onPress={this.props.policies}>
+                    {'Terms of Use and Privacy Policy'}
                   </Text>
                 </Text>
               </View>
@@ -95,6 +91,8 @@ export default class SignupPage extends Component {
 
 SignupPage.propTypes = {
   signup: PropTypes.func,
+  policies: PropTypes.func,
   code: PropTypes.string,
+  isPolicyChecked: PropTypes.bool,
   nav_helper: PropTypes.object,
 };

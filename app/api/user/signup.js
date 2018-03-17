@@ -1,12 +1,16 @@
 import HttpError from '@digihr_errors/HttpError';
 import InternetConnectionError from '@digihr_errors/InternetConnectionError';
 import userConstants from '../constants/user';
+import _ from 'lodash';
 
 /**
  * Performs a fake success on signup request
  */
-function performSuccess() {
-  return Promise.resolve();
+function performSuccess(code) {
+  if (_.isEqual(code, userConstants.invitationCode)) {
+    return Promise.resolve();
+  }
+  return performWithIncorrectInvitationCode();
 }
 
 /**

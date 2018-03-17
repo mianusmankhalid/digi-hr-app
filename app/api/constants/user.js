@@ -15,4 +15,5 @@ export default {
       SERVER_PROBLEM: 4,
     },
   },
+  invitationCode: 'abcd123',
 };

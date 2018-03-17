@@ -28,6 +28,7 @@ export default {
   no_internet: 'check your internet connection',
   password: 'Password',
   password_reset: 'PASSWORD RESET',
+  policies: 'POLICIES',
   problem_with_server: 'Some problem with our server',
   reset_password: 'RESET PASSWORD',
   retry: 'Retry',
