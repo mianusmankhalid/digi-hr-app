@@ -1,8 +1,10 @@
 export default {
   about_us: 'About this app',
   accept: 'Accept',
+  alphanumeric_password: 'ALPHANUMERIC WITH MINIMUM 8 CHARACTERS',
   app_name: 'alt hr app',
   app_version: 'Version',
+  confirm_password: 'CONFIRM PASSWORD',
   continue: 'CONTINUE',
   dont_have_an_account: "Don't have an account? ",
   email_address: 'Email address',
@@ -10,9 +12,12 @@ export default {
   email_not_registered:
     'email is not registered under our system to change password',
   email_sent: 'Email has sent',
+  enable_biometric: 'ENABLE BIOMETRIC VERIFICATION',
+  enter_ic_passport: 'ENTER YOUR IC OR PASSPORT NUMBER',
   enter_invitation_code: 'Please enter your invitation code',
   finish: 'Finish',
   forgot_your_password: 'Forgot your password?',
+  ic_passport_number: 'IC/PASSPORT NUMBER',
   i_agree: 'I Agree',
   in_progress: 'Available soon',
   incorrect_email_password: 'Incorrect email or password',
@@ -30,6 +35,7 @@ export default {
   password_reset: 'PASSWORD RESET',
   policies: 'POLICIES',
   problem_with_server: 'Some problem with our server',
+  reenter_password: 'RE-ENTER PASSWORD',
   reset_password: 'RESET PASSWORD',
   retry: 'Retry',
   sign_in: 'SIGN IN',
@@ -37,5 +43,6 @@ export default {
   something_went_wrong: 'Something went wrong',
   submit: 'Submit',
   try_agin: 'Something went wrong. Please try again.',
+  verification: 'VERIFICATION',
   whats_new: "What's new",
 };

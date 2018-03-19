@@ -3,6 +3,7 @@ import AuthInfo from '@digihr_models/user/auth_info';
 import _ from 'lodash';
 import { performResetPassword } from './reset_password';
 import { performSignup } from './signup';
+import { performSignupVerification } from './signupVerification';
 import * as ErrorProcessing from './processor/error_processing';
 
 /**
@@ -49,6 +50,29 @@ export function resetPassword(
  */
 export function signup(code, strategy = userConstants.helper_consts.SIGNUP.OK) {
   return performSignup(code, strategy).catch(e => {
+    throw ErrorProcessing.processError(e, code);
+  });
+}
+
+/**
+ * Performs a confirm signup invitation code API call
+ * @param {string} icPassport
+ * @param {string} password
+ * @param {bool} isBiometric
+ * @param {userConstants.helper_consts.SIGNUP} strategy
+ */
+export function signupVerification(
+  icPassport,
+  password,
+  isBiometric,
+  strategy = userConstants.helper_consts.SIGNUP.OK
+) {
+  return performSignupVerification(
+    icPassport,
+    password,
+    isBiometric,
+    strategy
+  ).catch(e => {
     throw ErrorProcessing.processError(e, code);
   });
 }
