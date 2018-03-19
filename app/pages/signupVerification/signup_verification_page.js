@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import I18n from 'react-native-i18n';
 import _ from 'lodash';
 import theme from '@digihr_app_config/theme';
+import { showToast } from '@digihr_lib/util/ui';
 
 export default class SignupPage extends Component {
   constructor(props) {
@@ -13,7 +14,7 @@ export default class SignupPage extends Component {
       icPassport: props.icPassport,
       password: props.password,
       confirmPassword: props.confirmPassword,
-      isBiometricChecked: props.isBiometricChecked,
+      isBiometric: props.isBiometric,
     };
   }
 
@@ -45,10 +46,22 @@ export default class SignupPage extends Component {
       return;
     }
 
+    if (!_.isEqual(this.state.password, this.state.confirmPassword)) {
+      showToast(I18n.t('confirm_password_not_matched'));
+      this.confirmPasswordInput.focus();
+      return;
+    }
+
+    if (!this.props.isPasswordMeetRequirement(this.state.password)) {
+      showToast(I18n.t('password_not_meet_requirement'));
+      this.passwordInput.focus();
+      return;
+    }
+
     this.props.signupVerification(
       this.state.icPassport,
       this.state.password,
-      this.state.isBiometricChecked
+      this.state.isBiometric
     );
   };
 
@@ -112,10 +125,10 @@ export default class SignupPage extends Component {
                 {I18n.t('enable_biometric')}
               </Text>
               <Switch
-                value={this.state.isBiometricChecked}
+                value={this.state.isBiometric}
                 onValueChange={() =>
                   this.setState({
-                    isBiometricChecked: !this.state.isBiometricChecked,
+                    isBiometric: !this.state.isBiometric,
                   })
                 }
                 onTintColor={theme.background.colors.gold}
@@ -140,9 +153,10 @@ export default class SignupPage extends Component {
 
 SignupPage.propTypes = {
   signupVerification: PropTypes.func,
+  isPasswordMeetRequirement: PropTypes.func,
   icPassport: PropTypes.string,
   password: PropTypes.string,
   confirmPassword: PropTypes.string,
-  isBiometricChecked: PropTypes.bool,
+  isBiometric: PropTypes.bool,
   nav_helper: PropTypes.object,
 };

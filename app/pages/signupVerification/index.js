@@ -3,6 +3,7 @@ import { View, ActivityIndicator } from 'react-native';
 import styles from './styles';
 import { moveToWelcome, signupVerificationDetails } from './viewController';
 import { showToast } from '@digihr_lib/util/ui';
+import { isPasswordValid } from '@digihr_lib/util/helper';
 import I18n from 'react-native-i18n';
 import SignupVerificationPage from './signup_verification_page';
 import theme from '@digihr_app_config/theme';
@@ -45,6 +46,10 @@ export default class SignupVerificationScreen extends Component {
     );
   };
 
+  isPasswordMeetRequirement(password) {
+    return isPasswordValid(password);
+  }
+
   render() {
     return this.state.isLoading ? (
       <View style={styles.container}>
@@ -55,6 +60,7 @@ export default class SignupVerificationScreen extends Component {
     ) : (
       <SignupVerificationPage
         signupVerification={this.signupVerification.bind(this)}
+        isPasswordMeetRequirement={this.isPasswordMeetRequirement.bind(this)}
         icPassport={this.state.icPassport}
         password={this.state.password}
         isBiometric={this.state.isBiometric}

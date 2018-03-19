@@ -5,6 +5,7 @@ export default {
   app_name: 'alt hr app',
   app_version: 'Version',
   confirm_password: 'CONFIRM PASSWORD',
+  confirm_password_not_matched: 'Confirm password is not matched with password',
   continue: 'CONTINUE',
   dont_have_an_account: "Don't have an account? ",
   email_address: 'Email address',
@@ -32,6 +33,8 @@ export default {
   logout_message: 'Logging out..',
   no_internet: 'check your internet connection',
   password: 'Password',
+  password_not_meet_requirement:
+    'Password should contain at least one special character and one uppercase letter',
   password_reset: 'PASSWORD RESET',
   policies: 'POLICIES',
   problem_with_server: 'Some problem with our server',
