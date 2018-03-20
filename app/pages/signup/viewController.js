@@ -14,7 +14,7 @@ export function signupInvitationCode(code) {
  * @param {@digihr_lib/navigation/screen_helper} navHelper
  */
 export function moveToSignupVerification(navHelper) {
-  navHelper.reset(RouteConfig.Screen.SignupVerification);
+  navHelper.navigate(RouteConfig.Screen.SignupVerification);
 }
 
 /**

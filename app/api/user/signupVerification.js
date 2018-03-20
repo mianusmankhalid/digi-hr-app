@@ -20,13 +20,6 @@ function performWithServerError() {
 }
 
 /**
- * Performs a fake account not found error on updating detail request
- */
-function performWithAccountNotFound() {
-  return Promise.reject(new HttpError(401, 'Unauthorized'));
-}
-
-/**
  * Performs a fake connection timed out error on updating detail request
  */
 function performWithConnectionTimedOut() {
@@ -51,13 +44,11 @@ export function performSignupVerification(
   strategyCode
 ) {
   switch (strategyCode) {
-    case userConstants.helper_consts.RESET_PASSWORD.OK:
+    case userConstants.helper_consts.SIGNUP_VERIFICATION.OK:
       return performSuccess(icPassport, password, isBiometric);
-    case userConstants.helper_consts.RESET_PASSWORD.ACCOUNT_NOT_FOUND:
-      return performWithAccountNotFound();
-    case userConstants.helper_consts.RESET_PASSWORD.CONNETION_TIMEDOUT:
+    case userConstants.helper_consts.SIGNUP_VERIFICATION.CONNETION_TIMEDOUT:
       return performWithConnectionTimedOut();
-    case userConstants.helper_consts.RESET_PASSWORD.SERVER_PROBLEM:
+    case userConstants.helper_consts.SIGNUP_VERIFICATION.SERVER_PROBLEM:
       return performWithServerError();
     default:
       return performSuccess(icPassport, password, isBiometric);

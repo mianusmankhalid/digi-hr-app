@@ -34,6 +34,9 @@ export default class SignupVerificationScreen extends Component {
       () => {
         signupVerificationDetails(icPassport, password, isBiometric)
           .then(() => {
+            this.setState({
+              isLoading: false,
+            });
             moveToWelcome(this.props.nav_helper);
           })
           .catch(error => {

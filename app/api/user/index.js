@@ -4,6 +4,7 @@ import _ from 'lodash';
 import { performResetPassword } from './reset_password';
 import { performSignup } from './signup';
 import { performSignupVerification } from './signupVerification';
+import { performWelcomePage } from './welcomePage';
 import * as ErrorProcessing from './processor/error_processing';
 
 /**
@@ -73,6 +74,16 @@ export function signupVerification(
     isBiometric,
     strategy
   ).catch(e => {
+    throw ErrorProcessing.processError(e, code);
+  });
+}
+
+/**
+ * Performs a confirm signup invitation code API call
+ * @param {userConstants.helper_consts.SIGNUP} strategy
+ */
+export function welcomePage(strategy = userConstants.helper_consts.SIGNUP.OK) {
+  return performWelcomePage(strategy).catch(e => {
     throw ErrorProcessing.processError(e, code);
   });
 }

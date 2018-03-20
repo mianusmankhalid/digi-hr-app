@@ -35,6 +35,9 @@ export default class SignupScreen extends Component {
       () => {
         signupInvitationCode(code)
           .then(() => {
+            this.setState({
+              isLoading: false,
+            });
             moveToSignupVerification(this.props.nav_helper);
           })
           .catch(error => {
