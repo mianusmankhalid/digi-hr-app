@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, TextInput } from 'react-native';
 import images from '@digihr_assets/images';
 import { letUserIn } from './viewController';
 import styles from './styles';
 import timer from 'react-native-timer';
+import theme from '@digihr_app_config/theme';
 
 export default class SplashScreen extends Component {
   timerOver() {
@@ -15,6 +16,7 @@ export default class SplashScreen extends Component {
   }
 
   render() {
+    TextInput.defaultProps.selectionColor = theme.colors.gold;
     return (
       <View style={styles.container}>
         <View style={styles.imageContainer}>

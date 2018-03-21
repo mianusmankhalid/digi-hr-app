@@ -1,6 +1,13 @@
 import styles from './styles';
 import React, { Component } from 'react';
-import { View, Text, TextInput, Switch, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  Switch,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import I18n from 'react-native-i18n';
 import _ from 'lodash';
@@ -68,7 +75,7 @@ export default class SignupPage extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.groupContainer}>
+        <ScrollView>
           <View style={styles.formContainer}>
             <View style={styles.inputContainer}>
               <Text style={styles.title}>{I18n.t('ic_passport_number')}</Text>
@@ -136,7 +143,7 @@ export default class SignupPage extends Component {
               />
             </View>
           </View>
-        </View>
+        </ScrollView>
         <View style={styles.continueContainer}>
           <View>
             <TouchableOpacity

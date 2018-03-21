@@ -8,7 +8,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  groupContainer: { flex: 1 },
   formContainer: {
     flexGrow: 0,
     height: 70,
