@@ -54,8 +54,6 @@ export default class SignupPage extends Component {
             ref={input => (this.codeInput = input)}
             value={this.state.code}
           />
-        </View>
-        <View style={styles.continueContainer}>
           <View style={styles.agreementView}>
             <View style={styles.agreement}>
               <CheckBox

@@ -11,16 +11,9 @@ const styles = StyleSheet.create({
   formContainer: {
     flexGrow: 0,
     height: 70,
-    marginTop: 10,
+    marginTop: 5,
   },
   inputContainer: {
-    height: 70,
-    width: 360,
-    backgroundColor: theme.colors.white,
-  },
-  switchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
     height: 70,
     width: 360,
     backgroundColor: theme.colors.white,
@@ -30,11 +23,6 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginLeft: 10,
   },
-  switchTitle: {
-    fontFamily: theme.font.family.muli,
-    marginLeft: 10,
-    marginRight: 60,
-  },
   input: {
     fontFamily: theme.font.family.muli,
     height: 40,
@@ -42,8 +30,21 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     paddingLeft: 10,
   },
-  continueContainer: {
-    paddingBottom: 15,
+  switchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 70,
+    width: 360,
+    backgroundColor: theme.colors.white,
+  },
+  switchTitle: {
+    fontFamily: theme.font.family.muli,
+    marginLeft: 10,
+    marginRight: 60,
+  },
+  buttonView: {
+    marginTop: 150,
+    paddingLeft: 25,
   },
   buttonContainer: {
     backgroundColor: theme.background.colors.gold,

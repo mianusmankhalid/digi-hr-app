@@ -7,6 +7,7 @@ import {
   Switch,
   TouchableOpacity,
   ScrollView,
+  KeyboardAvoidingView,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import I18n from 'react-native-i18n';
@@ -74,7 +75,7 @@ export default class SignupPage extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container}>
         <ScrollView>
           <View style={styles.formContainer}>
             <View style={styles.inputContainer}>
@@ -143,17 +144,15 @@ export default class SignupPage extends Component {
               />
             </View>
           </View>
-        </ScrollView>
-        <View style={styles.continueContainer}>
-          <View>
+          <View style={styles.buttonView}>
             <TouchableOpacity
               style={styles.buttonContainer}
               onPress={this.performSignupVerification}>
               <Text style={styles.buttonText}>{I18n.t('continue')}</Text>
             </TouchableOpacity>
           </View>
-        </View>
-      </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     );
   }
 }

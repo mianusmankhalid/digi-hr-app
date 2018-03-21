@@ -5,19 +5,15 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: theme.background.colors.white,
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title: {
-    fontFamily: theme.font.family.muli,
-    fontSize: 20,
   },
   formContainer: {
     flexGrow: 1,
     marginTop: 30,
   },
-  continueContainer: {
-    paddingBottom: 15,
+  title: {
+    fontFamily: theme.font.family.muli,
+    fontSize: 20,
+    marginLeft: 20,
   },
   input: {
     fontFamily: theme.font.family.muli,
@@ -27,6 +23,28 @@ const styles = StyleSheet.create({
     marginTop: 20,
     borderColor: theme.colors.gold,
     borderWidth: 2,
+    paddingLeft: 20,
+    marginLeft: 20,
+  },
+  agreementView: {
+    flexDirection: 'column',
+    marginLeft: 20,
+    marginRight: 55,
+    marginTop: 250,
+  },
+  agreement: {
+    flexDirection: 'row',
+    marginLeft: -10,
+  },
+  agreementText: {
+    fontFamily: theme.font.family.muli,
+    marginTop: 5,
+    textAlign: 'center',
+  },
+  hyperLink: {
+    fontWeight: '900',
+  },
+  buttonView: {
     paddingLeft: 20,
   },
   buttonContainer: {
@@ -38,25 +56,6 @@ const styles = StyleSheet.create({
     fontFamily: theme.font.family.muli,
     textAlign: 'center',
     color: theme.colors.white,
-  },
-  agreementText: {
-    fontFamily: theme.font.family.muli,
-    marginTop: 5,
-    textAlign: 'center',
-  },
-  agreement: {
-    flexDirection: 'row',
-    marginLeft: 30,
-    marginRight: 60,
-  },
-  agreementView: {
-    flexDirection: 'column',
-  },
-  buttonView: {
-    paddingLeft: 40,
-  },
-  hyperLink: {
-    fontWeight: '900',
   },
 });
 
