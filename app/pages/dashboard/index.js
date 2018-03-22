@@ -6,7 +6,7 @@ export default class DashboardScreen extends Component {
   constructor(props) {
     super(props);
     this.props.nav_helper.setScreenParams({
-      headerBackTitle: 'BackToPage1',
+      headerBackTitle: 'Dashboard',
     });
   }
 
