@@ -7,7 +7,7 @@ import {
   moveToResetPassword,
   moveToSignup
 } from "./viewController";
-import { isEmailValid } from "@digihr_lib/util/helper";
+import { isEmailValid } from "@digihr_lib/util/text_helper";
 import { showToast } from "@digihr_lib/util/ui";
 import I18n from "react-native-i18n";
 import LoginPage from "./login_page";
