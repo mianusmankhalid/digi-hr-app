@@ -9,7 +9,11 @@ import userConstants from '../constants/user';
  * @param {bool} isBiometric
  */
 function performSuccess(icPassport, password, isBiometric) {
-  return Promise.resolve();
+  return Promise.resolve({
+    welcomeText: userConstants.welcomeText,
+    logoUrl: userConstants.logoUrl,
+    backgroundImageUrl: userConstants.backgroundImageUrl,
+  });
 }
 
 /**

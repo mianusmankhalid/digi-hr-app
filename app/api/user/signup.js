@@ -24,7 +24,7 @@ function performWithServerError() {
  * Performs a fake incorrect invitation code error on signup request
  */
 function performWithIncorrectInvitationCode() {
-  return Promise.reject(new HttpError(400, 'Bad Request'));
+  return Promise.reject(new HttpError(401, 'Invitation code is unauthorized'));
 }
 
 /**

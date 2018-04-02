@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import styles from './styles';
 import { moveToLoginScreen, resetUserPassword } from './viewController';
-import { isEmailValid } from '@digihr_lib/util/helper';
+import { isEmailValid } from '@digihr_lib/util/text_helper';
 import { showToast } from '@digihr_lib/util/ui';
 import I18n from 'react-native-i18n';
 import ResetPasswordPage from './reset_password_page';

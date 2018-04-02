@@ -1,41 +1,44 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   Image,
   View,
   Text,
   TouchableOpacity,
-  ActivityIndicator,
-} from 'react-native';
-import styles from './styles';
-import theme from '@digihr_app_config/theme';
-import I18n from 'react-native-i18n';
-import { welcomePageDetails, moveToDashboard } from './viewController';
+  ActivityIndicator
+} from "react-native";
+import styles from "./styles";
+import theme from "@digihr_app_config/theme";
+import I18n from "react-native-i18n";
+import {
+  welcomePageDetails,
+  moveToDashboard,
+  getCompanyLogo,
+  getCompanyBackground
+} from "./viewController";
 
 export default class WelcomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: true,
-      welcomeText: '',
-      logoUrl: '',
-      backgroundImageUrl: '',
+      welcomeText: "",
+      logoUrlData: "",
+      backgroundImageUrlData: ""
     };
   }
 
   componentDidMount() {
-    welcomePageDetails()
-      .then(val =>
+    getCompanyLogo()
+      .then(companyLogo => this.setState({ logoUrlData: companyLogo }))
+      .then(() => {
+        return getCompanyBackground().then(companyBackground =>
+          this.setState({ backgroundImageUrlData: companyBackground })
+        );
+      })
+      .then(() => {
         this.setState({
-          isLoading: false,
-          welcomeText: val.welcomeText,
-          logoUrl: val.logoUrl,
-          backgroundImageUrl: val.backgroundImageUrl,
-        })
-      )
-      .catch(error => {
-        showToast(error.message);
-        this.setState({
-          isLoading: false,
+          welcomeText: this.props.navigation.state.params.welcomeText,
+          isLoading: false
         });
       });
   }
@@ -43,9 +46,9 @@ export default class WelcomeScreen extends Component {
   navigateToDashboard = () => {
     this.setState(
       {
-        welcomeText: '',
-        logoUrl: '',
-        backgroundImageUrl: '',
+        welcomeText: "",
+        logoUrlData: "",
+        backgroundImageUrlData: ""
       },
       () => {
         moveToDashboard(this.props.nav_helper);
@@ -63,13 +66,20 @@ export default class WelcomeScreen extends Component {
     ) : (
       <View style={styles.container}>
         <View style={styles.imageContainer}>
-          <Image
-            style={styles.image}
-            source={{ uri: this.state.backgroundImageUrl }}
-          />
+          {this.state.backgroundImageUrlData.length !== 0 ? (
+            <Image
+              style={styles.image}
+              source={{ uri: this.state.backgroundImageUrlData }}
+            />
+          ) : null}
         </View>
         <View style={styles.logoContainer}>
-          <Image style={styles.logo} source={{ uri: this.state.logoUrl }} />
+          {this.state.logoUrlData.length !== 0 ? (
+            <Image
+              style={styles.logo}
+              source={{ uri: this.state.logoUrlData }}
+            />
+          ) : null}
         </View>
         <View style={styles.textContainer}>
           <Text style={styles.text}>{this.state.welcomeText}</Text>
@@ -78,8 +88,9 @@ export default class WelcomeScreen extends Component {
           <View>
             <TouchableOpacity
               style={styles.buttonContainer}
-              onPress={this.navigateToDashboard}>
-              <Text style={styles.buttonText}>{I18n.t('continue')}</Text>
+              onPress={this.navigateToDashboard}
+            >
+              <Text style={styles.buttonText}>{I18n.t("continue")}</Text>
             </TouchableOpacity>
           </View>
         </View>

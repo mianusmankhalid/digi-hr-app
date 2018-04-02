@@ -1,25 +1,25 @@
-import React, { Component } from 'react';
-import { View, ActivityIndicator } from 'react-native';
-import styles from './styles';
-import { moveToWelcome, signupVerificationDetails } from './viewController';
-import { showToast } from '@digihr_lib/util/ui';
-import { isPasswordValid } from '@digihr_lib/util/helper';
-import I18n from 'react-native-i18n';
-import SignupVerificationPage from './signup_verification_page';
-import theme from '@digihr_app_config/theme';
-import NavigationHelper from '@digihr_lib/navigation/helper';
+import React, { Component } from "react";
+import { View, ActivityIndicator } from "react-native";
+import styles from "./styles";
+import { moveToWelcome, signupVerificationDetails } from "./viewController";
+import { showToast } from "@digihr_lib/util/ui";
+import { isPasswordValid } from "@digihr_lib/util/text_helper";
+import I18n from "react-native-i18n";
+import SignupVerificationPage from "./signup_verification_page";
+import theme from "@digihr_app_config/theme";
+import NavigationHelper from "@digihr_lib/navigation/helper";
 
 export default class SignupVerificationScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: false,
-      icPassport: '',
-      password: '',
-      isBiometric: true,
+      icPassport: "",
+      password: "",
+      isBiometric: true
     };
     this.props.nav_helper.setScreenParams({
-      headerBackTitle: I18n.t('verification').toUpperCase(),
+      headerBackTitle: I18n.t("verification").toUpperCase()
     });
   }
 
@@ -27,22 +27,22 @@ export default class SignupVerificationScreen extends Component {
     this.setState(
       {
         isLoading: true,
-        icPassport: '',
-        password: '',
-        isBiometric: true,
+        icPassport: "",
+        password: "",
+        isBiometric: true
       },
       () => {
         signupVerificationDetails(icPassport, password, isBiometric)
-          .then(() => {
+          .then(welcomeText => {
             this.setState({
-              isLoading: false,
+              isLoading: false
             });
-            moveToWelcome(this.props.nav_helper);
+            moveToWelcome(this.props.nav_helper, welcomeText);
           })
           .catch(error => {
             showToast(error.message);
             this.setState({
-              isLoading: false,
+              isLoading: false
             });
           });
       }
@@ -80,6 +80,6 @@ SignupVerificationScreen.navigationOptions = ({ navigation }) => {
 
   return {
     headerBackTitle: currentParams.headerBackTitle,
-    headerTitle: currentParams.headerBackTitle,
+    headerTitle: currentParams.headerBackTitle
   };
 };
