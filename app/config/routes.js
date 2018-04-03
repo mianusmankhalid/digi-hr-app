@@ -6,6 +6,7 @@ import Login from '@digihr_pages/login';
 import Welcome from '@digihr_pages/welcome';
 import ResetPassword from '@digihr_pages/resetPassword';
 import Signup from '@digihr_pages/signup';
+import MessageCenter from '@digihr_pages/messageCenter';
 import SignupVerification from '@digihr_pages/signupVerification';
 
 RouteManager.Instance.add(
@@ -13,6 +14,9 @@ RouteManager.Instance.add(
 );
 
 RouteManager.Instance.add(new Route('Dashboard', Dashboard, 'DashboardScreen'));
+RouteManager.Instance.add(
+  new Route('MessageCenter', MessageCenter, 'MessageCenter')
+);
 RouteManager.Instance.add(new Route('Login', Login, 'LoginScreen'));
 RouteManager.Instance.add(new Route('Welcome', Welcome, 'WelcomeScreen'));
 RouteManager.Instance.add(
