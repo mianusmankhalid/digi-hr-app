@@ -13,14 +13,16 @@ export default class DashboardScreen extends Component {
     this.state = {
       isLoading: false,
     };
-    this.props.nav_helper.setScreenParams({
+    const { screenProps } = props;
+    screenProps.navHelper.setScreenParams({
       headerBackTitle: I18n.t('dashboard'),
     });
   }
 
-  messageCenter = () => {
-    moveToMessageCenter(this.props.nav_helper);
-  };
+  messageCenter() {
+    const { screenProps } = this.props;
+    screenProps.moveToMessageCenter(screenProps.navHelper);
+  }
 
   render() {
     return this.state.isLoading ? (

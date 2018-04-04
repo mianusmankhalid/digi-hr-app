@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { DrawerNavigator } from 'react-navigation';
 import { View, Text, Button } from 'react-native';
 import Dashboard from './dashboard';
+import { moveToMessageCenter } from './viewController';
 //import SideMenu from './side_menu';
 
 class Travel extends Component {
@@ -46,7 +47,7 @@ class Logout extends Component {
 let Drawer = DrawerNavigator(
   {
     Home: {
-      screen: props => <Dashboard nav_helper={props.nav_helper} />,
+      screen: Dashboard,
     },
     Travel: {
       screen: Travel,
@@ -64,8 +65,15 @@ let Drawer = DrawerNavigator(
   // }
 );
 
-export default class DashboardScreen extends Component {
+export default class extends Component {
   render() {
-    return <Drawer nav_helper={this.props.nav_helper} />;
+    return (
+      <Drawer
+        screenProps={{
+          moveToMessageCenter: moveToMessageCenter,
+          navHelper: this.props.nav_helper,
+        }}
+      />
+    );
   }
 }
