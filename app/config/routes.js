@@ -15,7 +15,7 @@ RouteManager.Instance.add(
 
 RouteManager.Instance.add(new Route('Dashboard', Dashboard, 'DashboardScreen'));
 RouteManager.Instance.add(
-  new Route('MessageCenter', MessageCenter, 'MessageCenter')
+  new Route('MessageCenter', MessageCenter, 'MessageCenterScreen')
 );
 RouteManager.Instance.add(new Route('Login', Login, 'LoginScreen'));
 RouteManager.Instance.add(new Route('Welcome', Welcome, 'WelcomeScreen'));

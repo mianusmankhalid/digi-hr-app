@@ -1,48 +1,71 @@
 import React, { Component } from 'react';
-import { View, ActivityIndicator } from 'react-native';
-import styles from './styles';
-import I18n from 'react-native-i18n';
-import DashboardPage from './dashboard_page';
-import theme from '@digihr_app_config/theme';
-import NavigationHelper from '@digihr_lib/navigation/helper';
-import { moveToMessageCenter } from './viewController';
+import { DrawerNavigator } from 'react-navigation';
+import { View, Text, Button } from 'react-native';
+import Dashboard from './dashboard';
+//import SideMenu from './side_menu';
 
-export default class DashboardScreen extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isLoading: false,
-    };
-    this.props.nav_helper.setScreenParams({
-      headerBackTitle: I18n.t('dashboard'),
-    });
-  }
-
-  messageCenter = () => {
-    moveToMessageCenter(this.props.nav_helper);
+class Travel extends Component {
+  static navigationOptions = {
+    drawerLabel: 'Travel',
   };
-
   render() {
-    return this.state.isLoading ? (
-      <View style={styles.container}>
-        <View style={styles.signInMessage}>
-          <ActivityIndicator size="large" color={theme.colors.darkGray} />
-        </View>
+    return (
+      <View>
+        <Text>{'Travel'}</Text>
       </View>
-    ) : (
-      <DashboardPage messageCenter={this.messageCenter.bind(this)} />
     );
   }
 }
 
-DashboardScreen.navigationOptions = ({ navigation }) => {
-  const { state } = navigation;
-
-  // get the "deepest" current params.
-  const currentParams = NavigationHelper.getCurrentScreenParams(state);
-
-  return {
-    headerBackTitle: currentParams.headerBackTitle,
-    headerTitle: currentParams.headerBackTitle,
+class Leaves extends Component {
+  static navigationOptions = {
+    drawerLabel: 'Leaves',
   };
-};
+  render() {
+    return (
+      <View>
+        <Text>{'Leaves'}</Text>
+      </View>
+    );
+  }
+}
+
+class Logout extends Component {
+  static navigationOptions = {
+    drawerLabel: 'Logout',
+  };
+  render() {
+    return (
+      <View>
+        <Text>{'Logout'}</Text>
+      </View>
+    );
+  }
+}
+
+let Drawer = DrawerNavigator(
+  {
+    Home: {
+      screen: props => <Dashboard nav_helper={props.nav_helper} />,
+    },
+    Travel: {
+      screen: Travel,
+    },
+    Leaves: {
+      screen: Leaves,
+    },
+    Logout: {
+      screen: Logout,
+    },
+  }
+  // {
+  //   contentComponent: SideMenu,
+  //   drawerWidth: 300,
+  // }
+);
+
+export default class DashboardScreen extends Component {
+  render() {
+    return <Drawer nav_helper={this.props.nav_helper} />;
+  }
+}
