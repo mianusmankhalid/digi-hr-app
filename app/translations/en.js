@@ -19,6 +19,7 @@ export default {
   enter_ic_passport: 'ENTER YOUR IC OR PASSPORT NUMBER',
   enter_invitation_code: 'Please enter your invitation code',
   finish: 'Finish',
+  help_message: 'Hi, How may I help you today?',
   forgot_your_password: 'Forgot your password?',
   ic_passport_number: 'IC/PASSPORT NUMBER',
   i_agree: 'I Agree',
@@ -35,6 +36,7 @@ export default {
   logout_message: 'Logging out..',
   message_center: 'MESSAGE CENTRE',
   no_internet: 'check your internet connection',
+  nothing_new_to_show: 'Nothing new to show right now...',
   password: 'Password',
   password_not_meet_requirement:
     'Password should contain at least one special character and one uppercase letter',
@@ -50,5 +52,6 @@ export default {
   submit: 'Submit',
   try_agin: 'Something went wrong. Please try again.',
   verification: 'VERIFICATION',
+  view_more: 'VIEW MORE',
   whats_new: "What's new",
 };

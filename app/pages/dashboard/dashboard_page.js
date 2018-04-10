@@ -7,13 +7,11 @@ import {
   TextInput,
   Image,
   PanResponder,
+  TouchableHighlight,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 import Row from './row';
-import data from './data';
 import styles from './styles';
-import images from '@digihr_assets/images';
 import I18n from 'react-native-i18n';
 
 const SEARCHBAR_HEIGHT = 60;
@@ -32,7 +30,9 @@ export default class DashboardPage extends Component {
       chatbot: '',
       dropZoneValues: null,
       pan: new Animated.ValueXY(),
-      dataSource: ds.cloneWithRows(data),
+      dataSource: ds.cloneWithRows([]),
+      messageCenterData: [],
+      dashboardData: {},
       scrollAnim,
       offsetAnim,
       clampedScroll: Animated.diffClamp(
@@ -66,6 +66,26 @@ export default class DashboardPage extends Component {
     });
   }
 
+  componentDidMount() {
+    this.props.getActionCenterData().then(data => {
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(data),
+      });
+    });
+
+    this.props.getMessageCenterData().then(data => {
+      this.setState({
+        messageCenterData: data,
+      });
+    });
+
+    this.props.getDashboardData().then(data => {
+      this.setState({
+        dashboardData: data,
+      });
+    });
+  }
+
   handleChatbot = text => {
     this.setState({ chatbot: text });
   };
@@ -91,6 +111,39 @@ export default class DashboardPage extends Component {
     ];
   };
 
+  renderActionCenter(isData) {
+    if (isData) {
+      return (
+        <AnimatedListView
+          dataSource={this.state.dataSource}
+          renderRow={data => (
+            <Row
+              {...data}
+              chatbotImage={this.state.dashboardData.chatbotImage}
+            />
+          )}
+          renderHeader={() => <View style={styles.navbarMargin} />}
+          renderFooter={() => <View style={{ paddingTop: 10 }} />}
+          scrollEventThrottle={1}
+          onScroll={Animated.event(
+            [
+              {
+                nativeEvent: { contentOffset: { y: this.state.scrollAnim } },
+              },
+            ],
+            { useNativeDriver: true }
+          )}
+        />
+      );
+    } else {
+      return (
+        <Text style={styles.emptyContainer}>
+          {I18n.t('nothing_new_to_show')}
+        </Text>
+      );
+    }
+  }
+
   render() {
     const { clampedScroll } = this.state;
 
@@ -112,22 +165,8 @@ export default class DashboardPage extends Component {
 
     return (
       <View style={styles.mainContainer}>
-        <Animated.View style={[this.getStyle()]}>
-          <AnimatedListView
-            dataSource={this.state.dataSource}
-            renderRow={data => <Row {...data} />}
-            renderHeader={() => <View style={styles.navbarMargin} />}
-            renderFooter={() => <View style={{ paddingTop: 10 }} />}
-            scrollEventThrottle={1}
-            onScroll={Animated.event(
-              [
-                {
-                  nativeEvent: { contentOffset: { y: this.state.scrollAnim } },
-                },
-              ],
-              { useNativeDriver: true }
-            )}
-          />
+        <Animated.View style={[this.getStyle(), styles.actionCenterContainer]}>
+          {this.renderActionCenter(this.state.dataSource.getRowCount())}
           <Animated.View
             onLayout={this.setDropZoneValues.bind(this)}
             style={[
@@ -138,7 +177,7 @@ export default class DashboardPage extends Component {
               style={[styles.chatbotContainer, { opacity: navbarOpacity }]}>
               <TextInput
                 style={styles.chatbotSearch}
-                placeholder={'Hi, How may I help you today?'}
+                placeholder={I18n.t('help_message')}
                 returnKeyType="next"
                 onChangeText={this.handleChatbot}
                 autoCapitalize="none"
@@ -147,14 +186,24 @@ export default class DashboardPage extends Component {
                 ref={input => (this.chatbotInput = input)}
                 value={this.state.chatbot}
               />
-              <Image style={styles.image} source={images.dira} />
+              <Image
+                style={styles.image}
+                source={{ uri: this.state.dashboardData.chatbotImage }}
+              />
             </Animated.View>
             <View style={styles.titleContainer}>
               <Text style={styles.title}>{I18n.t('action_center')}</Text>
             </View>
           </Animated.View>
         </Animated.View>
-        <View style={styles.messageCenter}>
+        <View
+          style={[
+            styles.messageCenter,
+            this.state.dataSource.getRowCount() === 0 &&
+            this.state.messageCenterData.length > 1
+              ? { top: 260 }
+              : { top: 420 },
+          ]}>
           <Animated.View
             {...this.panResponder.panHandlers}
             style={[this.state.pan.getLayout()]}>
@@ -163,30 +212,22 @@ export default class DashboardPage extends Component {
                 { transform: [{ translateY: messageCenterTranslate }] },
                 styles.messageList,
               ]}>
-              <View style={styles.messageContainer}>
-                <Text style={styles.messageTitleContainer}>
-                  <Text style={styles.messageTitle}>{'Welcome to alt.hr'}</Text>
-                </Text>
-                <Text style={styles.messageDescription}>
-                  {
-                    'Congratulations! You have completed your onboarding journey. You can now access all modules of alt.hr such as Expenses and Travels.'
-                  }
-                </Text>
-                <Text style={styles.date}>{'27 Mar 2018'}</Text>
-                <Text style={styles.viewMore}>{'VIEW MORE'}</Text>
-              </View>
-              <View style={styles.messageContainer}>
-                <Text style={styles.messageTitleContainer}>
-                  <Text style={styles.messageTitle}>{'Welcome to alt.hr'}</Text>
-                </Text>
-                <Text style={styles.messageDescription}>
-                  {
-                    'Congratulations! You have completed your onboarding journey. You can now access all modules of alt.hr such as Expenses and Travels.'
-                  }
-                </Text>
-                <Text style={styles.date}>{'27 Mar 2018'}</Text>
-                <Text style={styles.viewMore}>{'VIEW MORE'}</Text>
-              </View>
+              {this.state.messageCenterData.map((message, key) => {
+                return (
+                  <View key={key} style={styles.messageContainer}>
+                    <Text style={styles.messageTitleContainer}>
+                      <Text style={styles.messageTitle}>{message.title}</Text>
+                    </Text>
+                    <Text style={styles.messageDescription}>
+                      {message.description}
+                    </Text>
+                    <Text style={styles.date}>{message.date}</Text>
+                    <TouchableHighlight style={styles.viewMoreTouchable}>
+                      <Text style={styles.viewMore}>{I18n.t('view_more')}</Text>
+                    </TouchableHighlight>
+                  </View>
+                );
+              })}
             </Animated.View>
           </Animated.View>
         </View>
@@ -197,6 +238,9 @@ export default class DashboardPage extends Component {
 
 DashboardPage.propTypes = {
   messageCenter: PropTypes.func,
+  getActionCenterData: PropTypes.func,
+  getMessageCenterData: PropTypes.func,
+  getDashboardData: PropTypes.func,
   chatbot: PropTypes.string,
   nav_helper: PropTypes.object,
 };

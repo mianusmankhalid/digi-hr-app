@@ -1,7 +1,6 @@
 import styles from './styles';
 import React from 'react';
 import { View, Text, Image, TouchableHighlight } from 'react-native';
-import images from '@digihr_assets/images';
 
 const Row = props =>
   props.name !== 'Dira' ? (
@@ -21,7 +20,7 @@ const Row = props =>
   ) : (
     <View style={styles.infoContainer}>
       <TouchableHighlight style={styles.imageContainer}>
-        <Image style={styles.image} source={images.dira} />
+        <Image style={styles.image} source={{ uri: props.chatbotImage }} />
       </TouchableHighlight>
       <View>
         <Text style={styles.infoTitle}>{props.request.description}</Text>

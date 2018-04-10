@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import styles from './styles';
-import I18n from 'react-native-i18n';
 import DashboardPage from './dashboard_page';
 import theme from '@digihr_app_config/theme';
-import NavigationHelper from '@digihr_lib/navigation/helper';
-import { moveToMessageCenter } from './viewController';
+import {
+  moveToMessageCenter,
+  getActionCenter,
+  getMessageCenter,
+  getDashboard,
+} from './view_controller';
 
 export default class DashboardScreen extends Component {
   constructor(props) {
@@ -13,15 +16,26 @@ export default class DashboardScreen extends Component {
     this.state = {
       isLoading: false,
     };
-    const { screenProps } = props;
-    screenProps.navHelper.setScreenParams({
-      headerBackTitle: I18n.t('dashboard'),
-    });
   }
 
   messageCenter() {
     const { screenProps } = this.props;
-    screenProps.moveToMessageCenter(screenProps.navHelper);
+    moveToMessageCenter(screenProps.navHelper);
+  }
+
+  getActionCenterData() {
+    const { screenProps } = this.props;
+    return getActionCenter(screenProps.navHelper);
+  }
+
+  getMessageCenterData() {
+    const { screenProps } = this.props;
+    return getMessageCenter(screenProps.navHelper);
+  }
+
+  getDashboardData() {
+    const { screenProps } = this.props;
+    return getDashboard(screenProps.navHelper);
   }
 
   render() {
@@ -32,20 +46,12 @@ export default class DashboardScreen extends Component {
         </View>
       </View>
     ) : (
-      <DashboardPage messageCenter={this.messageCenter.bind(this)} />
+      <DashboardPage
+        messageCenter={this.messageCenter.bind(this)}
+        getActionCenterData={this.getActionCenterData.bind(this)}
+        getMessageCenterData={this.getMessageCenterData.bind(this)}
+        getDashboardData={this.getDashboardData.bind(this)}
+      />
     );
   }
 }
-
-DashboardScreen.navigationOptions = ({ navigation }) => {
-  const { state } = navigation;
-
-  // get the "deepest" current params.
-  const currentParams = NavigationHelper.getCurrentScreenParams(state);
-
-  return {
-    headerBackTitle: currentParams.headerBackTitle,
-    headerTitle: currentParams.headerBackTitle,
-    headerLeft: null,
-  };
-};

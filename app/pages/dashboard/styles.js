@@ -5,7 +5,11 @@ const NAVBAR_HEIGHT = 100;
 
 const styles = StyleSheet.create({
   mainContainer: {
-    flex: 0,
+    flex: 1,
+  },
+  actionCenterContainer: {
+    flex: 1,
+    backgroundColor: theme.background.colors.gray,
   },
   container: {
     backgroundColor: theme.background.colors.gray,
@@ -33,6 +37,48 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderColor: theme.colors.gold,
     borderWidth: 1,
+  },
+  emptyContainer: { marginTop: 120, marginLeft: 20, opacity: 0.5 },
+  sideMenuImageContainer: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+  },
+  sideMenuImage: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    borderColor: theme.colors.gold,
+    borderWidth: 2,
+  },
+  navTopSectionStyle: {
+    marginTop: 40,
+    marginLeft: 30,
+  },
+  navSectionStyle: {
+    marginTop: 30,
+  },
+  navItemStyle: {
+    fontFamily: theme.font.family.muli,
+    fontSize: 20,
+    paddingLeft: 30,
+    paddingTop: 5,
+    paddingBottom: 5,
+  },
+  navItemNormalStyle: {
+    backgroundColor: theme.colors.white,
+    color: theme.colors.black,
+  },
+  navItemHighlightedStyle: {
+    backgroundColor: theme.colors.gold,
+    color: theme.colors.white,
+  },
+  sideMenuName: {
+    fontFamily: theme.font.family.muli,
+    fontSize: 20,
+  },
+  sideMenuTitle: {
+    fontFamily: theme.font.family.muli,
   },
   titleContainer: {
     height: 30,
@@ -122,7 +168,6 @@ const styles = StyleSheet.create({
   messageCenter: {
     position: 'absolute',
     bottom: 0,
-    top: 420,
     left: 0,
     right: 0,
     height: 100,
@@ -161,12 +206,14 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     color: 'silver',
   },
-  viewMore: {
-    fontFamily: theme.font.family.muli,
-    color: theme.colors.gold,
+  viewMoreTouchable: {
     position: 'absolute',
     right: 10,
     bottom: 10,
+  },
+  viewMore: {
+    fontFamily: theme.font.family.muli,
+    color: theme.colors.gold,
   },
 });
 

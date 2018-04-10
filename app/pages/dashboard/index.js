@@ -1,27 +1,56 @@
 import React, { Component } from 'react';
-import { DrawerNavigator } from 'react-navigation';
-import { View, Text, Button } from 'react-native';
+import { DrawerNavigator, StackNavigator } from 'react-navigation';
+import { View, Text } from 'react-native';
 import Dashboard from './dashboard';
-import { moveToMessageCenter } from './viewController';
-//import SideMenu from './side_menu';
+import SideMenu from './side_menu';
+import theme from '@digihr_app_config/theme';
+import Icon from 'react-native-vector-icons/Feather';
+import { getDashboard } from './view_controller';
 
-class Travel extends Component {
-  static navigationOptions = {
-    drawerLabel: 'Travel',
-  };
+const DashboardScreen = StackNavigator(
+  {
+    DashboardScreen: {
+      screen: Dashboard,
+    },
+  },
+  {
+    navigationOptions: ({ navigation }) => ({
+      title: 'DASHBOARD',
+      headerStyle: {
+        backgroundColor: theme.background.colors.black,
+      },
+      headerTitleStyle: {
+        fontFamily: theme.font.family.muli,
+        fontSize: theme.font.size.primary,
+        color: theme.background.colors.white,
+        textAlign: 'center',
+        width: '75%',
+      },
+      headerLeft: (
+        <View style={{ marginLeft: 10 }}>
+          <Icon
+            name="menu"
+            size={30}
+            color={theme.background.colors.gold}
+            onPress={() => navigation.navigate('DrawerOpen')}
+          />
+        </View>
+      ),
+    }),
+  }
+);
+
+class Onboarding extends Component {
   render() {
     return (
       <View>
-        <Text>{'Travel'}</Text>
+        <Text>{'Onboarding'}</Text>
       </View>
     );
   }
 }
 
 class Leaves extends Component {
-  static navigationOptions = {
-    drawerLabel: 'Leaves',
-  };
   render() {
     return (
       <View>
@@ -32,9 +61,6 @@ class Leaves extends Component {
 }
 
 class Logout extends Component {
-  static navigationOptions = {
-    drawerLabel: 'Logout',
-  };
   render() {
     return (
       <View>
@@ -44,13 +70,23 @@ class Logout extends Component {
   }
 }
 
+class Profile extends Component {
+  render() {
+    return (
+      <View>
+        <Text>{'Profile'}</Text>
+      </View>
+    );
+  }
+}
+
 let Drawer = DrawerNavigator(
   {
-    Home: {
-      screen: Dashboard,
+    Dashboard: {
+      screen: DashboardScreen,
     },
-    Travel: {
-      screen: Travel,
+    Onboarding: {
+      screen: Onboarding,
     },
     Leaves: {
       screen: Leaves,
@@ -58,20 +94,42 @@ let Drawer = DrawerNavigator(
     Logout: {
       screen: Logout,
     },
+    Profile: {
+      screen: Profile,
+    },
+  },
+  {
+    contentComponent: SideMenu,
+    drawerWidth: 250,
   }
-  // {
-  //   contentComponent: SideMenu,
-  //   drawerWidth: 300,
-  // }
 );
 
 export default class extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dashboardData: {},
+    };
+  }
+
+  componentDidMount() {
+    this.getDashboardData().then(data => {
+      this.setState({
+        dashboardData: data,
+      });
+    });
+  }
+
+  getDashboardData() {
+    return getDashboard(this.props.nav_helper);
+  }
+
   render() {
     return (
       <Drawer
         screenProps={{
-          moveToMessageCenter: moveToMessageCenter,
           navHelper: this.props.nav_helper,
+          dashboardData: this.state.dashboardData,
         }}
       />
     );
