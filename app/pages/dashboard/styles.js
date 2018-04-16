@@ -172,6 +172,11 @@ const styles = StyleSheet.create({
     right: 0,
     height: 100,
   },
+  messageHeader: {
+    marginTop: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   messageList: {
     paddingTop: 10,
     paddingBottom: 10,

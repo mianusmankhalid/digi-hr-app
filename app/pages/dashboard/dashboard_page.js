@@ -8,11 +8,13 @@ import {
   Image,
   PanResponder,
   TouchableHighlight,
+  WebView,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import Row from './row';
 import styles from './styles';
 import I18n from 'react-native-i18n';
+import _ from 'lodash';
 
 const SEARCHBAR_HEIGHT = 60;
 const MESSAGECENTER_HEIGHT = 100;
@@ -135,11 +137,39 @@ export default class DashboardPage extends Component {
           )}
         />
       );
-    } else {
+    }
+    return (
+      <Text style={styles.emptyContainer}>{I18n.t('nothing_new_to_show')}</Text>
+    );
+  }
+
+  renderImageOrVideo(message) {
+    if (!_.isEqual(message.videoUrl, '')) {
       return (
-        <Text style={styles.emptyContainer}>
-          {I18n.t('nothing_new_to_show')}
-        </Text>
+        <View style={styles.messageHeader}>
+          <View style={{ height: 200, width: 340 }}>
+            <WebView
+              javaScriptEnabled={true}
+              domStorageEnabled={true}
+              source={{
+                uri:
+                  message.videoUrl +
+                  '?version=3&enablejsapi=1&rel=0&autoplay=1&showinfo=0&controls=1&modestbranding=0',
+              }}
+            />
+          </View>
+        </View>
+      );
+    } else if (!_.isEqual(message.imageUrl, '')) {
+      return (
+        <View style={styles.messageHeader}>
+          <Image
+            style={{ height: 150, width: 340 }}
+            source={{
+              uri: message.imageUrl,
+            }}
+          />
+        </View>
       );
     }
   }
@@ -214,17 +244,22 @@ export default class DashboardPage extends Component {
               ]}>
               {this.state.messageCenterData.map((message, key) => {
                 return (
-                  <View key={key} style={styles.messageContainer}>
-                    <Text style={styles.messageTitleContainer}>
-                      <Text style={styles.messageTitle}>{message.title}</Text>
-                    </Text>
-                    <Text style={styles.messageDescription}>
-                      {message.description}
-                    </Text>
-                    <Text style={styles.date}>{message.date}</Text>
-                    <TouchableHighlight style={styles.viewMoreTouchable}>
-                      <Text style={styles.viewMore}>{I18n.t('view_more')}</Text>
-                    </TouchableHighlight>
+                  <View key={key}>
+                    {this.renderImageOrVideo(message)}
+                    <View style={styles.messageContainer}>
+                      <Text style={styles.messageTitleContainer}>
+                        <Text style={styles.messageTitle}>{message.title}</Text>
+                      </Text>
+                      <Text style={styles.messageDescription}>
+                        {message.description}
+                      </Text>
+                      <Text style={styles.date}>{message.date}</Text>
+                      <TouchableHighlight style={styles.viewMoreTouchable}>
+                        <Text style={styles.viewMore}>
+                          {I18n.t('view_more')}
+                        </Text>
+                      </TouchableHighlight>
+                    </View>
                   </View>
                 );
               })}
@@ -242,5 +277,4 @@ DashboardPage.propTypes = {
   getMessageCenterData: PropTypes.func,
   getDashboardData: PropTypes.func,
   chatbot: PropTypes.string,
-  nav_helper: PropTypes.object,
 };
