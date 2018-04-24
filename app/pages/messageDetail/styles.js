@@ -1,7 +1,7 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import theme from '@digihr_app_config/theme';
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
@@ -11,24 +11,15 @@ const styles = StyleSheet.create({
   },
   videoContainer: {
     height: 200,
-    width: width - 20,
+    width,
   },
   imageContainer: {
     height: 150,
-    width: width - 20,
+    width,
   },
-  messageList: {
-    paddingTop: 5,
-    paddingBottom: 10,
-    backgroundColor: theme.background.colors.gray,
-  },
-  messageContainer: {
-    flexGrow: 0,
-    marginBottom: 5,
-    height: 150,
-    width: width - 20,
-    backgroundColor: theme.colors.white,
-    alignSelf: 'center',
+  message: {
+    backgroundColor: theme.background.colors.white,
+    width,
   },
   messageHeader: {
     justifyContent: 'center',
@@ -41,27 +32,22 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
   messageTitle: {
+    fontSize: 20,
     fontWeight: '900',
   },
   messageDescription: {
     fontFamily: theme.font.family.muli,
+    fontSize: 16,
     paddingLeft: 10,
     paddingTop: 5,
+    paddingBottom: 30,
   },
   date: {
     fontFamily: theme.font.family.muli,
     paddingLeft: 10,
     paddingTop: 5,
     color: 'silver',
-  },
-  viewMoreTouchable: {
-    position: 'absolute',
-    right: 10,
-    bottom: 10,
-  },
-  viewMore: {
-    fontFamily: theme.font.family.muli,
-    color: theme.colors.gold,
+    fontSize: 16,
   },
 });
 

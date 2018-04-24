@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.gold,
     borderWidth: 1,
   },
-  emptyContainer: { marginTop: 120, marginLeft: 20, opacity: 0.5 },
+  emptyContainer: { marginTop: 110, marginLeft: 10, opacity: 0.5 },
   sideMenuImageContainer: {
     width: 80,
     height: 80,

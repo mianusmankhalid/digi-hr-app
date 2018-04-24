@@ -15,24 +15,13 @@ import PropTypes from 'prop-types';
 export default class MessageCenterPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      messageCenterData: [],
-    };
-  }
-
-  componentDidMount() {
-    this.props.getMessageCenterData().then(data => {
-      this.setState({
-        messageCenterData: data,
-      });
-    });
   }
 
   renderImageOrVideo(message) {
     if (!_.isEqual(message.videoUrl, '')) {
       return (
         <View style={styles.messageHeader}>
-          <View style={{ height: 200, width: 340 }}>
+          <View style={styles.videoContainer}>
             <WebView
               javaScriptEnabled={true}
               domStorageEnabled={true}
@@ -49,7 +38,7 @@ export default class MessageCenterPage extends Component {
       return (
         <View style={styles.messageHeader}>
           <Image
-            style={{ height: 150, width: 340 }}
+            style={styles.imageContainer}
             source={{
               uri: message.imageUrl,
             }}
@@ -63,19 +52,23 @@ export default class MessageCenterPage extends Component {
     return (
       <ScrollView>
         <View style={styles.messageList}>
-          {this.state.messageCenterData.map((message, key) => {
+          {this.props.messageCenterData.map((message, key) => {
             return (
-              <View key={key}>
+              <View key={key} style={{ marginTop: 10 }}>
                 {this.renderImageOrVideo(message)}
                 <View style={styles.messageContainer}>
                   <Text style={styles.messageTitleContainer}>
                     <Text style={styles.messageTitle}>{message.title}</Text>
                   </Text>
                   <Text style={styles.messageDescription}>
-                    {message.description}
+                    {message.description.length > 150
+                      ? message.description.slice(0, 147) + '...'
+                      : message.description}
                   </Text>
                   <Text style={styles.date}>{message.date}</Text>
-                  <TouchableHighlight style={styles.viewMoreTouchable}>
+                  <TouchableHighlight
+                    style={styles.viewMoreTouchable}
+                    onPress={() => this.props.onPressViewMore(key)}>
                     <Text style={styles.viewMore}>{I18n.t('view_more')}</Text>
                   </TouchableHighlight>
                 </View>
@@ -89,5 +82,6 @@ export default class MessageCenterPage extends Component {
 }
 
 MessageCenterPage.propTypes = {
-  getMessageCenterData: PropTypes.func,
+  onPressViewMore: PropTypes.func,
+  messageCenterData: PropTypes.array,
 };

@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import { DrawerNavigator, StackNavigator } from 'react-navigation';
-import { View, Text } from 'react-native';
+import { View, Text, YellowBox } from 'react-native';
 import Dashboard from './dashboard';
 import SideMenu from './side_menu';
 import theme from '@digihr_app_config/theme';
 import Icon from 'react-native-vector-icons/Feather';
 import { getDashboard } from './view_controller';
+
+YellowBox.ignoreWarnings([
+  'Warning: isMounted(...) is deprecated',
+  'Module RCTImageLoader',
+]);
 
 const DashboardScreen = StackNavigator(
   {

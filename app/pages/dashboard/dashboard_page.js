@@ -251,7 +251,9 @@ export default class DashboardPage extends Component {
                         <Text style={styles.messageTitle}>{message.title}</Text>
                       </Text>
                       <Text style={styles.messageDescription}>
-                        {message.description}
+                        {message.description.length > 150
+                          ? message.description.slice(0, 147) + '...'
+                          : message.description}
                       </Text>
                       <Text style={styles.date}>{message.date}</Text>
                       <TouchableHighlight style={styles.viewMoreTouchable}>
