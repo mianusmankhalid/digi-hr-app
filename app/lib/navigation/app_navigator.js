@@ -8,7 +8,7 @@ import {
 import RouteConfig from '@digihr_app_config/routes';
 import _ from 'lodash';
 import theme from '@digihr_app_config/theme';
-import * as DigiNavActions from '@digihr_lib/actions/digi_nav_actions';
+import NavigationHelper from './helper';
 
 const Routes = RouteConfig.Routes;
 
@@ -27,7 +27,7 @@ const AppNavigator = StackNavigator(Routes, {
       fontSize: theme.font.size.primary,
       color: theme.background.colors.white,
       textAlign: 'center',
-      width: '75%',
+      width: '70%',
     },
     headerTintColor: theme.background.colors.white,
     headerLeft: !_.isEqual(
@@ -37,12 +37,7 @@ const AppNavigator = StackNavigator(Routes, {
       <HeaderBackButton
         tintColor={theme.background.colors.gold}
         onPress={() => {
-          navigation.dispatch(DigiNavActions.setGoBackScreenParams());
-          navigation.dispatch(
-            NavigationActions.back({
-              key: null,
-            })
-          );
+          NavigationHelper.onBackButtonPress(navigation);
         }}
       />
     ) : null,

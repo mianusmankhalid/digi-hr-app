@@ -1,8 +1,8 @@
 export default {
   email: 'usman.khalid@digi.com.my',
   password: '123',
-  chatbotImage: 'https://s26.postimg.org/jhugatg49/DIRA.png',
-  userImage: 'https://s26.postimg.org/bccecnk5l/roshini.jpg',
+  chatbotImage: 'https://i.imgur.com/7tvqC6m.png',
+  userImage: 'https://i.imgur.com/bQCTmCH.jpg',
   userName: 'Roshini Vellu',
   userTitle: 'Senior Associate',
   helper_consts: {
