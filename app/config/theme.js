@@ -16,7 +16,6 @@ const theme = {
       blue: '#0277BD',
       gold: '#9D8053',
       silver: '#A6A6A6',
-      gray: '#F0F0F0',
     },
   },
   font: {
