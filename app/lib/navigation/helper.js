@@ -1,6 +1,5 @@
 import { NavigationActions } from 'react-navigation';
 import _ from 'lodash';
-import * as DigiNavActions from '@digihr_lib/actions/digi_nav_actions';
 
 export default class NavigationHelper {
   static getParams(store, navName) {
@@ -85,14 +84,5 @@ export default class NavigationHelper {
       return _.get(retObj, __CURR_SCREEN_PARAMS__);
     }
     return retObj;
-  }
-
-  static onBackButtonPress(navigation) {
-    navigation.dispatch(DigiNavActions.setGoBackScreenParams());
-    navigation.dispatch(
-      NavigationActions.back({
-        key: null,
-      })
-    );
   }
 }
