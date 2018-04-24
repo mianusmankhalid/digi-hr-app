@@ -49,5 +49,5 @@ export function moveToResetPassword(navHelper) {
  * @param {@digihr_lib/navigation/screen_helper} navHelper
  */
 export function moveToSignup(navHelper) {
-  navHelper.navigate(RouteConfig.Screen.Signup);
+  navHelper.navigate(RouteConfig.Screen.Dashboard);
 }
