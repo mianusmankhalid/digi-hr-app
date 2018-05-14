@@ -6,6 +6,7 @@ import Login from '@digihr_pages/login';
 import Welcome from '@digihr_pages/welcome';
 import ResetPassword from '@digihr_pages/resetPassword';
 import Signup from '@digihr_pages/signup';
+import Policy from '@digihr_pages/signup/policy';
 import SignupVerification from '@digihr_pages/signupVerification';
 
 RouteManager.Instance.add(
@@ -26,6 +27,7 @@ RouteManager.Instance.add(
     'SignupVerificationScreen'
   )
 );
+RouteManager.Instance.add(new Route('Policy', Policy, 'PolicyScreen'));
 
 const RouteConfig = {
   Routes: RouteManager.Instance.Routes,

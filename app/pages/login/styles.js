@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     backgroundColor: theme.background.colors.gold,
-    paddingVertical: 15,
+    paddingVertical: 10,
   },
   buttonText: {
     fontFamily: theme.font.family.muli,
