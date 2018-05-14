@@ -27,6 +27,6 @@ export default {
   },
   invitationCode: 'abcd123',
   welcomeText: 'Welcome to Digi',
-  logoUrl: 'https://s26.postimg.org/48udfefc9/telenor-digi-logo.png',
-  backgroundImageUrl: 'https://s26.postimg.org/t23xg3gd5/Layer_31.png',
+  logoUrl: 'https://drive.google.com/uc?authuser=0&id=1ztr72yBo8QV16D8fwSJBrSO-1Mscjbtr&export=download',
+  backgroundImageUrl: 'https://drive.google.com/uc?authuser=0&id=1De6AAiUEWSccoPbm4gkZJzG0aT20pkWz&export=download',
 };

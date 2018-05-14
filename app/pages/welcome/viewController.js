@@ -1,10 +1,6 @@
 import RouteConfig from "@digihr_app_config/routes";
-import { welcomePage } from "@digihr_api/user";
 import ResourceManager from "@digihr_lib/resource_manager";
 
-export function welcomePageDetails() {
-  return welcomePage(1);
-}
 
 /**
  * Takes user to signup screes, if the user invitation code is accurate

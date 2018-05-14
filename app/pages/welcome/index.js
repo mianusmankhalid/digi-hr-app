@@ -10,7 +10,6 @@ import styles from "./styles";
 import theme from "@digihr_app_config/theme";
 import I18n from "react-native-i18n";
 import {
-  welcomePageDetails,
   moveToDashboard,
   getCompanyLogo,
   getCompanyBackground
