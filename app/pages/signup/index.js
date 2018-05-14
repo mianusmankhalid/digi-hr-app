@@ -1,28 +1,33 @@
-import React, { Component } from 'react';
-import { View, ActivityIndicator } from 'react-native';
-import styles from './styles';
+import React, { Component } from "react";
+import { View, ActivityIndicator } from "react-native";
+import styles from "./styles";
 import {
   moveToSignupVerification,
   signupInvitationCode,
   moveToPolicy,
-} from './viewController';
-import { showToast } from '@digihr_lib/util/ui';
-import I18n from 'react-native-i18n';
-import SignupPage from './signup_page';
-import theme from '@digihr_app_config/theme';
-import NavigationHelper from '@digihr_lib/navigation/helper';
+  downloadPolicyUrl
+} from "./viewController";
+import { showToast } from "@digihr_lib/util/ui";
+import I18n from "react-native-i18n";
+import SignupPage from "./signup_page";
+import theme from "@digihr_app_config/theme";
+import NavigationHelper from "@digihr_lib/navigation/helper";
 
 export default class SignupScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: false,
-      code: '',
-      isPolicyChecked: false,
+      code: "",
+      isPolicyChecked: false
     };
     this.props.nav_helper.setScreenParams({
-      headerBackTitle: I18n.t('sign_up').toUpperCase(),
+      headerBackTitle: I18n.t("sign_up").toUpperCase()
     });
+  }
+
+  componentWillMount() {
+    // downloadPolicyUrl("https://github.com/facebook/react-native/issues/6058");
   }
 
   signup = (code, isPolicyChecked) => {
@@ -30,20 +35,20 @@ export default class SignupScreen extends Component {
       {
         isLoading: true,
         code: code,
-        isPolicyChecked: isPolicyChecked,
+        isPolicyChecked: isPolicyChecked
       },
       () => {
         signupInvitationCode(code)
           .then(() => {
             this.setState({
-              isLoading: false,
+              isLoading: false
             });
             moveToSignupVerification(this.props.nav_helper);
           })
           .catch(error => {
             showToast(error.message);
             this.setState({
-              isLoading: false,
+              isLoading: false
             });
           });
       }
@@ -80,6 +85,6 @@ SignupScreen.navigationOptions = ({ navigation }) => {
 
   return {
     headerBackTitle: currentParams.headerBackTitle,
-    headerTitle: currentParams.headerBackTitle,
+    headerTitle: currentParams.headerBackTitle
   };
 };

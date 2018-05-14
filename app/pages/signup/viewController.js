@@ -1,5 +1,6 @@
-import RouteConfig from '@digihr_app_config/routes';
-import { signup } from '@digihr_api/user';
+import RouteConfig from "@digihr_app_config/routes";
+import { signup } from "@digihr_api/user";
+import ResourceManager from "@digihr_lib/resource_manager";
 
 /**
  *
@@ -23,4 +24,15 @@ export function moveToSignupVerification(navHelper) {
  */
 export function moveToPolicy(navHelper) {
   navHelper.navigate(RouteConfig.Screen.Policy);
+}
+
+export function downloadPolicyUrl(policyUrl) {
+  return ResourceManager.getInstance().downloadResource(
+    policyUrl,
+    "termsAndConditionHtml"
+  );
+}
+
+export function getTermsAndConditionHtml() {
+  return ResourceManager.getInstance().getResourceFile("termsAndConditionHtml");
 }

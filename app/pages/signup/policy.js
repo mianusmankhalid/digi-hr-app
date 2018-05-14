@@ -2,9 +2,19 @@ import React, { Component } from "react";
 import { WebView, View, Dimensions } from "react-native";
 import NavigationHelper from "@digihr_lib/navigation/helper";
 import I18n from "react-native-i18n";
+import { getTermsAndConditionHtml } from "./viewController";
 
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
+
+const policyHtml = `
+  <html>
+  <body>
+    <h1>Policy</h1>
+    <p>Real policy would be displayed here</p>
+  </body>
+  </html>
+`;
 
 export default class Policy extends Component {
   constructor(props) {
@@ -13,17 +23,19 @@ export default class Policy extends Component {
       headerBackTitle: I18n.t("policies").toUpperCase()
     });
   }
+
+  componentWillMount() {
+    //getTermsAndConditionHtml().then(data => console.log(data));
+  }
+
   render() {
     return (
       <View style={{ flex: 1 }}>
         <WebView
-          source={{ uri: "https://althr.co/policy" }}
+          source={{ html: policyHtml }}
           javaScriptEnabled={true}
           startInLoadingState={true}
-          onLoadEnd={() => {
-          }}
-          injectedJavaScript={'alert("Its me")'}
-          onNavigationStateChange={navEvent => console.log(navEvent)}
+          onLoadEnd={() => {}}
           style={{
             flex: 1,
             height: deviceHeight,
