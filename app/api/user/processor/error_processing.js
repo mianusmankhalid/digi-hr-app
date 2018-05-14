@@ -4,9 +4,9 @@ import InternetConnectionError from '@digihr_errors/InternetConnectionError';
 /**
  * Processes error to be more human friendly before returning control
  * @param {Error} result
- * @param {string} email
+ * @param {string} text
  */
-export function processError(result, email) {
+export function processError(result, text) {
   if (result instanceof HttpError) {
     if (result.http_code === 504) {
       result.message =
@@ -14,7 +14,7 @@ export function processError(result, email) {
         `\nIf you are having this problem repeatedly, please contact us at someadmin@admin2.com`;
     } else if (result.http_code === 401) {
       result.message =
-        `We are sorry that we cannot find your email ${email} in our system\n` +
+        `We are sorry that we cannot find your email ${text} in our system\n` +
         `Try signing up for this email.`;
     }
   } else if (result instanceof InternetConnectionError) {

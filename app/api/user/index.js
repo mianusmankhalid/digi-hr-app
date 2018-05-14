@@ -5,10 +5,12 @@ import { getActionCenter } from './get_action_center_data';
 import { getMessageCenter } from './get_message_center_data';
 import { getDashboard } from './get_dashboard_data';
 import { performResetPassword } from './reset_password';
-import * as ResetPasswordProcessor from './processor/reset_password';
 import * as ActionCenterProcessor from './processor/action_center';
 import * as MessageCenterProcessor from './processor/message_center';
 import * as DashboardProcessor from './processor/dashboard';
+import { performSignup } from './signup';
+import { performSignupVerification } from './signupVerification';
+import * as ErrorProcessing from './processor/error_processing';
 
 /**
  * Performs an authenticate user API call
@@ -43,7 +45,41 @@ export function resetPassword(
   strategy = userConstants.helper_consts.RESET_PASSWORD.OK
 ) {
   return performResetPassword(email, strategy).catch(e => {
-    throw ResetPasswordProcessor.processError(e, email);
+    throw ErrorProcessing.processError(e, email);
+  });
+}
+
+/**
+ * Performs a confirm signup invitation code API call
+ * @param {string} code
+ * @param {userConstants.helper_consts.SIGNUP} strategy
+ */
+export function signup(code, strategy = userConstants.helper_consts.SIGNUP.OK) {
+  return performSignup(code, strategy).catch(e => {
+    throw ErrorProcessing.processError(e, code);
+  });
+}
+
+/**
+ * Performs a confirm signup invitation code API call
+ * @param {string} icPassport
+ * @param {string} password
+ * @param {bool} isBiometric
+ * @param {userConstants.helper_consts.SIGNUP} strategy
+ */
+export function signupVerification(
+  icPassport,
+  password,
+  isBiometric,
+  strategy = userConstants.helper_consts.SIGNUP.OK
+) {
+  return performSignupVerification(
+    icPassport,
+    password,
+    isBiometric,
+    strategy
+  ).catch(e => {
+    throw ErrorProcessing.processError(e, code);
   });
 }
 
