@@ -21,13 +21,13 @@ export default class SignupScreen extends Component {
       code: "",
       isPolicyChecked: false
     };
-    this.props.nav_helper.setScreenParams({
-      headerBackTitle: I18n.t("sign_up").toUpperCase()
-    });
   }
 
-  componentWillMount() {
+  componentDidMount() {
     // downloadPolicyUrl("https://github.com/facebook/react-native/issues/6058");
+    this.props.nav_helper.setScreenParams({
+      headerTitle: I18n.t("sign_up").toUpperCase()
+    });
   }
 
   signup = (code, isPolicyChecked) => {
@@ -84,7 +84,7 @@ SignupScreen.navigationOptions = ({ navigation }) => {
   const currentParams = NavigationHelper.getCurrentScreenParams(state);
 
   return {
-    headerBackTitle: currentParams.headerBackTitle,
-    headerTitle: currentParams.headerBackTitle
+    //headerBackTitle: currentParams.headerBackTitle,
+    headerTitle: currentParams.headerTitle
   };
 };

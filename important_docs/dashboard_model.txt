@@ -1,0 +1,58 @@
+data = [
+    {
+
+    }
+]
+
+data = array[ActionCenterItem]
+
+ActionCenterItem = {
+    item_details = {
+        amount = {
+            currency = "MYR",
+            value = 23.45
+        },
+        description = "Breakfast (Local)"
+    },
+    item_type = ChatBot | ActionItem,
+    item_status = InProgress | Completed,
+    item_status_text = Review | Approved | Rejected,
+    belongs_to = User
+}
+
+
+ActionItem = Travel | Accomodation | Leave | Expense
+
+TravelType = {
+    amount = {
+            currency = "MYR",
+            value = 23.45
+        },
+    tax_amount = {
+            currency = "MYR",
+            value = 23.45
+        },
+    description = "Overseas",
+    from = "Karachi",
+    to = "Kuala Lumpur",
+    date_from = "23/3/2018",
+    date_to = "24/3/2018"
+}
+
+ExpenseType = {
+    amount = {
+            currency = "MYR",
+            value = 23.45
+        },
+    tax_amount = {
+            currency = "MYR",
+            value = 23.45
+        },
+    expense_type = "Meal|Dental|Doctor|Insurance"
+    description = "Root Canal | Breakfast | Fever | "
+}
+
+
+*Notes: 
+ - Rejection Remarks, only when 1 item is selected
+ - Only same ActionItemType cell should be able to bulk accept or reject

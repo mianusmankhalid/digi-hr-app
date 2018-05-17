@@ -1,6 +1,7 @@
-import _ from 'lodash';
-import AppNavigator from '@digihr_lib/navigation/app_navigator';
-import { NavigationActions } from 'react-navigation';
+import _ from "lodash";
+import AppNavigator from "@digihr_lib/navigation/app_navigator";
+import { NavigationActions } from "react-navigation";
+import { BackHandler } from "react-native";
 
 const initialState = AppNavigator.router.getStateForAction(
   AppNavigator.router.getActionForPathAndParams(__APP_START_ROUTE_NAME__, {
@@ -17,6 +18,12 @@ export default function reducer(state = initialState, action) {
   let nextState = null;
 
   if (action.type === 'UNSET_SCREEN_GO_BACK_PARAMS') {
+    // console.log(
+    //   "Unsetting go back params for screen key " + action.payload.screenKey
+    // );
+    // console.log("The route would be:");
+    // console.dir(nextState.routes[routeIndex]);
+
     nextState = {
       ...state,
       routes: _.map(state.routes, route => {
@@ -57,6 +64,10 @@ export default function reducer(state = initialState, action) {
         routeIndex = nextState.index - 1;
       }
 
+      // console.log("Setting go back params for index " + routeIndex);
+      // console.log("The route would be:");
+      // console.log(nextState.routes[routeIndex]);
+
       nextState.routes[routeIndex].params['go_back_params'] = action.payload
         .params
         ? { ...action.payload.params }
@@ -87,6 +98,7 @@ export default function reducer(state = initialState, action) {
   } else if (action.type === 'Navigation/COMPLETE_TRANSITION') {
     nextState = { ...state };
     nextState.navigating = false;
+    nextState.isTransitioning = false;
   } else {
     nextState = AppNavigator.router.getStateForAction(action, state);
   }

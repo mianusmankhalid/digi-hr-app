@@ -1,10 +1,6 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import {
-  StackNavigator,
-  HeaderBackButton,
-  NavigationActions,
-} from 'react-navigation';
+import { createStackNavigator, HeaderBackButton } from 'react-navigation';
 import RouteConfig from '@digihr_app_config/routes';
 import _ from 'lodash';
 import theme from '@digihr_app_config/theme';
@@ -12,7 +8,7 @@ import NavigationHelper from './helper';
 
 const Routes = RouteConfig.Routes;
 
-const AppNavigator = StackNavigator(Routes, {
+const AppNavigator = createStackNavigator(Routes, {
   headerMode: Platform.select({
     ios: () => 'float',
     android: () => 'screen',

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { DrawerNavigator, StackNavigator } from 'react-navigation';
+import { createDrawerNavigator, createStackNavigator } from 'react-navigation';
 import { View, Text, YellowBox } from 'react-native';
 import Dashboard from './dashboard';
 import SideMenu from './side_menu';
@@ -12,7 +12,7 @@ YellowBox.ignoreWarnings([
   'Module RCTImageLoader',
 ]);
 
-const DashboardScreen = StackNavigator(
+const DashboardScreen = createStackNavigator(
   {
     DashboardScreen: {
       screen: Dashboard,
@@ -37,7 +37,7 @@ const DashboardScreen = StackNavigator(
             name="menu"
             size={30}
             color={theme.background.colors.gold}
-            onPress={() => navigation.navigate('DrawerOpen')}
+            onPress={() => navigation.openDrawer()}
           />
         </View>
       ),
@@ -85,7 +85,7 @@ class Profile extends Component {
   }
 }
 
-let Drawer = DrawerNavigator(
+let Drawer = createDrawerNavigator(
   {
     Dashboard: {
       screen: DashboardScreen,

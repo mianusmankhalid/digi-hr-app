@@ -1,0 +1,11 @@
+User = {
+    name = "Haroon",
+    profile_pic = "something.png",
+    role = "Manager | Non-Manager",
+    id = 123,
+    leading_team_id = [
+        1, 2, 3
+    ]
+}
+
+GetExpensesForMyTeam(myUserId, teamId)

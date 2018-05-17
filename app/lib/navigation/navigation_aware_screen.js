@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import hoistNonReactStatic from 'hoist-non-react-statics';
-import NavHelper from './screen_helper';
-import { isDebuggingEnabled } from '@digihr_lib/dev_helper';
-import { connect } from 'react-redux';
-import { consumeGoBackScreenParams } from './actions';
+import React, { Component } from "react";
+import hoistNonReactStatic from "hoist-non-react-statics";
+import NavHelper from "./screen_helper";
+import { isDebuggingEnabled } from "@digihr_lib/dev_helper";
+import { connect } from "react-redux";
+import { consumeGoBackScreenParams } from "./actions";
 
 const mapStateToProps = (state, ownProps) => ({
-  navParams: ownProps.navigation.state.params,
+  navParams: ownProps.navigation ? ownProps.navigation.state.params : {},
   navState: state.navigation,
   navigating: state.navigation.navigating || false,
 });

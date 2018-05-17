@@ -1,22 +1,22 @@
-import { NavigationActions } from 'react-navigation';
-import * as DigiNavActions from '@digihr_lib/actions/digi_nav_actions';
-import _ from 'lodash';
-import { isDebuggingEnabled } from '@digihr_lib/dev_helper';
+import { NavigationActions, StackActions } from "react-navigation";
+import * as DigiNavActions from "@digihr_lib/actions/digi_nav_actions";
+import _ from "lodash";
+import { isDebuggingEnabled } from "@digihr_lib/dev_helper";
 
 function NavigationHelper(instance, dispatch) {
   var provideNavResetAction = (screen, params = {}) => {
-    return NavigationActions.reset({
+    return StackActions.reset({
       index: 0,
       actions: [
-        NavigationActions.navigate({ routeName: screen, params: params }),
-      ],
+        NavigationActions.navigate({ routeName: screen, params: params })
+      ]
     });
   };
 
   var provideNavNavigateAction = (screen, params = {}) => {
     return NavigationActions.navigate({
       routeName: screen,
-      params: params,
+      params: params
     });
   };
 
@@ -39,7 +39,7 @@ function NavigationHelper(instance, dispatch) {
   };
 
   this.navigate = (screen, params = {}, passOldParams = true) => {
-    if (typeof instance !== 'undefined' && instance !== null) {
+    if (typeof instance !== "undefined" && instance !== null) {
       if (passOldParams) {
         params = { ...instance.props.navigation.state.params, ...params };
       }
@@ -52,7 +52,7 @@ function NavigationHelper(instance, dispatch) {
   };
 
   this.reset = (screen, params = {}, passOldParams = true) => {
-    if (typeof instance !== 'undefined' && instance !== null) {
+    if (typeof instance !== "undefined" && instance !== null) {
       if (passOldParams) {
         params = { ...instance.props.navigation.state.params, ...params };
       }
@@ -65,7 +65,7 @@ function NavigationHelper(instance, dispatch) {
   };
 
   this.goBack = (params = {}, key = null) => {
-    if (typeof instance !== 'undefined' && instance !== null) {
+    if (typeof instance !== "undefined" && instance !== null) {
       let forScreen = null;
 
       if (key !== null) {
@@ -83,12 +83,12 @@ function NavigationHelper(instance, dispatch) {
       }
 
       const backAction = NavigationActions.back({
-        key: key,
+        key: key
       });
 
       instance.props.navigation.dispatch(
         DigiNavActions.setGoBackScreenParams(forScreen, {
-          ...params,
+          ...params
         })
       );
       instance.props.navigation.dispatch(backAction);
@@ -108,20 +108,20 @@ function NavigationHelper(instance, dispatch) {
   // };
 
   this.getBackParams = () => {
-    if ('go_back_params' in instance.props.navigation.state.params) {
-      return instance.props.navigation.state.params['go_back_params'];
+    if ("go_back_params" in instance.props.navigation.state.params) {
+      return instance.props.navigation.state.params["go_back_params"];
     }
     return null;
   };
 
   this.backNavigationHappened = () => {
-    if ('back_navigation_happened' in instance.props.navigation.state.params) {
+    if ("back_navigation_happened" in instance.props.navigation.state.params) {
       if (isDebuggingEnabled()) {
         console.groupCollapsed(
-          'backNavigationHappened for ' + instance.displayName
+          "backNavigationHappened for " + instance.displayName
         );
 
-        if (_.has(instance.props.navigation.state.params, 'go_back_params')) {
+        if (_.has(instance.props.navigation.state.params, "go_back_params")) {
           console.dir(instance.props.navigation.state.params.go_back_params);
         }
         console.groupEnd();
@@ -133,7 +133,7 @@ function NavigationHelper(instance, dispatch) {
 
   this.setScreenParams = params => {
     var screenParams = _.set({}, __CURR_SCREEN_PARAMS__, params);
-    instance.props.navigation.setParams(screenParams);
+    if (instance) instance.props.navigation.setParams(screenParams);
   };
 }
 

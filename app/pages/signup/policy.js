@@ -19,8 +19,11 @@ const policyHtml = `
 export default class Policy extends Component {
   constructor(props) {
     super(props);
+  }
+
+  componentDidMount() {
     this.props.nav_helper.setScreenParams({
-      headerBackTitle: I18n.t("policies").toUpperCase()
+      headerTitle: I18n.t("policies").toUpperCase()
     });
   }
 
@@ -55,7 +58,6 @@ Policy.navigationOptions = ({ navigation }) => {
   const currentParams = NavigationHelper.getCurrentScreenParams(state);
 
   return {
-    headerBackTitle: currentParams.headerBackTitle,
-    headerTitle: currentParams.headerBackTitle
+    headerTitle: currentParams.headerTitle
   };
 };

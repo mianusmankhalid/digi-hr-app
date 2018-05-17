@@ -1,6 +1,6 @@
-import { NavigationActions } from 'react-navigation';
-import _ from 'lodash';
-import * as DigiNavActions from '@digihr_lib/actions/digi_nav_actions';
+import { NavigationActions, StackActions } from "react-navigation";
+import _ from "lodash";
+import * as DigiNavActions from "@digihr_lib/actions/digi_nav_actions";
 
 export default class NavigationHelper {
   static getParams(store, navName) {
@@ -9,7 +9,7 @@ export default class NavigationHelper {
     );
 
     if (navRoute.length > 0) {
-      if (navRoute[0].hasOwnProperty('params')) {
+      if (navRoute[0].hasOwnProperty("params")) {
         return navRoute[0].params;
       }
     }
@@ -27,7 +27,7 @@ export default class NavigationHelper {
 
   static getParamFromState(state, paramName) {
     return !_.isEmpty(state) &&
-      state.hasOwnProperty('params') &&
+      state.hasOwnProperty("params") &&
       state.params.hasOwnProperty(paramName)
       ? state.params[paramName]
       : {};
@@ -52,11 +52,11 @@ export default class NavigationHelper {
   }
 
   static getNavResetAction(screen, params = {}) {
-    return NavigationActions.reset({
+    return StackActions.reset({
       index: 0,
       actions: [
-        NavigationActions.navigate({ routeName: screen, params: params }),
-      ],
+        NavigationActions.navigate({ routeName: screen, params: params })
+      ]
     });
   }
 
@@ -95,4 +95,16 @@ export default class NavigationHelper {
       })
     );
   }
+  
+  // static onBackButtonPress(dispatch) {
+  //   // const dispatch = navigation.dispatch;
+  //   multiDispatch = dispatch => {
+  //     dispatch(DigiNavActions.setGoBackScreenParams());
+  //     dispatch(NavigationActions.back());
+  //   };
+
+  //   multiDispatch(dispatch);
+  //   //navigation.dispatch(DigiNavActions.setGoBackScreenParams());
+  //   // navigation.dispatch(NavigationActions.back());
+  // }
 }
