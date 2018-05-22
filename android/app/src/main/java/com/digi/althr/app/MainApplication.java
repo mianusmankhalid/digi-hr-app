@@ -3,6 +3,10 @@ package com.digi.althr.app;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.BV.LinearGradient.LinearGradientPackage;
+import com.github.yamill.orientation.OrientationPackage;
+import com.corbt.keepawake.KCKeepAwakePackage;
+import com.brentvatne.react.ReactVideoPackage;
 import com.rnfs.RNFSPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -32,8 +36,11 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(new MainReactPackage(),
-            new RNFSPackage(), new RNI18nPackage(),
-          new GoogleAnalyticsBridgePackage(), new VectorIconsPackage());
+            new LinearGradientPackage(),
+            new OrientationPackage(),
+            new KCKeepAwakePackage(),
+            new ReactVideoPackage(), new RNFSPackage(),
+          new RNI18nPackage(), new GoogleAnalyticsBridgePackage(), new VectorIconsPackage());
     }
 
     @Override
