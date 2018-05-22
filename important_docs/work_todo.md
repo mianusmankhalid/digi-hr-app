@@ -1,0 +1,8 @@
+- [x] Integrate youtube player
+- [ ] esting (CI/CD)
+- [ ] Design discussion and prepare list of questions
+- [ ] Onboarding data object finalization
+- [ ] State management for on-boarding and update data through api
+- [ ] lter home screen middleware
+- [ ] Drawer Navigation abstraction
+- [ ] Deep link Navigation
