@@ -1,13 +1,14 @@
 {
   "name": "DigiHrApp",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "private": true,
   "release_package_name": "com.digi.althr.app",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "exit 0",
     "local_ci": ". ./fastlane/local_fastlane.sh",
-    "rename_package": "node ./app_helper/package/tasks/rename_package.js"
+    "rename_package": "node ./app_helper/package/tasks/rename_package.js",
+    "inject_api_url": "node ./app_helper/package/tasks/inject_api_url.js"
   },
   "dependencies": {
     "hoist-non-react-statics": "^2.3.1",
@@ -18,6 +19,7 @@
     "react": "16.2.0",
     "react-native": "0.53.0",
     "react-native-fabric": "^0.5.1",
+    "react-native-fs": "^2.9.11",
     "react-native-google-analytics-bridge": "^5.6.0",
     "react-native-i18n": "^2.0.12",
     "react-native-timer": "^1.3.1",
@@ -29,7 +31,8 @@
     "redux-logger": "^3.0.6",
     "redux-promise-middleware": "^5.0.0",
     "redux-thunk": "^2.2.0",
-    "serialize-error": "^2.1.0"
+    "serialize-error": "^2.1.0",
+    "uuid": "^3.2.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -39,6 +42,7 @@
     "babel-preset-flow": "^6.23.0",
     "babel-preset-react-native": "4.0.0",
     "cavy": "^0.5.0",
+    "command-line-args": "^5.0.2",
     "eslint": "^4.17.0",
     "eslint-config-react-native-prettier": "^1.0.1",
     "flow-bin": "^0.66.0",

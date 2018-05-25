@@ -1,24 +1,28 @@
-import React, { Component } from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
-import styles from './styles';
+import React, { Component } from "react";
+import { View, Text, ActivityIndicator, Image } from "react-native";
+import styles from "./styles";
 import {
   moveToNextScreen,
   loginUser,
   moveToResetPassword,
-  moveToSignup,
-} from './viewController';
-import { isEmailValid } from '@digihr_lib/util/email';
-import { showToast } from '@digihr_lib/util/ui';
-import I18n from 'react-native-i18n';
-import LoginPage from './login_page';
-import theme from '@digihr_app_config/theme';
+  moveToSignup
+} from "./viewController";
+import { isEmailValid } from "@digihr_lib/util/text_helper";
+import { showToast } from "@digihr_lib/util/ui";
+import I18n from "react-native-i18n";
+import LoginPage from "./login_page";
+import theme from "@digihr_app_config/theme";
 
 export default class LoginScreen extends Component {
-  state = {
-    isLoading: false,
-    email: '',
-    password: '',
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: false,
+      email: "",
+      password: "",
+      imageUri: ""
+    };
+  }
 
   navigateToSignupPage = () => {
     moveToSignup(this.props.nav_helper);
@@ -34,7 +38,7 @@ export default class LoginScreen extends Component {
       {
         isLoading: true,
         email: email,
-        password: password,
+        password: password
       },
       () => {
         loginUser(email, password)
@@ -42,9 +46,9 @@ export default class LoginScreen extends Component {
             moveToNextScreen(this.props.nav_helper);
           })
           .catch(() => {
-            showToast('Incorrect email or password');
+            showToast(I18n.t("incorrect_email_password"));
             this.setState({
-              isLoading: false,
+              isLoading: false
             });
           });
       }
@@ -60,7 +64,7 @@ export default class LoginScreen extends Component {
       <View style={styles.container}>
         <View style={styles.signInMessage}>
           <ActivityIndicator size="large" color={theme.colors.darkGray} />
-          <Text>{I18n.t('logging_you_in')}</Text>
+          <Text>{I18n.t("logging_you_in")}</Text>
         </View>
       </View>
     ) : (
@@ -75,6 +79,5 @@ export default class LoginScreen extends Component {
         password={this.state.password}
       />
     );
-    //return <View style={styles.container} />;
   }
 }

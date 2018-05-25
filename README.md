@@ -36,7 +36,7 @@ Everyone working on this app is a consenting adult, and if any one wants to help
 * Please behave responsibly while consuming Appetize, we are indie devs and can't afford paid account for appetize (90min/month)
 * Tags could be created with commands
   ```
-      git tag release-0.0.2
+      git tag release-0.0.2 -m "Message for release"
       git push --tags
   ```
 * Tags could be destroyed with commands
@@ -44,3 +44,17 @@ Everyone working on this app is a consenting adult, and if any one wants to help
       git tag -d release-0.0.2
       git push origin :refs/tags/release-0.0.2
   ```
+
+---
+
+Note: Environment could be set via adding --env=([a-zA-Z0-9]+) to the commit message. E.g git commit -m "Build for development --env=DEVELOPMENT"
+
+The above example for now will push a build with API_URL to be pointed to development environment
+
+### Available Environments:
+
+* DEVELOPMENT
+* STAGING
+* PRODUCTION
+
+---

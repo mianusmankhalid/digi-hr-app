@@ -1,14 +1,7 @@
 import styles from './styles';
 import images from '@digihr_assets/images';
 import React, { Component } from 'react';
-import {
-  View,
-  Text,
-  Image,
-  TextInput,
-  TouchableOpacity,
-  ToastAndroid,
-} from 'react-native';
+import { View, Text, Image, TextInput, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import I18n from 'react-native-i18n';
 import _ from 'lodash';
@@ -38,7 +31,7 @@ export default class LoginPage extends Component {
     }
 
     if (!this.props.validateEmail(this.state.email)) {
-      showToast('email is not valid');
+      showToast(I18n.t('email_not_valid'));
       return;
     }
 
@@ -57,7 +50,7 @@ export default class LoginPage extends Component {
           <Image style={styles.image} source={images.altLogo} />
           <Text style={styles.title}>{'alt.hr'}</Text>
         </View>
-        <View style={styles.formContainer}>
+        <View>
           <View style={styles.loginFormContainer}>
             <TextInput
               style={styles.input}
@@ -83,12 +76,10 @@ export default class LoginPage extends Component {
               onSubmitEditing={() => this.performLogin()}
               value={this.state.password}
             />
-            <TouchableOpacity style={styles.buttonContainer}>
-              <Text
-                style={styles.buttonText}
-                onPress={() => this.performLogin()}>
-                {I18n.t('sign_in')}
-              </Text>
+            <TouchableOpacity
+              style={styles.buttonContainer}
+              onPress={() => this.performLogin()}>
+              <Text style={styles.buttonText}>{I18n.t('sign_in')}</Text>
             </TouchableOpacity>
             <Text style={styles.text}>
               <Text
@@ -106,9 +97,7 @@ export default class LoginPage extends Component {
             {I18n.t('dont_have_an_account')}
             <Text
               style={styles.hyperLink}
-              onPress={() => {
-                this.props.navigateToSignupPage();
-              }}>
+              onPress={this.props.navigateToSignupPage}>
               {I18n.t('sign_up')}
             </Text>
           </Text>

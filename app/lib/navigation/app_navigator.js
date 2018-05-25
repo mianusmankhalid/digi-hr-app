@@ -1,9 +1,11 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { StackNavigator } from 'react-navigation';
+import {
+  StackNavigator,
+  HeaderBackButton,
+  NavigationActions,
+} from 'react-navigation';
 import RouteConfig from '@digihr_app_config/routes';
-import { HeaderBackButton } from 'react-navigation';
-import { NavigationActions } from 'react-navigation';
 import _ from 'lodash';
 import theme from '@digihr_app_config/theme';
 import * as DigiNavActions from '@digihr_lib/actions/digi_nav_actions';
@@ -18,12 +20,14 @@ const AppNavigator = StackNavigator(Routes, {
   navigationOptions: ({ navigation }) => ({
     headerBackTitle: null,
     headerStyle: {
-      backgroundColor: theme.background.colors.blue,
+      backgroundColor: theme.background.colors.black,
     },
     headerTitleStyle: {
-      fontFamily: theme.font.family.main,
+      fontFamily: theme.font.family.muli,
       fontSize: theme.font.size.primary,
       color: theme.background.colors.white,
+      textAlign: 'center',
+      width: '75%',
     },
     headerTintColor: theme.background.colors.white,
     headerLeft: !_.isEqual(
@@ -31,7 +35,7 @@ const AppNavigator = StackNavigator(Routes, {
       __APP_START_ROUTE_NAME__
     ) ? (
       <HeaderBackButton
-        tintColor={theme.background.colors.white}
+        tintColor={theme.background.colors.gold}
         onPress={() => {
           navigation.dispatch(DigiNavActions.setGoBackScreenParams());
           navigation.dispatch(
