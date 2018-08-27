@@ -24,6 +24,12 @@ export default {
       RESOURCE_NOT_FOUND: 3,
       SERVER_PROBLEM: 4,
     },
+    ONBOARDING: {
+      OK: 1,
+      CONNETION_TIMEDOUT: 2,
+      RESOURCE_NOT_FOUND: 3,
+      SERVER_PROBLEM: 4,
+    },
     RESET_PASSWORD: {
       OK: 1,
       CONNETION_TIMEDOUT: 2,

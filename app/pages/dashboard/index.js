@@ -6,6 +6,7 @@ import SideMenu from './side_menu';
 import theme from '@digihr_app_config/theme';
 import Icon from 'react-native-vector-icons/Feather';
 import { getDashboard } from './view_controller';
+import Onboarding from '../onboarding';
 
 YellowBox.ignoreWarnings([
   'Warning: isMounted(...) is deprecated',
@@ -29,7 +30,7 @@ const DashboardScreen = StackNavigator(
         fontSize: theme.font.size.primary,
         color: theme.background.colors.white,
         textAlign: 'center',
-        width: '75%',
+        width: '70%',
       },
       headerLeft: (
         <View style={{ marginLeft: 10 }}>
@@ -45,21 +46,54 @@ const DashboardScreen = StackNavigator(
   }
 );
 
-class Onboarding extends Component {
+const OnboardingScreen = StackNavigator(
+  {
+    OnboardingScreen: {
+      screen: Onboarding,
+    },
+  },
+  {
+    navigationOptions: ({ navigation }) => ({
+      title: 'ONBOARDING',
+      headerStyle: {
+        backgroundColor: theme.background.colors.black,
+      },
+      headerTitleStyle: {
+        fontFamily: theme.font.family.muli,
+        fontSize: theme.font.size.primary,
+        color: theme.background.colors.white,
+        textAlign: 'center',
+        width: '70%',
+      },
+      headerLeft: (
+        <View style={{ marginLeft: 10 }}>
+          <Icon
+            name="menu"
+            size={30}
+            color={theme.background.colors.gold}
+            onPress={() => navigation.navigate('DrawerOpen')}
+          />
+        </View>
+      ),
+    }),
+  }
+);
+
+class Expenses extends Component {
   render() {
     return (
       <View>
-        <Text>{'Onboarding'}</Text>
+        <Text>{'Expenses'}</Text>
       </View>
     );
   }
 }
 
-class Leaves extends Component {
+class Travels extends Component {
   render() {
     return (
       <View>
-        <Text>{'Leaves'}</Text>
+        <Text>{'Travels'}</Text>
       </View>
     );
   }
@@ -87,14 +121,17 @@ class Profile extends Component {
 
 let Drawer = DrawerNavigator(
   {
-    Dashboard: {
-      screen: DashboardScreen,
-    },
+    // Dashboard: {
+    //   screen: DashboardScreen,
+    // },
     Onboarding: {
-      screen: Onboarding,
+      screen: OnboardingScreen,
     },
-    Leaves: {
-      screen: Leaves,
+    Expenses: {
+      screen: Expenses,
+    },
+    Travels: {
+      screen: Travels,
     },
     Logout: {
       screen: Logout,

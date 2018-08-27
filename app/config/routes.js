@@ -7,7 +7,9 @@ import Welcome from '@digihr_pages/welcome';
 import ResetPassword from '@digihr_pages/resetPassword';
 import Signup from '@digihr_pages/signup';
 import MessageCenter from '@digihr_pages/messageCenter';
+import Onboarding from '@digihr_pages/onboarding';
 import MessageDetail from '@digihr_pages/messageDetail';
+import OnboardingDetail from '@digihr_pages/onboardingDetail';
 import SignupVerification from '@digihr_pages/signupVerification';
 
 RouteManager.Instance.add(
@@ -19,10 +21,16 @@ RouteManager.Instance.add(
   new Route('MessageCenter', MessageCenter, 'MessageCenterScreen')
 );
 RouteManager.Instance.add(
-  new Route('MessageDetail', MessageDetail, 'MessageDetail')
+  new Route('MessageDetail', MessageDetail, 'MessageDetailScreen')
+);
+RouteManager.Instance.add(
+  new Route('OnboardingDetail', OnboardingDetail, 'OnboardingDetailScreen')
 );
 RouteManager.Instance.add(new Route('Login', Login, 'LoginScreen'));
 RouteManager.Instance.add(new Route('Welcome', Welcome, 'WelcomeScreen'));
+RouteManager.Instance.add(
+  new Route('Onboarding', Onboarding, 'OnboardingScreen')
+);
 RouteManager.Instance.add(
   new Route('ResetPassword', ResetPassword, 'ResetPasswordScreen')
 );

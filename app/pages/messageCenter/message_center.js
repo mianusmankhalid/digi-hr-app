@@ -3,7 +3,7 @@ import {
   View,
   Text,
   Image,
-  TouchableHighlight,
+  TouchableOpacity,
   WebView,
   ScrollView,
 } from 'react-native';
@@ -66,11 +66,11 @@ export default class MessageCenterPage extends Component {
                       : message.description}
                   </Text>
                   <Text style={styles.date}>{message.date}</Text>
-                  <TouchableHighlight
+                  <TouchableOpacity
                     style={styles.viewMoreTouchable}
                     onPress={() => this.props.onPressViewMore(key)}>
                     <Text style={styles.viewMore}>{I18n.t('view_more')}</Text>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 </View>
               </View>
             );

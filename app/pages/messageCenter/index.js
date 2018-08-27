@@ -34,13 +34,14 @@ export default class MessageCenterScreen extends Component {
   }
 
   getMessageCenterData() {
-    return getMessageCenter(this.props.nav_helper);
+    return getMessageCenter();
   }
 
   onPressViewMore(index) {
     this.props.nav_helper.navigate(RouteConfig.Screen.MessageDetail, {
       selectedMessageIndex: index,
       messagesData: this.state.messageCenterData,
+      messageTitle: I18n.t('message_center'),
     });
   }
 

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import styles from './styles';
-import MessageDetail from './message_detail';
+import OnboardingDetail from './onboarding_detail';
 import theme from '@digihr_app_config/theme';
 import NavigationHelper from '@digihr_lib/navigation/helper';
 import I18n from 'react-native-i18n';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-export default class MessageDetailScreen extends Component {
+export default class OnboardingDetailScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,7 +26,7 @@ export default class MessageDetailScreen extends Component {
         </View>
       </View>
     ) : (
-      <MessageDetail
+      <OnboardingDetail
         selectedMessageIndex={
           this.props.navigation.state.params.selectedMessageIndex
         }
@@ -36,7 +36,7 @@ export default class MessageDetailScreen extends Component {
   }
 }
 
-MessageDetailScreen.navigationOptions = ({ navigation }) => {
+OnboardingDetailScreen.navigationOptions = ({ navigation }) => {
   const { state } = navigation;
 
   // get the "deepest" current params.

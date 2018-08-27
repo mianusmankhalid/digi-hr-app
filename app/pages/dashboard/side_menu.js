@@ -2,13 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import styles from './styles';
 import { NavigationActions } from 'react-navigation';
-import {
-  ScrollView,
-  Text,
-  View,
-  Image,
-  TouchableHighlight,
-} from 'react-native';
+import { ScrollView, Text, View, Image, TouchableOpacity } from 'react-native';
 import _ from 'lodash';
 
 export default class SideMenu extends Component {
@@ -21,7 +15,13 @@ export default class SideMenu extends Component {
   }
 
   prepareOptions() {
-    let availableScreens = ['Dashboard', 'Onboarding', 'Leaves', 'Logout'];
+    let availableScreens = [
+      'Dashboard',
+      'Onboarding',
+      'Expenses',
+      'Travels',
+      'Logout',
+    ];
     let options = [];
     for (let screen of availableScreens) {
       options.push({
@@ -54,14 +54,14 @@ export default class SideMenu extends Component {
         <ScrollView>
           <View>
             <View style={styles.navTopSectionStyle}>
-              <TouchableHighlight
+              <TouchableOpacity
                 style={styles.sideMenuImageContainer}
                 onPress={this.navigateToScreen('Profile').bind(this)}>
                 <Image
                   style={styles.sideMenuImage}
                   source={{ uri: screenProps.dashboardData.userImage }}
                 />
-              </TouchableHighlight>
+              </TouchableOpacity>
               <Text style={styles.sideMenuName}>
                 {screenProps.dashboardData.userName}
               </Text>
@@ -102,4 +102,5 @@ export default class SideMenu extends Component {
 
 SideMenu.propTypes = {
   navigation: PropTypes.object,
+  screenProps: PropTypes.object,
 };

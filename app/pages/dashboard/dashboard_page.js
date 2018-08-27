@@ -7,7 +7,7 @@ import {
   TextInput,
   Image,
   PanResponder,
-  TouchableHighlight,
+  TouchableOpacity,
   WebView,
 } from 'react-native';
 import PropTypes from 'prop-types';
@@ -256,11 +256,11 @@ export default class DashboardPage extends Component {
                           : message.description}
                       </Text>
                       <Text style={styles.date}>{message.date}</Text>
-                      <TouchableHighlight style={styles.viewMoreTouchable}>
+                      <TouchableOpacity style={styles.viewMoreTouchable}>
                         <Text style={styles.viewMore}>
                           {I18n.t('view_more')}
                         </Text>
-                      </TouchableHighlight>
+                      </TouchableOpacity>
                     </View>
                   </View>
                 );

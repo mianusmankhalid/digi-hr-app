@@ -76,12 +76,10 @@ export default class LoginPage extends Component {
               onSubmitEditing={() => this.performLogin()}
               value={this.state.password}
             />
-            <TouchableOpacity style={styles.buttonContainer}>
-              <Text
-                style={styles.buttonText}
-                onPress={() => this.performLogin()}>
-                {I18n.t('sign_in')}
-              </Text>
+            <TouchableOpacity
+              style={styles.buttonContainer}
+              onPress={() => this.performLogin()}>
+              <Text style={styles.buttonText}>{I18n.t('sign_in')}</Text>
             </TouchableOpacity>
             <Text style={styles.text}>
               <Text

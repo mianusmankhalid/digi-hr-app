@@ -1,13 +1,13 @@
 import styles from './styles';
 import React from 'react';
-import { View, Text, Image, TouchableHighlight } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 
 const Row = props =>
   props.name !== 'Dira' ? (
     <View style={styles.actionContainer}>
-      <TouchableHighlight style={styles.imageContainer}>
+      <TouchableOpacity style={styles.imageContainer}>
         <Image style={styles.image} source={{ uri: props.request.image }} />
-      </TouchableHighlight>
+      </TouchableOpacity>
       <View>
         <Text style={styles.name}>{props.name}</Text>
         <Text style={styles.detail}>{props.request.description}</Text>
@@ -19,9 +19,9 @@ const Row = props =>
     </View>
   ) : (
     <View style={styles.infoContainer}>
-      <TouchableHighlight style={styles.imageContainer}>
+      <TouchableOpacity style={styles.imageContainer}>
         <Image style={styles.image} source={{ uri: props.chatbotImage }} />
-      </TouchableHighlight>
+      </TouchableOpacity>
       <View>
         <Text style={styles.infoTitle}>{props.request.description}</Text>
         <Text style={styles.info}>{props.request.detail}</Text>
