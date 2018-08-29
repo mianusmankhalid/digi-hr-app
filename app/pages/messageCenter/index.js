@@ -15,10 +15,19 @@ export default class MessageCenterScreen extends Component {
       isLoading: false,
       isMounted: true,
       messageCenterData: [],
+      screen_params: {
+        fullscreen: false,
+      },
     };
+  }
 
-    this.props.nav_helper.setScreenParams({
-      headerBackTitle: I18n.t('message_center'),
+  componentWillMount() {
+    let new_params = { ...this.state.screen_params };
+    new_params.headerTitle = I18n.t('message_center');
+
+    this.props.nav_helper.setScreenParams(new_params);
+    this.setState({
+      screen_params: new_params,
     });
   }
 
@@ -30,6 +39,17 @@ export default class MessageCenterScreen extends Component {
           isMounted: false,
         });
       }
+    });
+  }
+
+  onFullScreen(status) {
+    // Set the params to pass in fullscreen status to navigationOptions
+    let new_params = { ...this.state.screen_params };
+    new_params.fullscreen = status;
+
+    this.props.nav_helper.setScreenParams(new_params);
+    this.setState({
+      screen_params: new_params,
     });
   }
 
@@ -55,6 +75,7 @@ export default class MessageCenterScreen extends Component {
       <MessageCenter
         messageCenterData={this.state.messageCenterData}
         onPressViewMore={this.onPressViewMore.bind(this)}
+        onFullScreen={this.onFullScreen.bind(this)}
       />
     );
   }
@@ -65,9 +86,15 @@ MessageCenterScreen.navigationOptions = ({ navigation }) => {
 
   // get the "deepest" current params.
   const currentParams = NavigationHelper.getCurrentScreenParams(state);
+  const header = currentParams && (currentParams.fullscreen ? null : 1);
+
+  if (header === null) {
+    return {
+      header,
+    };
+  }
 
   return {
-    headerBackTitle: currentParams.headerBackTitle,
-    headerTitle: currentParams.headerBackTitle,
+    headerTitle: currentParams.headerTitle,
   };
 };

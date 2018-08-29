@@ -22,7 +22,7 @@ export default (data = [
       'The CEO of Digi, Albern Murty, welcomes you to be part of the Digi family and shares his valuable experience and advice for all the newbies coming onboard',
     date: '20 Mar 2018',
     imageUrl: '',
-    videoUrl: 'https://www.youtube.com/embed/vyM5_YpYJH0',
+    videoUrl: 'vyM5_YpYJH0',
   },
   {
     title: 'Welcome to alt.hr',
@@ -47,6 +47,6 @@ export default (data = [
       'The CEO of Digi, Albern Murty, welcomes you to be part of the Digi family and shares his valuable experience and advice for all the newbies coming onboard',
     date: '20 Mar 2018',
     imageUrl: '',
-    videoUrl: 'https://www.youtube.com/embed/vyM5_YpYJH0',
+    videoUrl: 'vyM5_YpYJH0',
   },
 ]);

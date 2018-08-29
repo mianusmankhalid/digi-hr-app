@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, ScrollView, Dimensions, Animated } from 'react-native';
 import theme from '@digihr_app_config/theme';
 
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 export default class ScrollPages extends Component {
   constructor(props) {
@@ -99,19 +99,18 @@ export default class ScrollPages extends Component {
             {dots}
           </Animated.View>
         </View>
-        <View style={{ width, height, paddingTop: 65, paddingBottom: 40 }}>
-          <ScrollView
-            ref={ref => (this.myScroll = ref)}
-            horizontal={true}
-            pagingEnabled={true}
-            showsHorizontalScrollIndicator={false}
-            onScroll={Animated.event([
-              { nativeEvent: { contentOffset: { x: this.scrollX } } },
-            ])}
-            scrollEventThrottle={16}>
-            {this.props.dataMap}
-          </ScrollView>
-        </View>
+        <ScrollView
+          style={{ paddingTop: this.props.dotsPadding || 25 }} //for hiding dots in case of fullscreen video
+          ref={ref => (this.myScroll = ref)}
+          horizontal={true}
+          pagingEnabled={true}
+          showsHorizontalScrollIndicator={false}
+          onScroll={Animated.event([
+            { nativeEvent: { contentOffset: { x: this.scrollX } } },
+          ])}
+          scrollEventThrottle={16}>
+          {this.props.dataMap}
+        </ScrollView>
       </View>
     );
   }

@@ -19,7 +19,7 @@
     "prop-types": "^15.6.1",
     "react": "16.3.2",
     "react-native": "0.55.2",
-    "react-native-af-video-player": "^0.1.9",
+    "react-native-af-video-player": "^0.2.1",
     "react-native-fabric": "^0.5.1",
     "react-native-fs": "^2.9.12",
     "react-native-google-analytics-bridge": "^5.6.0",
@@ -29,13 +29,15 @@
     "react-native-youtube-info": "^0.0.4",
     "react-navigation": "^2.0.1",
     "react-navigation-redux-helpers": "^1.0.6",
+    "react-promised-component": "^0.0.12",
     "react-redux": "^5.0.6",
     "redux": "^4.0.0",
     "redux-logger": "^3.0.6",
     "redux-promise-middleware": "^5.1.1",
     "redux-thunk": "^2.2.0",
     "serialize-error": "^2.1.0",
-    "uuid": "^3.2.1"
+    "uuid": "^3.2.1",
+    "youtube-video-id-fetcher": "^0.0.3"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

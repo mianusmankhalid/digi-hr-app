@@ -1,7 +1,7 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import theme from '@digihr_app_config/theme';
 
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {

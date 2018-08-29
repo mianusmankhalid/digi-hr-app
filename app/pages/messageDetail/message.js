@@ -1,34 +1,39 @@
-import React, { Component } from 'react';
-import { View, Image, Text, WebView, ScrollView } from 'react-native';
-import styles from './styles';
-import _ from 'lodash';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import { View, Image, Text, ScrollView, Dimensions } from "react-native";
+import styles from "./styles";
+import _ from "lodash";
+import PropTypes from "prop-types";
+import PromisedVideo from "@digihr_lib/promised_video";
 
 export default class Message extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      isFullScreen: false
+    };
   }
 
-  renderImageOrVideo(message) {
-    if (!_.isEqual(message.videoUrl, '')) {
+  onFullScreen(status) {
+    this.setState({
+      isFullScreen: status
+    });
+    this.props.onFullScreenHideDots(status);
+    this.props.onFullScreen(status);
+  }
+
+  renderImageOrVideo(message, width) {
+    if (!_.isEqual(message.videoUrl, "")) {
       return (
-        <View style={styles.messageHeader}>
-          <View style={styles.videoContainer}>
-            <WebView
-              javaScriptEnabled={true}
-              domStorageEnabled={true}
-              source={{
-                uri:
-                  message.videoUrl +
-                  '?version=3&enablejsapi=1&rel=0&autoplay=1&showinfo=0&controls=1&modestbranding=0',
-              }}
-            />
-          </View>
+        <View style={[styles.videoContainer, { width: width }]}>
+          <PromisedVideo
+            url={message.videoUrl}
+            onFullScreen={this.onFullScreen.bind(this)}
+          />
         </View>
       );
-    } else if (!_.isEqual(message.imageUrl, '')) {
+    } else if (!_.isEqual(message.imageUrl, "")) {
       return (
-        <View style={styles.messageHeader}>
+        <View style={[styles.messageHeader, { width: width }]}>
           <Image
             style={styles.imageContainer}
             source={{
@@ -41,9 +46,12 @@ export default class Message extends Component {
   }
 
   render() {
+    const { width } = Dimensions.get("window");
     return (
-      <ScrollView style={styles.message}>
-        {this.renderImageOrVideo(this.props.data)}
+      <ScrollView
+        style={[styles.message, { width: width }]}
+        scrollEnabled={!this.state.isFullScreen}>
+        {this.renderImageOrVideo(this.props.data, width)}
         <Text style={styles.messageTitleContainer}>
           <Text style={styles.messageTitle}>{this.props.data.title}</Text>
         </Text>
@@ -58,4 +66,6 @@ export default class Message extends Component {
 
 Message.propTypes = {
   data: PropTypes.object,
+  onFullScreen: PropTypes.func,
+  onFullScreenHideDots: PropTypes.func
 };

@@ -1,5 +1,5 @@
 - [x] Integrate youtube player
-- [ ] esting (CI/CD)
+- [ ] Testing (CI/CD)
 - [ ] Design discussion and prepare list of questions
 - [ ] Onboarding data object finalization
 - [ ] State management for on-boarding and update data through api
